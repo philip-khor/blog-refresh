@@ -6,10 +6,260 @@
     <description>Recent content in Posts on Philip&#39;s Curve</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 05 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 13 Jun 2019 00:00:00 +0000</lastBuildDate>
     
 	    <atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>File paths and data science projects</title>
+      <link>/post/file-paths-and-ds-projects/</link>
+      <pubDate>Thu, 13 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/file-paths-and-ds-projects/</guid>
+      <description>
+
+
+&lt;p&gt;Large data science projects can be a pain to manage. Cookiecutter Data Science recommends the following project folder structure, and I think it’s a good picture of how a data science project &lt;em&gt;should&lt;/em&gt; be organized:&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;├── README.md          
+├── data
+│   ├── external       
+│   ├── interim        
+│   ├── processed      
+│   └── raw            
+├── docs               
+├── models            
+├── notebooks          
+├── references         
+├── reports           
+│   └── figures        
+├── requirements.txt   
+├── setup.py           
+├── src                
+│   ├── __init__.py    
+│   ├── data           
+│   │   └── make_dataset.py
+│   ├── features       
+│   │   └── build_features.py
+│   ├── models         
+│   │   ├── predict_model.py
+│   │   └── train_model.py
+│   └── visualization  
+│       └── visualize.py&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Specifically, file paths can be hard to manage, since it’s not great practice to use absolute paths in your code. In R, I’ve gotten used to using the &lt;code&gt;here&lt;/code&gt; package, which automatically detects the root folder of your project, so that to import a csv file from the &lt;code&gt;external&lt;/code&gt; folder, all I have to do is&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(readr)
+read_csv(here(&amp;quot;data&amp;quot;, &amp;quot;external&amp;quot;, &amp;quot;my_csv_file.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;so long as a &lt;code&gt;.here&lt;/code&gt; or &lt;code&gt;.Rproj&lt;/code&gt; file is present in the project directory.&lt;/p&gt;
+&lt;p&gt;Previously, I used &lt;code&gt;..&lt;/code&gt; a lot, which references the directory above the current directory. However, if you move your files around, you’ll have to change your file paths too.&lt;/p&gt;
+&lt;p&gt;While looking for a Python alternative, I found a package &lt;a href=&#34;https://github.com/grimen/python-rootpath&#34;&gt;&lt;code&gt;rootpath&lt;/code&gt;&lt;/a&gt; which essentially does the same with the &lt;code&gt;rootpath.detect()&lt;/code&gt; function.&lt;/p&gt;
+&lt;pre class=&#34;python&#34;&gt;&lt;code&gt;import rootpath
+import os 
+
+ROOT_DIR = rootpath.detect()
+os.chdir(ROOT_DIR)
+file_path = &amp;quot;data/interim/...&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>The Australian gender wage gap: interactive viz</title>
+      <link>/post/the-australian-gender-wage-gap-interactive-viz/</link>
+      <pubDate>Sun, 09 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/the-australian-gender-wage-gap-interactive-viz/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/plotly-binding/plotly.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/typedarray/typedarray.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/crosstalk/css/crosstalk.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/crosstalk/js/crosstalk.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/plotly-main/plotly-latest.min.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;p&gt;I wrote a piece at &lt;a href=&#34;https://theambitiouseconomist.com/an-analysis-of-the-gender-wage-gap-in-australia/&#34;&gt;The Ambitious Economist&lt;/a&gt; on Australia’s gender wage gap with some good ol’ &lt;code&gt;ggplot2&lt;/code&gt; dataviz. However, there was a chart showing the gender wage gap by occupation that could have benefited from some interactive visualisation. Fortunately, the R package plotly makes this quite simple, with just two more lines of code …&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(plotly)
+ggplotly(p, tooltip = c(&amp;quot;female_pct_male&amp;quot;, &amp;quot;occupation&amp;quot;)) %&amp;gt;% 
+  layout(showlegend = FALSE) %&amp;gt;% 
+  config(displayModeBar = FALSE) -&amp;gt; p1
+p1&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;plotly html-widget&#34;&gt;&lt;/div&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;data&#34;:[{&#34;x&#34;:[0.760458255121672,0.819638743255976,1.00767913582039,0.84705563565913,0.736160357352271,0.950472958952527,1.21313906215615,1.13498814458987,1.34990687923676,0.930604085261722,1.0178251922582,0.889379052159499,1,0.770398685500593,1.09669403530249,0.626145468311439,1.21696742799331,1.06675768344752,1.03864018490876,0.709172065596937,0.830788868405837,0.877713264588236,0.855449310640206,1.07004112049133,0.982527004379361,0.896583299011002,1.0246951271691,1.22496302110534,1.04767390090092,1.25722084694543,0.967969824078405,1.11982531972376,1.29381920400364,0.889391712002393,0.944354997963488,1.11594889761745,1.14788581922494,1.99247586279561,2.06385055725028,1.67000101204932,2.31635829047307,1.98909763664244,1.64089283533916,2.07639316279643,1.87402753570463,1.9389451696061,1.85971882177786,2.29848927369313,1.91604119710553,1.90348902542705,2.00531465904854,2.03687600342066,1.95982178597792,2.07454688094612,1.85077717069285,1.81258357649509,1.94102891376764,2.0892958892081,1.77447508759207,2.1010261328135,2.00419437825039,2.15252355470815,2.20621414762795,2.08091267093436,2.05337460613619,2.03585829421086,1.96671804006573,2.01141305603567,1.83176905098471,2.33426954352311,1.65440866482147,1.89948194820397,2.16247569875998,1.73535039386375,2.05778282218915,1.96967858907747,1.94489496655007,1.9349767219997,2.06134789982625,1.8402542009366,1.90755088151999,1.91752698996043,1.95753309642059,2.00988191995352,1.90847533050295,2.19222714368319,2.19719281234961,1.97536039523655,2.02289194103463,2.06647287739684,2.13805838755366,1.79630062638348,2.18929962643205,2.14823468730427,2.02791681026506,2.18994888869003,2.12605501453956,1.97503345181704,2.25364639376081,2.23161050172918,2.01119343125716,2.12750247668604,2.26248167007016,1.97915742063522,1.99016943109566,2.01825949737151,2.01720014930901,1.86306275144779,2.12029707168666,1.9626857526959,1.76252681589326,2.03809433799144,1.74789372380277,2.16909882211372,2.36050522301111,2.06643976478019,1.93939125597521,1.70883775939116,1.77006738341343,2.04480060557674,2.13027198012633,2.1049487542806,1.86308355122675,1.84455507479247,2,2.04840735839677,1.98037967478104,1.66177172222558,2.16427262438575,1.81027508234502,2.30213163963388,1.96245752129854,1.9166782683056,1.92189770851547,1.85372143144187,1.8406698702822,1.99054805157034,3.07370306720201,2.93068496968474,2.89016852181865,2.66915301619307,3.26278831136658,2.63645709458524,2.9725338903206,3.22033993801266,3.11699321793029,2.87459750170189,2.72808242456473,2.82866678811089,2.87289476987646,3.02933483302709,2.88067434610137,2.89419091074218,3.15780289963753,2.79784212270881,3.29792524669601,3.0117507782767,3.0815564472043,2.82884909305158,2.72535062285898,3.23368383531176,2.94511793661154,3.34852317747202,2.96316853338206,2.79942997921737,2.71721226518718,2.95774513001462,2.92464348646916,3.02936655719986,3.0459734447049,3.04824661882895,3.15220952241036,3.19049350749815,2.91543167030292,3.02503702493223,3.09722651777048,3.0988763831305,2.86910662565583,3,3.02838820050227,3.28258733289206,2.82334544179029,3.07139922965991,2.8070827310983,3.02209904596449,3.18139743318737,2.92553313324821,2.97695430088472,2.68788869490588,3.17308590697746,3.19882723258402,2.98955891311779,3.1396574530978,3.1249948802837,3.31470202707226,2.7344738692907,3.72520222808789,4.2186009761512,4.04212384918796,4.02451462020771,4,3.97764269092389,4.06421024609667,3.82954805902033,3.92839251703965,3.82797397331657,4.03726439161052,3.92312588486538,3.94829249334289,4.22490939137035,3.83574199622495,3.64769741357108,4.1268034575176,4.3203929535327,4.29897933882564,3.71191384733565,3.81235796989864,4.02652130623848,3.95485886552351,3.98400808506331,3.88536291660303,4.16170360486606,4.23380179629976,4.11970182389662,4.00162206520605,3.89544183816652,4.14648580835842,4.10033742861813,3.83260689150738,5.02499929300582,5.16004237229607,5.12185805328934,4.86077322728385,5.21148327985096,4.82542626481542,5.07470698265426,4.74323175194566,4.94583519631399,5.03930316803822,5.19197762479628,5.10485939828517,4.87045619192058,4.77867674336718,4.72604538812614,4.62669093031268,5.14076837314284,5.24007045012122,4.76178213559924,4.80900636881696,5.05486663701224,4.95667454622993,5.33806630819059,4.92425625877113,4.90972630468047,4.88109989695654,5,5.23368373384071,6.23492842220572,5.90735921671929,5.96777020646347,5.94242111362994,5.78497219892559,6.08678366079621,6.08656911652673,6.04848492205308,5.88555785273921,5.82224869716609,6.18437255795973,5.86037936020906,5.65443723436846,6.2945759177321,6.11452671773672,6.01251054880564,6,7.02743168994186,6.92087356214133,6.85073160861555,6.71475927245649,7.01305657318555,7.04998032276292,7.09492295650437,7.0645643657635,7.22672605318892,7.13623137888073,6.65380600388464,7.29246145335345,6.93158686021812,6.87471477289366,6.95454405695893,6.77521809935282,6.89393908771741,6.90659425362594,7.29728358020354,7.115051326941,7,8.12771704887383,8.2582078774745,8.03019174434806,7.91552422916099,8.01010805807202,7.95768044103731,8.18021475887133,8.05343114651388,8.1230227545864,7.83221855090068,7.95625965101223,8.11408953826891,7.76790711752444,7.72726725877579,7.82590187344804,8.14288881793988,8.19781430879168,8.22360453039431,7.86129566803481,7.82362191934711,7.92742363368924,8,8.05558649650287,8.2542966552537,7.83242393393398,7.71462905070124,8.30938086051731,8.02496291261261,7.88197374171398,7.66831702341659,8.12492387506174,7.95528512230988,7.88726930159822,8.30707196174925,8.08055563783643,7.91121377086312,7.68561655327331,7.74272583196706,8.1553867596672,7.81815178344022,7.97933736477042,8.04031362060305],&#34;y&#34;:[0.890598201933266,0.844102550293511,0.892319762117145,0.931035622210995,0.774408289378249,0.733051140774712,0.713391614718382,0.850957502389954,0.743737932043587,0.791165470986996,0.589007391507783,0.915934898305134,0.466971301153992,0.719709341392432,0.647724165963066,0.748645477727276,0.771974565956042,0.818213873713196,0.707327969463479,0.815562096065701,0.770610074843792,0.710428201165642,0.678568684636153,0.543794492755558,0.867553118764799,0.546808389382522,0.757248482062436,0.840279792214438,0.942581416254238,0.870677646538131,0.647176278846312,0.925425382885013,0.808610207734393,0.820694059162329,0.520453720854021,0.789840815206008,0.73134445392849,0.89338421943819,0.642597226970339,0.780247973523943,0.801942910784995,0.814106292449319,0.791395552426468,0.827292217364764,0.864075613261879,0.928348251356498,0.847296748285421,0.766517370373532,0.656140817547572,0.890088010439832,0.81673411955093,0.793150598908365,0.941474593850247,0.892671736713245,0.882131562873786,0.812707597722476,0.800750188977046,0.848943730181846,0.823791563653792,0.736310548900203,0.939927867056415,0.879316457125444,0.830699098948363,0.80450523276219,0.663552802439623,0.833840044648544,0.662073090303838,0.66070875337745,0.772941426765777,0.815329666819394,0.772569821027237,0.810804898291299,0.787253303953544,0.774640908942832,0.871181857425279,0.872865185109739,0.886718278779617,0.829146620332986,0.780807767716032,0.793217950812707,0.854208873360446,0.776444510776209,0.746575765710218,0.732770188317006,0.833919349019257,0.773461027092438,0.853263584708059,0.689564925437544,0.614250507965799,0.742918307359153,0.895840494520925,0.853459131658496,0.748505980026909,0.845803897701918,0.709031582045121,0.759486411679682,0.889295795112216,0.849234040229063,0.81266305043451,0.794839649434326,0.77281945969388,0.762213784929986,0.786405280478297,0.64143879561474,0.50593569496708,0.635131711307034,0.853794756913042,0.739935258384329,0.8579072686983,0.790030912603663,0.787195500510095,0.884957183852352,0.797619996531952,0.819673975569676,0.790225825294401,0.710103157061949,0.943243295348036,0.803066265778874,0.831055924954864,0.750314282444829,0.800014396458564,0.775623730818394,0.783805072832015,0.759497385076158,0.46755014641272,0.941614706056683,0.765829680391158,0.815764033174664,0.813563502973862,0.74866499491103,0.778870105800404,0.617256677361216,0.757523062147541,0.73612497885732,0.732436123300668,0.819455390997436,0.7098722191647,0.655850322118277,0.582983858367641,0.714980771140489,0.683556255951349,0.772069950764202,0.74411466278231,0.81056063394427,0.691244726134723,0.799167001116538,0.59069356189104,0.692684776630251,0.798251777229237,0.828451125399815,0.62688840824555,0.865478714236107,0.785130766143485,0.736252014795269,0.6221542649479,0.681791548116018,0.744837266121854,0.58940061724403,0.69107774336007,0.776787579682475,0.724477091547627,0.615074066962625,0.741606505387409,0.675896858383605,0.734502809828252,0.823439358755855,0.842931921568388,0.768654994496696,0.825541097699571,0.597121279018334,0.784642170423528,0.859851248771531,0.796244015321473,0.637521330485741,0.873773339574293,0.768150742226183,0.839105009362334,0.644855142459007,0.525723658002598,0.966813941119209,0.823182134948055,0.75149822244149,0.706257963810172,0.83744463653925,0.68365663064663,0.833554412742017,0.70009966755094,0.73994183401615,0.705249223387892,0.621940347550693,0.754192354508849,0.921601160221972,0.638576788834545,0.696925802418327,0.70423024448342,0.757387787070946,0.867351709458622,0.915886865855266,0.744717465527741,0.857248597991863,0.395778059718095,0.611146369577545,0.901366967554189,0.952160063060634,0.881404305729375,0.857786749115395,0.711195354999613,0.804175258226829,0.76092328533074,0.866828656493343,0.824386074166003,0.850909466563051,0.928816053546046,0.848164360108852,0.888439892852209,0.895057708369477,0.776603680030238,0.779646490454617,0.846849201831919,0.937802132960535,0.73940046815276,0.77405173632012,0.939165219944072,0.880790416931434,0.993924341855311,0.905797349233938,0.816505083092234,0.825569046156983,0.926012030262049,0.839034947487361,0.971019869288101,0.801231408524582,0.672977149324794,0.855778953130502,0.842039202196765,0.681815536464861,0.856722563232121,0.902200501019061,0.73674610575951,0.767999348446406,0.869352150682233,0.981086219520413,0.679642433497774,0.73442807473046,0.83411124728204,0.674005020971116,0.919365429198408,0.927609534523026,0.770304086799219,0.928445980069875,0.809913834118371,0.825714392777268,0.68508495739044,0.932541844274422,0.751172855012661,0.580917522246987,0.732010076609647,0.908025565305223,0.703235367636151,0.899407025780965,0.573158017486309,0.944108779404142,0.693006553827745,0.887360831445511,0.744028463456957,0.805051124261615,0.655253273927627,0.775550861556462,0.751786120634171,0.738728654619121,0.716797756043076,0.652773229062642,0.954194952714617,0.531089590002808,0.935036223076481,0.861593709798949,0.725471566370719,0.799751755810264,0.817058099916018,0.722581494890486,0.593844622998072,0.683204619776645,0.744309831767456,0.768295968923377,0.715948789992171,0.713028852516445,0.686314720228592,0.889888872831634,0.779749614099294,0.763697220009475,0.579061236248313,0.649906809831738,0.791151709916575,0.876714617840887,0.5736282995169,0.887765677077594,0.774489337240446,0.959151955478083,0.625999094156508,0.856186424567049,0.709312759722257,0.654123246719622,0.79381868833093,0.745562108108512,0.8903879036152,0.929152441350576,0.700539901792487,0.612341733059598,0.74314855772985,0.741851002495647,0.837428787392413,0.808844596844768,0.742342770598422,0.868963121479681,0.827441299800405,0.749389042505549,0.557072591066639,0.919244520561728,0.629737311320955,0.953807432612229,0.640727515686227,0.849282005268756,0.739588160770964,0.595144933633234,0.713437837133688,0.598032083091741,0.994016216097304,0.650177899645479,0.712640055381957,0.616642284651379,0.803479729947696,0.855402188201942,0.774925619156306,0.953446536984567,0.697020530847115,0.843984340029863,0.64233040348737],&#34;text&#34;:[&#34;female_pct_male: 0.8905982&lt;br /&gt;occupation: Aboriginal and Torres Strait Islander health worker&#34;,&#34;female_pct_male: 0.8441026&lt;br /&gt;occupation: Accountant&#34;,&#34;female_pct_male: 0.8923198&lt;br /&gt;occupation: Accounting clerk&#34;,&#34;female_pct_male: 0.9310356&lt;br /&gt;occupation: Actor, dancer or other entertainer&#34;,&#34;female_pct_male: 0.7744083&lt;br /&gt;occupation: Actuary, mathematician or statistician&#34;,&#34;female_pct_male: 0.7330511&lt;br /&gt;occupation: Administration assistant or office worker&#34;,&#34;female_pct_male: 0.7133916&lt;br /&gt;occupation: Advertising and marketing professional&#34;,&#34;female_pct_male: 0.8509575&lt;br /&gt;occupation: Advertising and sales manager&#34;,&#34;female_pct_male: 0.7437379&lt;br /&gt;occupation: Aged or disabled carer&#34;,&#34;female_pct_male: 0.7911655&lt;br /&gt;occupation: Agricultural or forestry scientist&#34;,&#34;female_pct_male: 0.5890074&lt;br /&gt;occupation: Agricultural technician&#34;,&#34;female_pct_male: 0.9159349&lt;br /&gt;occupation: Agricultural, forestry or horticultural plant operator&#34;,&#34;female_pct_male: 0.4669713&lt;br /&gt;occupation: Air Transport Professionals&#34;,&#34;female_pct_male: 0.7197093&lt;br /&gt;occupation: Aircraft maintenance engineer&#34;,&#34;female_pct_male: 0.6477242&lt;br /&gt;occupation: Ambulance officer or paramedic&#34;,&#34;female_pct_male: 0.7486455&lt;br /&gt;occupation: Amusement, fitness or sports centre manager&#34;,&#34;female_pct_male: 0.7719746&lt;br /&gt;occupation: Anaesthetist&#34;,&#34;female_pct_male: 0.8182139&lt;br /&gt;occupation: Animal attendant or trainer&#34;,&#34;female_pct_male: 0.7073280&lt;br /&gt;occupation: Aquaculture farmer&#34;,&#34;female_pct_male: 0.8155621&lt;br /&gt;occupation: Aquaculture worker&#34;,&#34;female_pct_male: 0.7706101&lt;br /&gt;occupation: Architect or landscape architect&#34;,&#34;female_pct_male: 0.7104282&lt;br /&gt;occupation: Architectural, building or surveying technician&#34;,&#34;female_pct_male: 0.6785687&lt;br /&gt;occupation: Archivist, curator or records manager&#34;,&#34;female_pct_male: 0.5437945&lt;br /&gt;occupation: Artistic director, media producer or presenter&#34;,&#34;female_pct_male: 0.8675531&lt;br /&gt;occupation: Assembly line worker&#34;,&#34;female_pct_male: 0.5468084&lt;br /&gt;occupation: Auctioneer, or stock and station agent&#34;,&#34;female_pct_male: 0.7572485&lt;br /&gt;occupation: Auditor, company secretary or corporate treasurer&#34;,&#34;female_pct_male: 0.8402798&lt;br /&gt;occupation: Author, or book or script editor&#34;,&#34;female_pct_male: 0.9425814&lt;br /&gt;occupation: Automobile driver&#34;,&#34;female_pct_male: 0.8706776&lt;br /&gt;occupation: Automotive electrician&#34;,&#34;female_pct_male: 0.6471763&lt;br /&gt;occupation: Bank teller, officer or employee&#34;,&#34;female_pct_male: 0.9254254&lt;br /&gt;occupation: Bar attendant or barista&#34;,&#34;female_pct_male: 0.8086102&lt;br /&gt;occupation: Barrister&#34;,&#34;female_pct_male: 0.8206941&lt;br /&gt;occupation: Beauty therapist&#34;,&#34;female_pct_male: 0.5204537&lt;br /&gt;occupation: Betting clerk&#34;,&#34;female_pct_male: 0.7898408&lt;br /&gt;occupation: Binder, finisher or screen printer&#34;,&#34;female_pct_male: 0.7313445&lt;br /&gt;occupation: Bookkeeper&#34;,&#34;female_pct_male: 0.8933842&lt;br /&gt;occupation: Bricklayer or stonemason&#34;,&#34;female_pct_male: 0.6425972&lt;br /&gt;occupation: Building or plumbing labourer&#34;,&#34;female_pct_male: 0.7802480&lt;br /&gt;occupation: Bus or coach driver&#34;,&#34;female_pct_male: 0.8019429&lt;br /&gt;occupation: Butcher or smallgoods maker&#34;,&#34;female_pct_male: 0.8141063&lt;br /&gt;occupation: Cabinet maker&#34;,&#34;female_pct_male: 0.7913956&lt;br /&gt;occupation: Café or restaurant manager&#34;,&#34;female_pct_male: 0.8272922&lt;br /&gt;occupation: Café worker&#34;,&#34;female_pct_male: 0.8640756&lt;br /&gt;occupation: Call or contact centre or customer service manager&#34;,&#34;female_pct_male: 0.9283483&lt;br /&gt;occupation: Call or contact centre worker&#34;,&#34;female_pct_male: 0.8472967&lt;br /&gt;occupation: Canvas or leather goods maker&#34;,&#34;female_pct_male: 0.7665174&lt;br /&gt;occupation: Car detailer&#34;,&#34;female_pct_male: 0.6561408&lt;br /&gt;occupation: Caravan park manager&#34;,&#34;female_pct_male: 0.8900880&lt;br /&gt;occupation: Caretaker&#34;,&#34;female_pct_male: 0.8167341&lt;br /&gt;occupation: Carpenter and joiner&#34;,&#34;female_pct_male: 0.7931506&lt;br /&gt;occupation: Cartographer or surveyor&#34;,&#34;female_pct_male: 0.9414746&lt;br /&gt;occupation: Checkout operator or office cashier&#34;,&#34;female_pct_male: 0.8926717&lt;br /&gt;occupation: Chef&#34;,&#34;female_pct_male: 0.8821316&lt;br /&gt;occupation: Chemical or materials engineer&#34;,&#34;female_pct_male: 0.8127076&lt;br /&gt;occupation: Chemical, gas, petroleum or power generation plant operator&#34;,&#34;female_pct_male: 0.8007502&lt;br /&gt;occupation: Chemist, or food and wine scientist&#34;,&#34;female_pct_male: 0.8489437&lt;br /&gt;occupation: Chief executive officer or managing director&#34;,&#34;female_pct_male: 0.8237916&lt;br /&gt;occupation: Child care centre director&#34;,&#34;female_pct_male: 0.7363105&lt;br /&gt;occupation: Child carer&#34;,&#34;female_pct_male: 0.9399279&lt;br /&gt;occupation: Chiropractor or osteopath&#34;,&#34;female_pct_male: 0.8793165&lt;br /&gt;occupation: Civil engineering draftsperson or technician&#34;,&#34;female_pct_male: 0.8306991&lt;br /&gt;occupation: Civil engineering professional&#34;,&#34;female_pct_male: 0.8045052&lt;br /&gt;occupation: Clay, concrete, glass or stone processing machine operator&#34;,&#34;female_pct_male: 0.6635528&lt;br /&gt;occupation: Cleaner - commercial&#34;,&#34;female_pct_male: 0.8338400&lt;br /&gt;occupation: Cleaner - domestic&#34;,&#34;female_pct_male: 0.6620731&lt;br /&gt;occupation: Clothing trades worker&#34;,&#34;female_pct_male: 0.6607088&lt;br /&gt;occupation: Commissioned officer - management&#34;,&#34;female_pct_male: 0.7729414&lt;br /&gt;occupation: Complementary health therapist&#34;,&#34;female_pct_male: 0.8153297&lt;br /&gt;occupation: Computer network professional&#34;,&#34;female_pct_male: 0.7725698&lt;br /&gt;occupation: Concreter&#34;,&#34;female_pct_male: 0.8108049&lt;br /&gt;occupation: Conference and event organiser&#34;,&#34;female_pct_male: 0.7872533&lt;br /&gt;occupation: Construction manager&#34;,&#34;female_pct_male: 0.7746409&lt;br /&gt;occupation: Contract, program or project administrator&#34;,&#34;female_pct_male: 0.8711819&lt;br /&gt;occupation: Conveyancer or legal executive&#34;,&#34;female_pct_male: 0.8728652&lt;br /&gt;occupation: Cook&#34;,&#34;female_pct_male: 0.8867183&lt;br /&gt;occupation: Corporate services manager&#34;,&#34;female_pct_male: 0.8291466&lt;br /&gt;occupation: Counsellor&#34;,&#34;female_pct_male: 0.7808078&lt;br /&gt;occupation: Courier or postal deliverer&#34;,&#34;female_pct_male: 0.7932180&lt;br /&gt;occupation: Court or legal clerk&#34;,&#34;female_pct_male: 0.8542089&lt;br /&gt;occupation: Crane, hoist or lift operator&#34;,&#34;female_pct_male: 0.7764445&lt;br /&gt;occupation: Credit or loans officer&#34;,&#34;female_pct_male: 0.7465758&lt;br /&gt;occupation: Crop farm worker&#34;,&#34;female_pct_male: 0.7327702&lt;br /&gt;occupation: Crop farmer&#34;,&#34;female_pct_male: 0.8339193&lt;br /&gt;occupation: Database or systems administrator, or IT security specialist&#34;,&#34;female_pct_male: 0.7734610&lt;br /&gt;occupation: Debt collector&#34;,&#34;female_pct_male: 0.8532636&lt;br /&gt;occupation: Deck or fishing hand&#34;,&#34;female_pct_male: 0.6895649&lt;br /&gt;occupation: Defence force member - other ranks&#34;,&#34;female_pct_male: 0.6142505&lt;br /&gt;occupation: Delivery driver&#34;,&#34;female_pct_male: 0.7429183&lt;br /&gt;occupation: Dental hygienist, technician or therapist&#34;,&#34;female_pct_male: 0.8958405&lt;br /&gt;occupation: Dental nurse or assistant&#34;,&#34;female_pct_male: 0.8534591&lt;br /&gt;occupation: Dental practitioner&#34;,&#34;female_pct_male: 0.7485060&lt;br /&gt;occupation: Dietician&#34;,&#34;female_pct_male: 0.8458039&lt;br /&gt;occupation: Diversional therapist&#34;,&#34;female_pct_male: 0.7090316&lt;br /&gt;occupation: Driller, miner or shot firer&#34;,&#34;female_pct_male: 0.7594864&lt;br /&gt;occupation: Driving instructor&#34;,&#34;female_pct_male: 0.8892958&lt;br /&gt;occupation: Earthmoving plant operator&#34;,&#34;female_pct_male: 0.8492340&lt;br /&gt;occupation: Economist&#34;,&#34;female_pct_male: 0.8126631&lt;br /&gt;occupation: Education advisor or reviewer&#34;,&#34;female_pct_male: 0.7948396&lt;br /&gt;occupation: Education aide&#34;,&#34;female_pct_male: 0.7728195&lt;br /&gt;occupation: Electrical distribution trades worker&#34;,&#34;female_pct_male: 0.7622138&lt;br /&gt;occupation: Electrical engineer&#34;,&#34;female_pct_male: 0.7864053&lt;br /&gt;occupation: Electrical engineering draftsperson or technician&#34;,&#34;female_pct_male: 0.6414388&lt;br /&gt;occupation: Electrician&#34;,&#34;female_pct_male: 0.5059357&lt;br /&gt;occupation: Electronic engineering draftsperson or technician&#34;,&#34;female_pct_male: 0.6351317&lt;br /&gt;occupation: Electronic equipment trades worker&#34;,&#34;female_pct_male: 0.8537948&lt;br /&gt;occupation: Electronics engineer&#34;,&#34;female_pct_male: 0.7399353&lt;br /&gt;occupation: Engineering manager&#34;,&#34;female_pct_male: 0.8579073&lt;br /&gt;occupation: Enrolled or mothercraft nurse&#34;,&#34;female_pct_male: 0.7900309&lt;br /&gt;occupation: Environmental scientist&#34;,&#34;female_pct_male: 0.7871955&lt;br /&gt;occupation: Fashion, industrial or jewellery designer&#34;,&#34;female_pct_male: 0.8849572&lt;br /&gt;occupation: Fast food cook&#34;,&#34;female_pct_male: 0.7976200&lt;br /&gt;occupation: Fencer&#34;,&#34;female_pct_male: 0.8196740&lt;br /&gt;occupation: Filing clerk&#34;,&#34;female_pct_male: 0.7902258&lt;br /&gt;occupation: Film, television radio or stage director&#34;,&#34;female_pct_male: 0.7101032&lt;br /&gt;occupation: Finance manager&#34;,&#34;female_pct_male: 0.9432433&lt;br /&gt;occupation: Financial broker&#34;,&#34;female_pct_male: 0.8030663&lt;br /&gt;occupation: Financial dealer&#34;,&#34;female_pct_male: 0.8310559&lt;br /&gt;occupation: Financial investment advisor or manager&#34;,&#34;female_pct_male: 0.7503143&lt;br /&gt;occupation: Fire or emergency service worker&#34;,&#34;female_pct_male: 0.8000144&lt;br /&gt;occupation: Fitness instructor&#34;,&#34;female_pct_male: 0.7756237&lt;br /&gt;occupation: Floor finisher&#34;,&#34;female_pct_male: 0.7838051&lt;br /&gt;occupation: Florist&#34;,&#34;female_pct_male: 0.7594974&lt;br /&gt;occupation: Food or drink factory worker&#34;,&#34;female_pct_male: 0.4675501&lt;br /&gt;occupation: Forestry or logging worker&#34;,&#34;female_pct_male: 0.9416147&lt;br /&gt;occupation: Forklift driver&#34;,&#34;female_pct_male: 0.7658297&lt;br /&gt;occupation: Freight or furniture handler&#34;,&#34;female_pct_male: 0.8157640&lt;br /&gt;occupation: Funeral worker&#34;,&#34;female_pct_male: 0.8135635&lt;br /&gt;occupation: Gallery, library or museum technician&#34;,&#34;female_pct_male: 0.7486650&lt;br /&gt;occupation: Gallery, museum or tour guide&#34;,&#34;female_pct_male: 0.7788701&lt;br /&gt;occupation: Gaming worker&#34;,&#34;female_pct_male: 0.6172567&lt;br /&gt;occupation: Garden or nursery labourer&#34;,&#34;female_pct_male: 0.7575231&lt;br /&gt;occupation: Gardener&#34;,&#34;female_pct_male: 0.7361250&lt;br /&gt;occupation: General manager&#34;,&#34;female_pct_male: 0.7324361&lt;br /&gt;occupation: General medical practitioner&#34;,&#34;female_pct_male: 0.8194554&lt;br /&gt;occupation: Geologist or geophysicist&#34;,&#34;female_pct_male: 0.7098722&lt;br /&gt;occupation: Glazier&#34;,&#34;female_pct_male: 0.6558503&lt;br /&gt;occupation: Graphic or web designer, or illustrator&#34;,&#34;female_pct_male: 0.5829839&lt;br /&gt;occupation: Graphic pre-press trades worker&#34;,&#34;female_pct_male: 0.7149808&lt;br /&gt;occupation: Hairdresser&#34;,&#34;female_pct_male: 0.6835563&lt;br /&gt;occupation: Handyperson&#34;,&#34;female_pct_male: 0.7720700&lt;br /&gt;occupation: Health and welfare services manager&#34;,&#34;female_pct_male: 0.7441147&lt;br /&gt;occupation: Hotel or motel manager&#34;,&#34;female_pct_male: 0.8105606&lt;br /&gt;occupation: Hotel service manager&#34;,&#34;female_pct_male: 0.6912447&lt;br /&gt;occupation: Housekeeper&#34;,&#34;female_pct_male: 0.7991670&lt;br /&gt;occupation: Human resource clerk&#34;,&#34;female_pct_male: 0.5906936&lt;br /&gt;occupation: Human resource manager&#34;,&#34;female_pct_male: 0.6926848&lt;br /&gt;occupation: Human resource professional&#34;,&#34;female_pct_male: 0.7982518&lt;br /&gt;occupation: Importer, exporter or wholesaler&#34;,&#34;female_pct_male: 0.8284511&lt;br /&gt;occupation: Industrial spray painter&#34;,&#34;female_pct_male: 0.6268884&lt;br /&gt;occupation: Industrial, mechanical or production engineer&#34;,&#34;female_pct_male: 0.8654787&lt;br /&gt;occupation: Infant or primary school teacher&#34;,&#34;female_pct_male: 0.7851308&lt;br /&gt;occupation: Inquiry clerk&#34;,&#34;female_pct_male: 0.7362520&lt;br /&gt;occupation: Inspector or regulatory officer&#34;,&#34;female_pct_male: 0.6221543&lt;br /&gt;occupation: Insulation or home improvement installer&#34;,&#34;female_pct_male: 0.6817915&lt;br /&gt;occupation: Insurance agent or salesperson&#34;,&#34;female_pct_male: 0.7448373&lt;br /&gt;occupation: Insurance investigator, loss adjuster or risk surveyor&#34;,&#34;female_pct_male: 0.5894006&lt;br /&gt;occupation: Insurance, money market or statistical clerk&#34;,&#34;female_pct_male: 0.6910777&lt;br /&gt;occupation: Intelligence or policy analyst&#34;,&#34;female_pct_male: 0.7767876&lt;br /&gt;occupation: Interior designer&#34;,&#34;female_pct_male: 0.7244771&lt;br /&gt;occupation: Internal medicine specialist&#34;,&#34;female_pct_male: 0.6150741&lt;br /&gt;occupation: IT business or systems analyst&#34;,&#34;female_pct_male: 0.7416065&lt;br /&gt;occupation: IT manager&#34;,&#34;female_pct_male: 0.6758969&lt;br /&gt;occupation: IT sales assistant&#34;,&#34;female_pct_male: 0.7345028&lt;br /&gt;occupation: IT sales professional&#34;,&#34;female_pct_male: 0.8234394&lt;br /&gt;occupation: IT support or test engineer&#34;,&#34;female_pct_male: 0.8429319&lt;br /&gt;occupation: IT support technician&#34;,&#34;female_pct_male: 0.7686550&lt;br /&gt;occupation: IT trainer&#34;,&#34;female_pct_male: 0.8255411&lt;br /&gt;occupation: Jeweller&#34;,&#34;female_pct_male: 0.5971213&lt;br /&gt;occupation: Journalist or other writer&#34;,&#34;female_pct_male: 0.7846422&lt;br /&gt;occupation: Judicial or other legal professionals&#34;,&#34;female_pct_male: 0.8598512&lt;br /&gt;occupation: Keyboard operator&#34;,&#34;female_pct_male: 0.7962440&lt;br /&gt;occupation: Kitchen hand&#34;,&#34;female_pct_male: 0.6375213&lt;br /&gt;occupation: Land economist or valuer&#34;,&#34;female_pct_male: 0.8737733&lt;br /&gt;occupation: Laundry worker&#34;,&#34;female_pct_male: 0.7681507&lt;br /&gt;occupation: Legislator&#34;,&#34;female_pct_male: 0.8391050&lt;br /&gt;occupation: Librarian&#34;,&#34;female_pct_male: 0.6448551&lt;br /&gt;occupation: Library assistant&#34;,&#34;female_pct_male: 0.5257237&lt;br /&gt;occupation: Licensed club manager&#34;,&#34;female_pct_male: 0.9668139&lt;br /&gt;occupation: Life scientist&#34;,&#34;female_pct_male: 0.8231821&lt;br /&gt;occupation: Livestock and mixed crop farm worker&#34;,&#34;female_pct_male: 0.7514982&lt;br /&gt;occupation: Livestock farm worker&#34;,&#34;female_pct_male: 0.7062580&lt;br /&gt;occupation: Livestock farmer&#34;,&#34;female_pct_male: 0.8374446&lt;br /&gt;occupation: Mail sorter&#34;,&#34;female_pct_male: 0.6836566&lt;br /&gt;occupation: Management and organisation analyst&#34;,&#34;female_pct_male: 0.8335544&lt;br /&gt;occupation: Manufacturer&#34;,&#34;female_pct_male: 0.7000997&lt;br /&gt;occupation: Marine transport professional&#34;,&#34;female_pct_male: 0.7399418&lt;br /&gt;occupation: Market research interviewer&#34;,&#34;female_pct_male: 0.7052492&lt;br /&gt;occupation: Massage therapist&#34;,&#34;female_pct_male: 0.6219403&lt;br /&gt;occupation: Meat boners and slicer, or slaughterer&#34;,&#34;female_pct_male: 0.7541924&lt;br /&gt;occupation: Meat, poultry or seafood process worker&#34;,&#34;female_pct_male: 0.9216012&lt;br /&gt;occupation: Mechanical engineering draftsperson or technician&#34;,&#34;female_pct_male: 0.6385768&lt;br /&gt;occupation: Medical imaging professional&#34;,&#34;female_pct_male: 0.6969258&lt;br /&gt;occupation: Medical laboratory scientist&#34;,&#34;female_pct_male: 0.7042302&lt;br /&gt;occupation: Medical technician&#34;,&#34;female_pct_male: 0.7573878&lt;br /&gt;occupation: Metal engineering process worker&#34;,&#34;female_pct_male: 0.8673517&lt;br /&gt;occupation: Metal fitter or machinist&#34;,&#34;female_pct_male: 0.9158869&lt;br /&gt;occupation: Metal press operator&#34;,&#34;female_pct_male: 0.7447175&lt;br /&gt;occupation: Middle school teacher&#34;,&#34;female_pct_male: 0.8572486&lt;br /&gt;occupation: Midwife&#34;,&#34;female_pct_male: 0.3957781&lt;br /&gt;occupation: Mining engineer&#34;,&#34;female_pct_male: 0.6111464&lt;br /&gt;occupation: Mixed crop and livestock farmer&#34;,&#34;female_pct_male: 0.9013670&lt;br /&gt;occupation: Model or sales demonstrator&#34;,&#34;female_pct_male: 0.9521601&lt;br /&gt;occupation: Motor mechanic&#34;,&#34;female_pct_male: 0.8814043&lt;br /&gt;occupation: Motor vehicle and vehicle parts salesperson&#34;,&#34;female_pct_male: 0.8577867&lt;br /&gt;occupation: Motor vehicle parts and accessories fitter&#34;,&#34;female_pct_male: 0.7111954&lt;br /&gt;occupation: Music professional&#34;,&#34;female_pct_male: 0.8041753&lt;br /&gt;occupation: Nurse educator or researcher&#34;,&#34;female_pct_male: 0.7609233&lt;br /&gt;occupation: Nurseryperson&#34;,&#34;female_pct_male: 0.8668287&lt;br /&gt;occupation: Nursing supervisor or manager&#34;,&#34;female_pct_male: 0.8243861&lt;br /&gt;occupation: Nursing support or personal care worker&#34;,&#34;female_pct_male: 0.8509095&lt;br /&gt;occupation: Occupational and environmental health professional&#34;,&#34;female_pct_male: 0.9288161&lt;br /&gt;occupation: Occupational therapist&#34;,&#34;female_pct_male: 0.8481644&lt;br /&gt;occupation: Office administrator or manager&#34;,&#34;female_pct_male: 0.8884399&lt;br /&gt;occupation: Optometrist or orthoptist&#34;,&#34;female_pct_male: 0.8950577&lt;br /&gt;occupation: Other accommodation or hospitality manager&#34;,&#34;female_pct_male: 0.7766037&lt;br /&gt;occupation: Other building or engineering technician&#34;,&#34;female_pct_male: 0.7796465&lt;br /&gt;occupation: Other cleaner&#34;,&#34;female_pct_male: 0.8468492&lt;br /&gt;occupation: Other clerical or office support worker&#34;,&#34;female_pct_male: 0.9378021&lt;br /&gt;occupation: Other construction or mining labourer&#34;,&#34;female_pct_male: 0.7394005&lt;br /&gt;occupation: Other education manager&#34;,&#34;female_pct_male: 0.7740517&lt;br /&gt;occupation: Other engineering professional&#34;,&#34;female_pct_male: 0.9391652&lt;br /&gt;occupation: Other farm, forestry or garden worker&#34;,&#34;female_pct_male: 0.8807904&lt;br /&gt;occupation: Other Health Diagnostic and Promotion Professionals&#34;,&#34;female_pct_male: 0.9939243&lt;br /&gt;occupation: Other hospitality, retail or service manager&#34;,&#34;female_pct_male: 0.9057973&lt;br /&gt;occupation: Other machine operator&#34;,&#34;female_pct_male: 0.8165051&lt;br /&gt;occupation: Other Medical Practitioners&#34;,&#34;female_pct_male: 0.8255690&lt;br /&gt;occupation: Other miscellaneous clerical or administrative worker&#34;,&#34;female_pct_male: 0.9260120&lt;br /&gt;occupation: Other Miscellaneous Labourers&#34;,&#34;female_pct_male: 0.8390349&lt;br /&gt;occupation: Other miscellaneous technician and trades worker&#34;,&#34;female_pct_male: 0.9710199&lt;br /&gt;occupation: Other mobile plant operator&#34;,&#34;female_pct_male: 0.8012314&lt;br /&gt;occupation: Other personal service worker&#34;,&#34;female_pct_male: 0.6729771&lt;br /&gt;occupation: Other sales assistant or salesperson&#34;,&#34;female_pct_male: 0.8557790&lt;br /&gt;occupation: Other specialist manager&#34;,&#34;female_pct_male: 0.8420392&lt;br /&gt;occupation: Other stationary plant operator&#34;,&#34;female_pct_male: 0.6818155&lt;br /&gt;occupation: Outdoor adventure guide&#34;,&#34;female_pct_male: 0.8567226&lt;br /&gt;occupation: Painting trades worker&#34;,&#34;female_pct_male: 0.9022005&lt;br /&gt;occupation: Paper or wood processing machine operator&#34;,&#34;female_pct_male: 0.7367461&lt;br /&gt;occupation: Pastry cook&#39;s assistant&#34;,&#34;female_pct_male: 0.7679993&lt;br /&gt;occupation: Paving and surfacing labourer&#34;,&#34;female_pct_male: 0.8693522&lt;br /&gt;occupation: Performing arts technician&#34;,&#34;female_pct_male: 0.9810862&lt;br /&gt;occupation: Personal care consultant&#34;,&#34;female_pct_male: 0.6796424&lt;br /&gt;occupation: Personal Carers and Assistants&#34;,&#34;female_pct_male: 0.7344281&lt;br /&gt;occupation: Pharmacist&#34;,&#34;female_pct_male: 0.8341112&lt;br /&gt;occupation: Pharmacy sales assistant&#34;,&#34;female_pct_male: 0.6740050&lt;br /&gt;occupation: Photographer&#34;,&#34;female_pct_male: 0.9193654&lt;br /&gt;occupation: Photographic developer and printer&#34;,&#34;female_pct_male: 0.9276095&lt;br /&gt;occupation: Plasterer&#34;,&#34;female_pct_male: 0.7703041&lt;br /&gt;occupation: Plastics or rubber factory worker&#34;,&#34;female_pct_male: 0.9284460&lt;br /&gt;occupation: Plastics or rubber production machine operator&#34;,&#34;female_pct_male: 0.8099138&lt;br /&gt;occupation: Plumber&#34;,&#34;female_pct_male: 0.8257144&lt;br /&gt;occupation: Podiatrist&#34;,&#34;female_pct_male: 0.6850850&lt;br /&gt;occupation: Police&#34;,&#34;female_pct_male: 0.9325418&lt;br /&gt;occupation: Policy and planning manager&#34;,&#34;female_pct_male: 0.7511729&lt;br /&gt;occupation: Pre-school or kindergarten teacher&#34;,&#34;female_pct_male: 0.5809175&lt;br /&gt;occupation: Precision metal trades worker&#34;,&#34;female_pct_male: 0.7320101&lt;br /&gt;occupation: Printer&#34;,&#34;female_pct_male: 0.9080256&lt;br /&gt;occupation: Printing assistant or table worker&#34;,&#34;female_pct_male: 0.7032354&lt;br /&gt;occupation: Prison officer&#34;,&#34;female_pct_male: 0.8994070&lt;br /&gt;occupation: Private teacher or tutor&#34;,&#34;female_pct_male: 0.5731580&lt;br /&gt;occupation: Product quality controller&#34;,&#34;female_pct_male: 0.9441088&lt;br /&gt;occupation: Production manager&#34;,&#34;female_pct_male: 0.6930066&lt;br /&gt;occupation: Psychiatrist&#34;,&#34;female_pct_male: 0.8873608&lt;br /&gt;occupation: Psychologist&#34;,&#34;female_pct_male: 0.7440285&lt;br /&gt;occupation: Public relations officer&#34;,&#34;female_pct_male: 0.8050511&lt;br /&gt;occupation: Public servant - administrative service officer - levels 1-2&#34;,&#34;female_pct_male: 0.6552533&lt;br /&gt;occupation: Public servant - administrative service officer - levels 3-4&#34;,&#34;female_pct_male: 0.7755509&lt;br /&gt;occupation: Railway track worker&#34;,&#34;female_pct_male: 0.7517861&lt;br /&gt;occupation: Real estate sales agent&#34;,&#34;female_pct_male: 0.7387287&lt;br /&gt;occupation: Receiving and dispatching clerk&#34;,&#34;female_pct_male: 0.7167978&lt;br /&gt;occupation: Receptionist&#34;,&#34;female_pct_male: 0.6527732&lt;br /&gt;occupation: Registered nurse&#34;,&#34;female_pct_male: 0.9541950&lt;br /&gt;occupation: Religious leader&#34;,&#34;female_pct_male: 0.5310896&lt;br /&gt;occupation: Research and development manager&#34;,&#34;female_pct_male: 0.9350362&lt;br /&gt;occupation: Retail manager&#34;,&#34;female_pct_male: 0.8615937&lt;br /&gt;occupation: Retail or wool buyer&#34;,&#34;female_pct_male: 0.7254716&lt;br /&gt;occupation: Retail supervisor&#34;,&#34;female_pct_male: 0.7997518&lt;br /&gt;occupation: Rubbish or recycling collector&#34;,&#34;female_pct_male: 0.8170581&lt;br /&gt;occupation: Safety inspector&#34;,&#34;female_pct_male: 0.7225815&lt;br /&gt;occupation: Sales assistant - general&#34;,&#34;female_pct_male: 0.5938446&lt;br /&gt;occupation: Sales representative&#34;,&#34;female_pct_male: 0.6832046&lt;br /&gt;occupation: School principal&#34;,&#34;female_pct_male: 0.7443098&lt;br /&gt;occupation: Science technician&#34;,&#34;female_pct_male: 0.7682960&lt;br /&gt;occupation: Secondary school teacher&#34;,&#34;female_pct_male: 0.7159488&lt;br /&gt;occupation: Secretary&#34;,&#34;female_pct_male: 0.7130289&lt;br /&gt;occupation: Security officer or guard&#34;,&#34;female_pct_male: 0.6863147&lt;br /&gt;occupation: Senior non-commissioned defence force member&#34;,&#34;female_pct_male: 0.8898889&lt;br /&gt;occupation: Service station attendant&#34;,&#34;female_pct_male: 0.7797496&lt;br /&gt;occupation: Shearer&#34;,&#34;female_pct_male: 0.7636972&lt;br /&gt;occupation: Sheetmetal trades worker&#34;,&#34;female_pct_male: 0.5790612&lt;br /&gt;occupation: Shelf filler&#34;,&#34;female_pct_male: 0.6499068&lt;br /&gt;occupation: Signwriter&#34;,&#34;female_pct_male: 0.7911517&lt;br /&gt;occupation: Social Professionals&#34;,&#34;female_pct_male: 0.8767146&lt;br /&gt;occupation: Social worker&#34;,&#34;female_pct_male: 0.5736283&lt;br /&gt;occupation: Software and applications programmer&#34;,&#34;female_pct_male: 0.8877657&lt;br /&gt;occupation: Special care worker&#34;,&#34;female_pct_male: 0.7744893&lt;br /&gt;occupation: Special needs teacher&#34;,&#34;female_pct_male: 0.9591520&lt;br /&gt;occupation: Speech professional or audiologist&#34;,&#34;female_pct_male: 0.6259991&lt;br /&gt;occupation: Sports Coaches, Instructors and Officials&#34;,&#34;female_pct_male: 0.8561864&lt;br /&gt;occupation: Sportsperson&#34;,&#34;female_pct_male: 0.7093128&lt;br /&gt;occupation: Storeperson&#34;,&#34;female_pct_male: 0.6541232&lt;br /&gt;occupation: Street vendor or related salesperson&#34;,&#34;female_pct_male: 0.7938187&lt;br /&gt;occupation: Structural steel construction worker&#34;,&#34;female_pct_male: 0.7455621&lt;br /&gt;occupation: Structural steel or welding trades worker&#34;,&#34;female_pct_male: 0.8903879&lt;br /&gt;occupation: Supply and distribution manager&#34;,&#34;female_pct_male: 0.9291524&lt;br /&gt;occupation: Surgeon&#34;,&#34;female_pct_male: 0.7005399&lt;br /&gt;occupation: Switchboard operator&#34;,&#34;female_pct_male: 0.6123417&lt;br /&gt;occupation: TAFE teacher or tutor&#34;,&#34;female_pct_male: 0.7431486&lt;br /&gt;occupation: Teacher of English to speakers of other languages&#34;,&#34;female_pct_male: 0.7418510&lt;br /&gt;occupation: Technical sales representative&#34;,&#34;female_pct_male: 0.8374288&lt;br /&gt;occupation: Telecommunications engineering professional&#34;,&#34;female_pct_male: 0.8088446&lt;br /&gt;occupation: Telecommunications technical specialist&#34;,&#34;female_pct_male: 0.7423428&lt;br /&gt;occupation: Telecommunications trades worker&#34;,&#34;female_pct_male: 0.8689631&lt;br /&gt;occupation: Telemarketer&#34;,&#34;female_pct_male: 0.8274413&lt;br /&gt;occupation: Textile or footwear production machine operator&#34;,&#34;female_pct_male: 0.7493890&lt;br /&gt;occupation: Ticket seller&#34;,&#34;female_pct_male: 0.5570726&lt;br /&gt;occupation: Timber or wood process worker&#34;,&#34;female_pct_male: 0.9192445&lt;br /&gt;occupation: Tourism or travel adviser&#34;,&#34;female_pct_male: 0.6297373&lt;br /&gt;occupation: Training and development officer&#34;,&#34;female_pct_male: 0.9538074&lt;br /&gt;occupation: Transport services manager&#34;,&#34;female_pct_male: 0.6407275&lt;br /&gt;occupation: Travel attendant&#34;,&#34;female_pct_male: 0.8492820&lt;br /&gt;occupation: Truck driver&#34;,&#34;female_pct_male: 0.7395882&lt;br /&gt;occupation: University lecturer or tutor&#34;,&#34;female_pct_male: 0.5951449&lt;br /&gt;occupation: Upholsterer&#34;,&#34;female_pct_male: 0.7134378&lt;br /&gt;occupation: Urban and regional planner&#34;,&#34;female_pct_male: 0.5980321&lt;br /&gt;occupation: Vehicle body builder or trimmer&#34;,&#34;female_pct_male: 0.9940162&lt;br /&gt;occupation: Vehicle painter&#34;,&#34;female_pct_male: 0.6501779&lt;br /&gt;occupation: Vending machine attendant&#34;,&#34;female_pct_male: 0.7126401&lt;br /&gt;occupation: Veterinarian&#34;,&#34;female_pct_male: 0.6166423&lt;br /&gt;occupation: Veterinary nurse&#34;,&#34;female_pct_male: 0.8034797&lt;br /&gt;occupation: Visual arts and crafts professional&#34;,&#34;female_pct_male: 0.8554022&lt;br /&gt;occupation: Waiter&#34;,&#34;female_pct_male: 0.7749256&lt;br /&gt;occupation: Wall and floor tiler&#34;,&#34;female_pct_male: 0.9534465&lt;br /&gt;occupation: Welfare support worker&#34;,&#34;female_pct_male: 0.6970205&lt;br /&gt;occupation: Welfare, recreation or community arts worker&#34;,&#34;female_pct_male: 0.8439843&lt;br /&gt;occupation: Window dresser&#34;,&#34;female_pct_male: 0.6423304&lt;br /&gt;occupation: Wood machinist or other wood trades worker&#34;],&#34;type&#34;:&#34;scatter&#34;,&#34;mode&#34;:&#34;markers&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(238,180,34,1)&#34;,&#34;opacity&#34;:1,&#34;size&#34;:2.26771653543307,&#34;symbol&#34;:&#34;circle&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;rgba(238,180,34,1)&#34;}},&#34;hoveron&#34;:&#34;points&#34;,&#34;name&#34;:&#34;FALSE&#34;,&#34;legendgroup&#34;:&#34;FALSE&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;x&#34;:[0.988671121531561,2.97970435859356,4.01258620992527,4.03530392423413,3.95520213288562,3.97704991558639,4.76439653710118,4.90337160429847,5.00733164102325,4.98479828205689,5.22883061367798,5.10902032991208,5.10571126864313,5.9692932180389,6.98561962390229,8.06701857378424,7.97498718184473],&#34;y&#34;:[1.03028047909461,1.00446784971005,1.47385679415403,1.13302584955941,1.1602550249599,1.08967664875283,1.05725877171991,1.08204621162381,1.06824752533049,1.01572845559948,1.0240074454844,1.08237012211127,1.00931028801217,1.06566934032199,1.02172109374671,1.00704888687472,1.18540296389961],&#34;text&#34;:[&#34;female_pct_male: 1.0302805&lt;br /&gt;occupation: Baker or pastrycook&#34;,&#34;female_pct_male: 1.0044678&lt;br /&gt;occupation: Greenkeeper&#34;,&#34;female_pct_male: 1.4738568&lt;br /&gt;occupation: Multimedia specialist or web developer&#34;,&#34;female_pct_male: 1.1330258&lt;br /&gt;occupation: Other factory process worker&#34;,&#34;female_pct_male: 1.1602550&lt;br /&gt;occupation: Other hospitality worker&#34;,&#34;female_pct_male: 1.0896766&lt;br /&gt;occupation: Other information and organisation professional&#34;,&#34;female_pct_male: 1.0572588&lt;br /&gt;occupation: Other natural or physical science professional&#34;,&#34;female_pct_male: 1.0820462&lt;br /&gt;occupation: Packer&#34;,&#34;female_pct_male: 1.0682475&lt;br /&gt;occupation: Payroll clerk&#34;,&#34;female_pct_male: 1.0157285&lt;br /&gt;occupation: Personal assistant&#34;,&#34;female_pct_male: 1.0240074&lt;br /&gt;occupation: Physiotherapist&#34;,&#34;female_pct_male: 1.0823701&lt;br /&gt;occupation: Practice manager&#34;,&#34;female_pct_male: 1.0093103&lt;br /&gt;occupation: Primary products inspector&#34;,&#34;female_pct_male: 1.0656693&lt;br /&gt;occupation: Purchasing or supply logistics clerk&#34;,&#34;female_pct_male: 1.0217211&lt;br /&gt;occupation: Sewing machinist&#34;,&#34;female_pct_male: 1.0070489&lt;br /&gt;occupation: Solicitor&#34;,&#34;female_pct_male: 1.1854030&lt;br /&gt;occupation: Train or tram driver&#34;],&#34;type&#34;:&#34;scatter&#34;,&#34;mode&#34;:&#34;markers&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(100,149,237,1)&#34;,&#34;opacity&#34;:1,&#34;size&#34;:2.26771653543307,&#34;symbol&#34;:&#34;circle&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;rgba(100,149,237,1)&#34;}},&#34;hoveron&#34;:&#34;points&#34;,&#34;name&#34;:&#34;TRUE&#34;,&#34;legendgroup&#34;:&#34;TRUE&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;name&#34;:&#34;FALSE&#34;,&#34;legendgroup&#34;:&#34;FALSE&#34;,&#34;showlegend&#34;:false,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;name&#34;:&#34;TRUE&#34;,&#34;legendgroup&#34;:&#34;TRUE&#34;,&#34;showlegend&#34;:false,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;x&#34;:[0.4,8.6],&#34;y&#34;:[1,1],&#34;text&#34;:&#34;&#34;,&#34;type&#34;:&#34;scatter&#34;,&#34;mode&#34;:&#34;lines&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;dash&#34;:&#34;dot&#34;},&#34;hoveron&#34;:&#34;points&#34;,&#34;showlegend&#34;:false,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null}],&#34;layout&#34;:{&#34;margin&#34;:{&#34;t&#34;:43.7625570776256,&#34;r&#34;:7.30593607305936,&#34;b&#34;:25.5707762557078,&#34;l&#34;:48.9497716894977},&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;title&#34;:{&#34;text&#34;:&#34;Females earn less than males in almost all occupations&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:17.5342465753425},&#34;x&#34;:0,&#34;xref&#34;:&#34;paper&#34;},&#34;xaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[0.4,8.6],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;Managers&#34;,&#34;Professionals&#34;,&#34;Technicians&lt;br /&gt;and Trades&lt;br /&gt;Workers&#34;,&#34;Community&lt;br /&gt;and&lt;br /&gt;Personal&lt;br /&gt;Service&lt;br /&gt;Workers&#34;,&#34;Clerical&lt;br /&gt;and&lt;br /&gt;Administrative&lt;br /&gt;Workers&#34;,&#34;Sales&lt;br /&gt;Workers&#34;,&#34;Machinery&lt;br /&gt;Operators&lt;br /&gt;and&lt;br /&gt;Drivers&#34;,&#34;Labourers&#34;],&#34;tickvals&#34;:[1,2,3,4,5,6,7,8],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;Managers&#34;,&#34;Professionals&#34;,&#34;Technicians&lt;br /&gt;and Trades&lt;br /&gt;Workers&#34;,&#34;Community&lt;br /&gt;and&lt;br /&gt;Personal&lt;br /&gt;Service&lt;br /&gt;Workers&#34;,&#34;Clerical&lt;br /&gt;and&lt;br /&gt;Administrative&lt;br /&gt;Workers&#34;,&#34;Sales&lt;br /&gt;Workers&#34;,&#34;Machinery&lt;br /&gt;Operators&lt;br /&gt;and&lt;br /&gt;Drivers&#34;,&#34;Labourers&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;&#34;,&#34;tickcolor&#34;:null,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(127,127,127,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:false,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;y&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(127,127,127,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;yaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[0.341874122996299,1.52776073087583],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;50%&#34;,&#34;100%&#34;,&#34;150%&#34;],&#34;tickvals&#34;:[0.5,1,1.5],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;50%&#34;,&#34;100%&#34;,&#34;150%&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;&#34;,&#34;tickcolor&#34;:null,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(127,127,127,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:false,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;x&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;female / male&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(127,127,127,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;shapes&#34;:[{&#34;type&#34;:&#34;rect&#34;,&#34;fillcolor&#34;:null,&#34;line&#34;:{&#34;color&#34;:null,&#34;width&#34;:0,&#34;linetype&#34;:[]},&#34;yref&#34;:&#34;paper&#34;,&#34;xref&#34;:&#34;paper&#34;,&#34;x0&#34;:0,&#34;x1&#34;:1,&#34;y0&#34;:0,&#34;y1&#34;:1}],&#34;showlegend&#34;:false,&#34;legend&#34;:{&#34;bgcolor&#34;:null,&#34;bordercolor&#34;:null,&#34;borderwidth&#34;:0,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;y&#34;:1},&#34;hovermode&#34;:&#34;closest&#34;,&#34;barmode&#34;:&#34;relative&#34;},&#34;config&#34;:{&#34;doubleClick&#34;:&#34;reset&#34;,&#34;showSendToCloud&#34;:false,&#34;displayModeBar&#34;:false},&#34;source&#34;:&#34;A&#34;,&#34;attrs&#34;:{&#34;6ac87be86268&#34;:{&#34;x&#34;:{},&#34;y&#34;:{},&#34;colour&#34;:{},&#34;type&#34;:&#34;scatter&#34;},&#34;6ac87fa8223f&#34;:{&#34;label&#34;:{},&#34;x&#34;:{},&#34;y&#34;:{},&#34;colour&#34;:{}},&#34;6ac87d2a3b4d&#34;:{&#34;yintercept&#34;:{}}},&#34;cur_data&#34;:&#34;6ac87be86268&#34;,&#34;visdat&#34;:{&#34;6ac87be86268&#34;:[&#34;function (y) &#34;,&#34;x&#34;],&#34;6ac87fa8223f&#34;:[&#34;function (y) &#34;,&#34;x&#34;],&#34;6ac87d2a3b4d&#34;:[&#34;function (y) &#34;,&#34;x&#34;]},&#34;highlight&#34;:{&#34;on&#34;:&#34;plotly_click&#34;,&#34;persistent&#34;:false,&#34;dynamic&#34;:false,&#34;selectize&#34;:false,&#34;opacityDim&#34;:0.2,&#34;selected&#34;:{&#34;opacity&#34;:1},&#34;debounce&#34;:0},&#34;shinyEvents&#34;:[&#34;plotly_hover&#34;,&#34;plotly_click&#34;,&#34;plotly_selected&#34;,&#34;plotly_relayout&#34;,&#34;plotly_brushed&#34;,&#34;plotly_brushing&#34;,&#34;plotly_clickannotation&#34;,&#34;plotly_doubleclick&#34;,&#34;plotly_deselect&#34;,&#34;plotly_afterplot&#34;],&#34;base_url&#34;:&#34;https://plot.ly&#34;},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>PSA: Python, OLS and perfectly collinear variables</title>
+      <link>/post/psa-python-ols-and-perfectly-collinear-variables/</link>
+      <pubDate>Wed, 05 Jun 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/psa-python-ols-and-perfectly-collinear-variables/</guid>
+      <description>&lt;p&gt;Unlike most implementations of linear models (e.g. Stata, R), Python packages don&amp;rsquo;t usually drop perfectly collinear variables.&lt;/p&gt;
+
+&lt;p&gt;Here&amp;rsquo;s Statsmodels as a first example: (see &lt;a href=&#34;https://github.com/statsmodels/statsmodels/issues/3824&#34; target=&#34;_blank&#34;&gt;https://github.com/statsmodels/statsmodels/issues/3824&lt;/a&gt;)&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;import numpy as np 
+import statsmodels.formula.api as smf
+import pandas as pd 
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;e = np.random.normal(size = 30)
+
+# creating two variables x and collinear 
+# where collinear is just 2 times x
+x1 = np.arange(30)
+x2 = 2 * x1
+
+y = 2 * x1 + e
+data = pd.DataFrame({&amp;quot;y&amp;quot;: y, &amp;quot;x1&amp;quot;: x1, &amp;quot;x2&amp;quot;: x2})
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;model = smf.ols(&amp;quot;y ~ x1 + x2&amp;quot;, data = data)
+res = model.fit()
+res.summary()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;table class=&#34;simpletable&#34;&gt;
+&lt;caption&gt;OLS Regression Results&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;th&gt;Dep. Variable:&lt;/th&gt;            &lt;td&gt;y&lt;/td&gt;        &lt;th&gt;  R-squared:         &lt;/th&gt; &lt;td&gt;   0.998&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Model:&lt;/th&gt;                   &lt;td&gt;OLS&lt;/td&gt;       &lt;th&gt;  Adj. R-squared:    &lt;/th&gt; &lt;td&gt;   0.998&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Method:&lt;/th&gt;             &lt;td&gt;Least Squares&lt;/td&gt;  &lt;th&gt;  F-statistic:       &lt;/th&gt; &lt;td&gt;1.354e+04&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Date:&lt;/th&gt;             &lt;td&gt;Tue, 04 Jun 2019&lt;/td&gt; &lt;th&gt;  Prob (F-statistic):&lt;/th&gt; &lt;td&gt;3.80e-39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Time:&lt;/th&gt;                 &lt;td&gt;20:23:08&lt;/td&gt;     &lt;th&gt;  Log-Likelihood:    &lt;/th&gt; &lt;td&gt; -35.185&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;No. Observations:&lt;/th&gt;      &lt;td&gt;    30&lt;/td&gt;      &lt;th&gt;  AIC:               &lt;/th&gt; &lt;td&gt;   74.37&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Df Residuals:&lt;/th&gt;          &lt;td&gt;    28&lt;/td&gt;      &lt;th&gt;  BIC:               &lt;/th&gt; &lt;td&gt;   77.17&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Df Model:&lt;/th&gt;              &lt;td&gt;     1&lt;/td&gt;      &lt;th&gt;                     &lt;/th&gt;     &lt;td&gt; &lt;/td&gt;&lt;br /&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Covariance Type:&lt;/th&gt;      &lt;td&gt;nonrobust&lt;/td&gt;    &lt;th&gt;                     &lt;/th&gt;     &lt;td&gt; &lt;/td&gt;&lt;br /&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table class=&#34;simpletable&#34;&gt;
+&lt;tr&gt;
+      &lt;td&gt;&lt;/td&gt;         &lt;th&gt;coef&lt;/th&gt;     &lt;th&gt;std err&lt;/th&gt;      &lt;th&gt;t&lt;/th&gt;      &lt;th&gt;P&amp;gt;|t|&lt;/th&gt;  &lt;th&gt;[0.025&lt;/th&gt;    &lt;th&gt;0.975]&lt;/th&gt;&lt;br /&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Intercept&lt;/th&gt; &lt;td&gt;    0.3681&lt;/td&gt; &lt;td&gt;    0.288&lt;/td&gt; &lt;td&gt;    1.277&lt;/td&gt; &lt;td&gt; 0.212&lt;/td&gt; &lt;td&gt;   -0.222&lt;/td&gt; &lt;td&gt;    0.959&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;x1&lt;/th&gt;         &lt;td&gt;    0.3973&lt;/td&gt; &lt;td&gt;    0.003&lt;/td&gt; &lt;td&gt;  116.364&lt;/td&gt; &lt;td&gt; 0.000&lt;/td&gt; &lt;td&gt;    0.390&lt;/td&gt; &lt;td&gt;    0.404&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;x2&lt;/th&gt; &lt;td&gt;    0.7946&lt;/td&gt; &lt;td&gt;    0.007&lt;/td&gt; &lt;td&gt;  116.364&lt;/td&gt; &lt;td&gt; 0.000&lt;/td&gt; &lt;td&gt;    0.781&lt;/td&gt; &lt;td&gt;    0.809&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table class=&#34;simpletable&#34;&gt;
+&lt;tr&gt;
+  &lt;th&gt;Omnibus:&lt;/th&gt;       &lt;td&gt; 3.352&lt;/td&gt; &lt;th&gt;  Durbin-Watson:     &lt;/th&gt; &lt;td&gt;   2.071&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Prob(Omnibus):&lt;/th&gt; &lt;td&gt; 0.187&lt;/td&gt; &lt;th&gt;  Jarque-Bera (JB):  &lt;/th&gt; &lt;td&gt;   2.993&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Skew:&lt;/th&gt;          &lt;td&gt;-0.715&lt;/td&gt; &lt;th&gt;  Prob(JB):          &lt;/th&gt; &lt;td&gt;   0.224&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Kurtosis:&lt;/th&gt;      &lt;td&gt; 2.407&lt;/td&gt; &lt;th&gt;  Cond. No.          &lt;/th&gt; &lt;td&gt;7.31e+16&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;&lt;br/&gt;&lt;br/&gt;Warnings:&lt;br/&gt;[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.&lt;br/&gt;[2] The smallest eigenvalue is 8.01e-30. This might indicate that there are&lt;br/&gt;strong multicollinearity problems or that the design matrix is singular.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/e6f.jpg&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Neither does the popular machine learning package Scikit-Learn:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from sklearn.linear_model import LinearRegression
+lm = LinearRegression()
+lm.fit(X = data[[&amp;quot;x1&amp;quot;, &amp;quot;x2&amp;quot;]], y = data.y)
+lm.coef_
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;array([0.39728922, 0.79457845])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;source: &lt;a href=&#34;https://knowyourmeme.com/photos/1250147-yamero&#34; target=&#34;_blank&#34;&gt;https://knowyourmeme.com/photos/1250147-yamero&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>My first package: bnmr</title>
+      <link>/post/my-first-package-bnmr/</link>
+      <pubDate>Sat, 04 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>/post/my-first-package-bnmr/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;/bnmr&#34;&gt;bnmr&lt;/a&gt; is a wrapper for &lt;code&gt;httr&lt;/code&gt; to access BNM (Malaysia&amp;rsquo;s central bank)&amp;rsquo;s &lt;a href=&#34;api.bnm.gov.my&#34; target=&#34;_blank&#34;&gt;recently released API&lt;/a&gt;. I wrote this to practice writing R packages, with lots of help from the &lt;a href=&#34;http://r-pkgs.had.co.nz/&#34; target=&#34;_blank&#34;&gt;R Packages&lt;/a&gt; book.&lt;/p&gt;
+
+&lt;p&gt;Using bnmr is really simple, e.g. to get interest rate data in January 2019:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;interest_rate(year = 2019, month = 1)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;h2 id=&#34;exception-handling&#34;&gt;Exception handling&lt;/h2&gt;
+
+&lt;p&gt;I appreciate &lt;a href=&#34;https://github.com/DanielYuo&#34; target=&#34;_blank&#34;&gt;Daniel&amp;rsquo;s&lt;/a&gt; assistance in adding some exception handling to the &lt;code&gt;base_rate()&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;p&gt;I realised how little I know about exception handling in R while writing this package.
+Specifically, I learned along the way that you should use NULL for optional arguments &lt;a href=&#34;https://www.youtube.com/watch?v=dwS67RPq37Q&#34; target=&#34;_blank&#34;&gt;instead of missing()&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;vectorise&#34;&gt;Vectorise&lt;/h2&gt;
+
+&lt;p&gt;The BNM API allows the user to access some variables with daily measures. Ideally, bnmr functions should be vectorised, so that I could simply call &lt;code&gt;interest_rate(year = 2019)&lt;/code&gt; and obtain interest rates throughout 2019. However, the daily API endpoints only have three options - do not specify anything, specify date, or specify year/month combination. To obtain interest rates in a given year, you would have to make the following GET requests:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;GET interest-rate/year/2019/month/1&lt;/li&gt;
+&lt;li&gt;GET interest-rate/year/2019/month/2&lt;/li&gt;
+&lt;li&gt;GET interest-rate/year/2019/month/3&lt;/li&gt;
+&lt;li&gt;GET interest-rate/year/2019/month/4&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Right now &lt;code&gt;interest_rate(year = 2019)&lt;/code&gt; works. The API seems to have a very low request limit. After a few attempts I run into a HTTP 429 error.&lt;/p&gt;
+
+&lt;p&gt;I sloppily included some preliminary vectorisation code in &lt;code&gt;opr()&lt;/code&gt;, which returns the overnight policy rate. However, place too many simultaneous API calls and the API will stop responding. Right now, I add a short time stop in between calls.&lt;/p&gt;
+
+&lt;p&gt;Moving forward, I&amp;rsquo;ll be working on &lt;a href=&#34;https://gist.github.com/stephlocke/dc72be42e39997bef894dfc95b67fd8a&#34; target=&#34;_blank&#34;&gt;exposing errors within vectorised operations&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&#34;returning-tidy-data&#34;&gt;Returning tidy data&lt;/h2&gt;
+
+&lt;p&gt;Right now the functions in this package sometimes return lists, and sometimes data frames, in accordance with &lt;code&gt;jsonlite&lt;/code&gt;&amp;rsquo;s simplifying rules. I do not just want to return a tibble - the data should be returned in a tidy format. Currently I&amp;rsquo;m performing the reshaping using &lt;code&gt;tidyr::gather()&lt;/code&gt; and &lt;code&gt;tidyr::spread()&lt;/code&gt; in the &lt;code&gt;renminbi_tbl()&lt;/code&gt; function.&lt;/p&gt;
+
+&lt;h2 id=&#34;pkgdown-and-documentation&#34;&gt;pkgdown and documentation&lt;/h2&gt;
+
+&lt;p&gt;pkgdown makes it very simple to create a &lt;a href=&#34;http://philip-khor.github.io/bnmr&#34; target=&#34;_blank&#34;&gt;website&lt;/a&gt; for my package, which runs on GitHub Pages. Along the way, I found it very hard to write useful documentation - so the documentation, like the package, is also a work in progress.&lt;/p&gt;
+
+&lt;h2 id=&#34;testing&#34;&gt;testing&lt;/h2&gt;
+
+&lt;p&gt;I&amp;rsquo;ve added test coverage and continuous integration with Travis using the usethis package. However, I have my reservations about testing too much in the case of bnmr - currently, if the API fails, the tests necessarily fail. As I&amp;rsquo;m concerned that too much testing may cause the API to reject calls, I&amp;rsquo;m currently using the in-documentation examples as my test mechanism.&lt;/p&gt;
+
+&lt;h2 id=&#34;interested&#34;&gt;Interested?&lt;/h2&gt;
+
+&lt;p&gt;If you want to try out bnmr, you&amp;rsquo;ll need the devtools package. Run the following code:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;devtools::install_github(&amp;quot;philip-khor/bnmr&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;Alternately, use pak:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;pak::pkg_install(&amp;quot;philip-khor/bnmr&amp;quot;)
+&lt;/code&gt;&lt;/pre&gt;
+</description>
+    </item>
     
     <item>
       <title>Display Jupyter Notebooks with Academic</title>
@@ -71,6 +321,853 @@ rm Untitled.md
 &lt;p&gt;To set a &lt;a href=&#34;https://sourcethemes.com/academic/docs/managing-content/#featured-image&#34; target=&#34;_blank&#34;&gt;featured image&lt;/a&gt;, place an image named &lt;code&gt;featured&lt;/code&gt; into your post&amp;rsquo;s folder.&lt;/p&gt;
 
 &lt;p&gt;For other tips, such as using math, see the guide on &lt;a href=&#34;https://sourcethemes.com/academic/docs/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;writing content with Academic&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Exploring GE14 results with Python (part 2)</title>
+      <link>/post/exploring-ge14-results-with-python-2/</link>
+      <pubDate>Fri, 31 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/exploring-ge14-results-with-python-2/</guid>
+      <description>
+
+&lt;p&gt;See &lt;a href=&#34;https://philip-khor.github.io/post/exploring-ge14-results-with-python/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for part 1.&lt;/p&gt;
+
+&lt;h1 id=&#34;motivation&#34;&gt;Motivation&lt;/h1&gt;
+
+&lt;p&gt;DataTarik used feature importances from random forests to conclude that&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;The &amp;lsquo;most important&amp;rsquo; ethnic composition appears to be Chinese&lt;/li&gt;
+&lt;li&gt;Ethnicity as a whole is related to election outcomes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;I argue here that demography considered jointly has a greater relationship with election outcomes.&lt;/p&gt;
+
+&lt;h1 id=&#34;introduction&#34;&gt;Introduction&lt;/h1&gt;
+
+&lt;p&gt;Here are the feature variables expressed as a correlation matrix and visualised in a heatmap.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_51_1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Using the &lt;code&gt;feature_importances&lt;/code&gt; implementation in &lt;code&gt;scikit-learn&lt;/code&gt;, it&amp;rsquo;s unclear what&amp;rsquo;s going on when each feature tends to have strong associations with other features. Specifically, one feature tends to be the complement of another. If the algorithm tells that the proportion of Chinese is more important, perhaps the proportion of Chinese is inversely related with the proportion of Malays. If that is so, how do we tell which feature matters? Trying to interpret each feature as it is would be futile.&lt;/p&gt;
+
+&lt;p&gt;As discussed in &lt;a href=&#34;http://explained.ai/rf-importance/i&#34; target=&#34;_blank&#34;&gt;explained.ai&amp;rsquo;s blog post (Beware Default Random Forest Importances)&lt;/a&gt;, the default implementation of feature importance in &lt;code&gt;scikit-learn&lt;/code&gt; is biased and susceptible to collinearity. More importantly, the features are almost perfectly collinear within each &amp;lsquo;meta-group&amp;rsquo; of features. Many of the age and race variables sum to 100%.&lt;/p&gt;
+
+&lt;p&gt;Here is a plot of the distribution of the sum of age and race variables in the entire dataset.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_52_0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;To deal with the collinearity, Terence Parr, Kerem Turgutlu, Christopher Csiszar, and Jeremy Howard suggest to use drop-column importance in conjunction with the permutation importances metric. In contrast with the default feature importance metric, which measures the mean decrease in impurity, the permutation score permutates a column and then calculates the drop in the score from the baseline score. Do the following:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;compute baseline feature importance with permutation importance&lt;/li&gt;
+&lt;li&gt;drop a column, retrain, and then recompute feature importance scores&lt;/li&gt;
+&lt;li&gt;The importance score for a column is the difference between the baseline and the score for the model missing that column&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&#34;drop-column&#34;&gt;Drop-column&lt;/h3&gt;
+
+&lt;p&gt;The feature importances from drop-column importances are shown as follows. These are computed using Terence Parr and Kerem Turgutlu&amp;rsquo;s &lt;code&gt;rfpimp&lt;/code&gt; package:&lt;br /&gt;
+&lt;img src=&#34;/img/output_55_1.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Now, race matters but age doesn&amp;rsquo;t matter. Age has a negative permutation score - apparently permuting the age columns &lt;em&gt;improves&lt;/em&gt; the model&amp;rsquo;s performance?&lt;/p&gt;
+
+&lt;h3 id=&#34;meta-features&#34;&gt;Meta-features&lt;/h3&gt;
+
+&lt;p&gt;A meta-features approach using permutation importance is another approach that can be taken here. &lt;code&gt;rfpimp&lt;/code&gt; also provides an implementation of drop-column importances. The results are shown as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_60_0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Over 10 runs, the ratio of feature importance of the race- to age-meta-feature was:&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[3.2307692307692304,
+ 2.4666666666666672,
+ 2.294117647058823,
+ 3.2307692307692304,
+ 2.058823529411764,
+ 1.9999999999999996,
+ 2.117647058823529,
+ 3.3333333333333335,
+ 2.8000000000000007,
+ 2.235294117647059]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;This confirms our result from drop-column that race matters here, but age doesn&amp;rsquo;t &lt;em&gt;not&lt;/em&gt; matter.&lt;/p&gt;
+
+&lt;p&gt;But what if I consider all of them jointly? The permutation score skyrockets:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_61_0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;and the permutation score over 10 runs is&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;[0.3932584269662921, 
+ 0.38202247191011235,
+ 0.4044943820224719,
+ 0.3033707865168539,
+ 0.3595505617977528,
+ 0.2134831460674157,
+ 0.348314606741573,
+ 0.3146067415730337,
+ 0.2584269662921348,
+ 0.348314606741573]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;which is far higher than the permutation scores from age- and race-meta-features.&lt;/p&gt;
+
+&lt;h2 id=&#34;decision-trees&#34;&gt;Decision trees&lt;/h2&gt;
+
+&lt;p&gt;To get a more interpretable model, we can use a decision tree model to fit the data. Using &lt;code&gt;scikit-learn&lt;/code&gt;&amp;rsquo;s implementation of &lt;code&gt;DecisionTreeClassifier&lt;/code&gt;, I get 71.2% accuracy on a test set of 40%. The decision tree can be found &lt;a href=&#34;https://www.dropbox.com/s/hgn5dno60trmbf0/myTree.pdf?dl=1&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. However, I don&amp;rsquo;t think it&amp;rsquo;s useful to answer our question either - it&amp;rsquo;s quite a complex tree, and it can&amp;rsquo;t give us a straight answer about whether age or race - or which aspects of age and race - are more important.&lt;/p&gt;
+
+&lt;h2 id=&#34;pca-and-demographic-patterns&#34;&gt;PCA and demographic patterns&lt;/h2&gt;
+
+&lt;p&gt;There is a potential use case for principal component analysis (PCA) here. Perhaps PCA can identify demographic patterns among the age and race variables. The figure below shows the ethnic breakdown from an inverse transformation of the first principal component. This is done by first transforming the ethnic variables by &lt;code&gt;scikit-learn&lt;/code&gt;&amp;rsquo;s &lt;code&gt;PCA&lt;/code&gt; implementation, then using &lt;code&gt;scikit-learn&lt;/code&gt;&amp;rsquo;s &lt;code&gt;inverse_transform&lt;/code&gt; function to transform the data back to its original space. This gives us an idea of what the first principal component is picking up in the data.&lt;/p&gt;
+
+&lt;p&gt;I haven&amp;rsquo;t investigated the data exhaustively, so I&amp;rsquo;ve picked 5 random numbers within the range of the first principal component and sorted them to have some sense of representativeness. It looks like the first principal component captures a spectrum of constituency groups from high-Chinese constituencies to high-Sabahan constituencies. Note that the first principal component only captures 28% of the variance.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_97_1.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_97_3.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_97_5.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_97_7.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_97_9.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The same exercise is done for the age variables. Its first principal component captures 61.4% of the variance. For age, PCA has an easier job - it just sorts between constituencies with left-skewed and right-skewed age distributions.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_99_1.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_99_3.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_99_5.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_99_7.png&#34; alt=&#34;&#34; /&gt;
+&lt;img src=&#34;/img/output_99_9.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h2 id=&#34;multinomial-logit-pca&#34;&gt;Multinomial logit + PCA&lt;/h2&gt;
+
+&lt;p&gt;We can see how these patterns identified via PCA affect electoral outcomes using a multinomial logit model. A multinomial logit allows us to obtain relative and marginal probabilities of each class, so that we can interpret the model for each contesting party. Note that PCA is not the best approach for this. Lubostky and Wittenberg (2002) note that it is not clear that the PCA procedure helps with capturing the structural relationship between a latent variable and an outcome of interest.&lt;/p&gt;
+
+&lt;p&gt;(I estimated my multinomial logit on a 70% split of the data. This is an arbitrary decision, but since prediction is not the core task of this model, I&amp;rsquo;m not too interested in evaluating its predictive power.)&lt;/p&gt;
+
+&lt;p&gt;Using &lt;code&gt;statsmodels&lt;/code&gt;&amp;rsquo;s &lt;code&gt;MNLogit&lt;/code&gt;, the regression statistics are as follows. This model predicts with 16% accuracy out-of-sample.
+&lt;!--html_preserve--&gt;
+&lt;table class=&#34;simpletable&#34;&gt;
+&lt;caption&gt;MNLogit Regression Results&lt;/caption&gt;
+&lt;tr&gt;
+  &lt;th&gt;Dep. Variable:&lt;/th&gt;         &lt;td&gt;y&lt;/td&gt;        &lt;th&gt;  No. Observations:  &lt;/th&gt;  &lt;td&gt;   155&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Model:&lt;/th&gt;              &lt;td&gt;MNLogit&lt;/td&gt;     &lt;th&gt;  Df Residuals:      &lt;/th&gt;  &lt;td&gt;   147&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Method:&lt;/th&gt;               &lt;td&gt;MLE&lt;/td&gt;       &lt;th&gt;  Df Model:          &lt;/th&gt;  &lt;td&gt;     4&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Date:&lt;/th&gt;          &lt;td&gt;Sun, 26 Aug 2018&lt;/td&gt; &lt;th&gt;  Pseudo R-squ.:     &lt;/th&gt;  &lt;td&gt;-0.2011&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Time:&lt;/th&gt;              &lt;td&gt;15:34:15&lt;/td&gt;     &lt;th&gt;  Log-Likelihood:    &lt;/th&gt; &lt;td&gt; -203.94&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;converged:&lt;/th&gt;           &lt;td&gt;True&lt;/td&gt;       &lt;th&gt;  LL-Null:           &lt;/th&gt; &lt;td&gt; -169.80&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt; &lt;/th&gt;                      &lt;td&gt; &lt;/td&gt;        &lt;th&gt;  LLR p-value:       &lt;/th&gt;  &lt;td&gt; 1.000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;table class=&#34;simpletable&#34;&gt;
+&lt;tr&gt;
+         &lt;th&gt;y=BN&lt;/th&gt;            &lt;th&gt;coef&lt;/th&gt;     &lt;th&gt;std err&lt;/th&gt;      &lt;th&gt;z&lt;/th&gt;      &lt;th&gt;P&amp;gt;|z|&lt;/th&gt;  &lt;th&gt;[0.025&lt;/th&gt;    &lt;th&gt;0.975]&lt;/th&gt;&lt;br /&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Race&lt;/th&gt;                &lt;td&gt;    0.3883&lt;/td&gt; &lt;td&gt;    0.211&lt;/td&gt; &lt;td&gt;    1.838&lt;/td&gt; &lt;td&gt; 0.066&lt;/td&gt; &lt;td&gt;   -0.026&lt;/td&gt; &lt;td&gt;    0.802&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Age&lt;/th&gt;                 &lt;td&gt;   -0.3440&lt;/td&gt; &lt;td&gt;    0.151&lt;/td&gt; &lt;td&gt;   -2.275&lt;/td&gt; &lt;td&gt; 0.023&lt;/td&gt; &lt;td&gt;   -0.640&lt;/td&gt; &lt;td&gt;   -0.048&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;y=Gagasan Sejahtera&lt;/th&gt;    &lt;th&gt;coef&lt;/th&gt;     &lt;th&gt;std err&lt;/th&gt;      &lt;th&gt;z&lt;/th&gt;      &lt;th&gt;P&amp;gt;|z|&lt;/th&gt;  &lt;th&gt;[0.025&lt;/th&gt;    &lt;th&gt;0.975]&lt;/th&gt;&lt;br /&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Race&lt;/th&gt;                &lt;td&gt;    0.0476&lt;/td&gt; &lt;td&gt;    0.240&lt;/td&gt; &lt;td&gt;    0.198&lt;/td&gt; &lt;td&gt; 0.843&lt;/td&gt; &lt;td&gt;   -0.424&lt;/td&gt; &lt;td&gt;    0.519&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Age&lt;/th&gt;                 &lt;td&gt;   -0.3428&lt;/td&gt; &lt;td&gt;    0.154&lt;/td&gt; &lt;td&gt;   -2.222&lt;/td&gt; &lt;td&gt; 0.026&lt;/td&gt; &lt;td&gt;   -0.645&lt;/td&gt; &lt;td&gt;   -0.040&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;y=PH&lt;/th&gt;    &lt;th&gt;coef&lt;/th&gt;     &lt;th&gt;std err&lt;/th&gt;      &lt;th&gt;z&lt;/th&gt;      &lt;th&gt;P&amp;gt;|z|&lt;/th&gt;  &lt;th&gt;[0.025&lt;/th&gt;    &lt;th&gt;0.975]&lt;/th&gt;&lt;br /&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Race&lt;/th&gt; &lt;td&gt;   -1.4327&lt;/td&gt; &lt;td&gt;    0.275&lt;/td&gt; &lt;td&gt;   -5.216&lt;/td&gt; &lt;td&gt; 0.000&lt;/td&gt; &lt;td&gt;   -1.971&lt;/td&gt; &lt;td&gt;   -0.894&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Age&lt;/th&gt;  &lt;td&gt;    0.3323&lt;/td&gt; &lt;td&gt;    0.150&lt;/td&gt; &lt;td&gt;    2.216&lt;/td&gt; &lt;td&gt; 0.027&lt;/td&gt; &lt;td&gt;    0.038&lt;/td&gt; &lt;td&gt;    0.626&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;y=WARISAN&lt;/th&gt;    &lt;th&gt;coef&lt;/th&gt;     &lt;th&gt;std err&lt;/th&gt;      &lt;th&gt;z&lt;/th&gt;      &lt;th&gt;P&amp;gt;|z|&lt;/th&gt;  &lt;th&gt;[0.025&lt;/th&gt;    &lt;th&gt;0.975]&lt;/th&gt;&lt;br /&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Race&lt;/th&gt;      &lt;td&gt;    0.3364&lt;/td&gt; &lt;td&gt;    0.215&lt;/td&gt; &lt;td&gt;    1.568&lt;/td&gt; &lt;td&gt; 0.117&lt;/td&gt; &lt;td&gt;   -0.084&lt;/td&gt; &lt;td&gt;    0.757&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr&gt;
+  &lt;th&gt;Age&lt;/th&gt;       &lt;td&gt;   -0.2115&lt;/td&gt; &lt;td&gt;    0.153&lt;/td&gt; &lt;td&gt;   -1.380&lt;/td&gt; &lt;td&gt; 0.167&lt;/td&gt; &lt;td&gt;   -0.512&lt;/td&gt; &lt;td&gt;    0.089&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/table&gt;
+&lt;!--/html_preserve--&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;relative-odds&#34;&gt;Relative odds&lt;/h3&gt;
+
+&lt;p&gt;The coefficients are expressed in log-odds, so these are exponentiated to obtain relative odds. The relative odds can be interpreted as the probability &lt;strong&gt;relative to BEBAS&lt;/strong&gt; (independent candidate)  being improved by the relative odds if Race/Age increased by one standard deviation.&lt;/p&gt;
+
+&lt;p&gt;&lt;!--html_preserve--&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: right;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/style&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: right;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;BN&lt;/th&gt;
+      &lt;th&gt;Gagasan Sejahtera&lt;/th&gt;
+      &lt;th&gt;PH&lt;/th&gt;
+      &lt;th&gt;WARISAN&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Race&lt;/th&gt;
+      &lt;td&gt;1.474485&lt;/td&gt;
+      &lt;td&gt;1.048732&lt;/td&gt;
+      &lt;td&gt;0.238672&lt;/td&gt;
+      &lt;td&gt;1.399909&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Age&lt;/th&gt;
+      &lt;td&gt;0.708961&lt;/td&gt;
+      &lt;td&gt;0.709755&lt;/td&gt;
+      &lt;td&gt;1.394134&lt;/td&gt;
+      &lt;td&gt;0.809366&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;!--/html_preserve--&gt;&lt;/p&gt;
+
+&lt;h3 id=&#34;marginal-odds&#34;&gt;Marginal odds&lt;/h3&gt;
+
+&lt;p&gt;We can tell a slightly different story with marginal odds. The advantage of using marginal odds is that we can get an idea of actual, rather than relative probabilities (see &lt;a href=&#34;http://data.princeton.edu/wws509/stata/mlogit.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for details), however they can be quite tricky to interpret. The marginal effect for a continuous variable &lt;code&gt;$X_k$&lt;/code&gt; provides the instantaneous rate of change if the variable &lt;code&gt;$X_k$&lt;/code&gt; increased by an infinitesimal amount &lt;code&gt;$\Delta$&lt;/code&gt;, holding all other variables &lt;code&gt;$X$&lt;/code&gt; constant. See &lt;a href=&#34;https://www3.nd.edu/~rwilliam/xsoc73994/Margins02.pdf&#34; target=&#34;_blank&#34;&gt;this&lt;/a&gt; for details.
+&lt;code&gt;$$\lim_{\Delta \to 0} \Pr(Y = 1|X, X_k+\Delta)- \Pr(y=1|X, X_k)$$&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;In other words, what is the change in (log-)probabiity if the first principal component changes by an infinitesimal amount?&lt;/p&gt;
+
+&lt;p&gt;The means of each principal component will coincide with 0, therefore at 0 I get marginal effects at average race/age. This is visualised below.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_82_0.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;lubotsky-wittenberg-post-hoc-estimator-for-multiple-proxies&#34;&gt;Lubotsky-Wittenberg post-hoc estimator for multiple proxies&lt;/h1&gt;
+
+&lt;p&gt;Lubotsky and Wittenberg (2002) proposed a method to interpret the coefficients in a regression under the null hypothesis that the variables are all generated by a common latent factor. Let the latent factor &lt;code&gt;$x_{i}^*$&lt;/code&gt; be measured by &lt;code&gt;$j$&lt;/code&gt; proxy variables &lt;code&gt;$z_{ji}$&lt;/code&gt;, where each &lt;code&gt;$z_{ji}$&lt;/code&gt; is related to the latent factor by &lt;code&gt;$$z_{ji}=\rho x^*_i + \mu _{ij}$$&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;The goal is to measure the effect of &lt;code&gt;$x^*$&lt;/code&gt; on &lt;code&gt;$y$&lt;/code&gt;: &lt;code&gt;$$y_i = \beta_{LW} x^*_{it}+\epsilon_i$$&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;I follow the estimation procedure in Vosters &amp;amp; Nybom (2016):&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;p&gt;Fit the regression model: &lt;code&gt;$$y_i=\phi_1 z_{1i} + \phi_2 z_{2i} + ...$$&lt;/code&gt;&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Estimate &lt;code&gt;$\rho_j$&lt;/code&gt; of each &lt;code&gt;$z_j$&lt;/code&gt; (except &lt;code&gt;$z_1$&lt;/code&gt;, where &lt;code&gt;$\rho_j$&lt;/code&gt; is normalised to 1) using two-stage least squares. The procedure is akin to instrumental variables: use &lt;code&gt;$z_j$&lt;/code&gt; as outcome and  &lt;code&gt;$y$&lt;/code&gt; as instrument for &lt;code&gt;$z_1$&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+
+&lt;li&gt;&lt;p&gt;Calculate &lt;code&gt;$$\beta_{LW}=\rho_1\phi_1 + \rho_2 \phi_2 + \rho_3 \phi_3 + ... + \rho_k \phi_k$$&lt;/code&gt;
+where &lt;code&gt;$\rho_1 = 1$&lt;/code&gt;.&lt;/p&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;To be on the safe side, I assume a linear probability model, where the outcome of interest is whether Pakatan Harapan wins the seat. I&amp;rsquo;m not too familiar with the literature, but I couldn&amp;rsquo;t really find it being used in a classification problem before, so I&amp;rsquo;m not sure if it&amp;rsquo;s shown to be appropriate for the logistic model.&lt;/p&gt;
+
+&lt;p&gt;And since I can&amp;rsquo;t figure out how to properly construct my standard errors, you&amp;rsquo;ll just have to make do with estimates.&lt;/p&gt;
+
+&lt;p&gt;The F-stat is provided for the first stage: a rule of thumb is to have an F-stat which exceeds 10. The F-stat tests whether the instrument is &amp;lsquo;relevant&amp;rsquo;.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;I write two functions: &lt;code&gt;lw&lt;/code&gt; and &lt;code&gt;lw_controls&lt;/code&gt;: one function provides the L-W estimate without controls, and the other with controls.&lt;/li&gt;
+&lt;li&gt;My training set is similar to the previous training set for the multinomial logit.&lt;/li&gt;
+&lt;li&gt;I start out estimating without controls - this gives me extremely small effects. If Race is independent of Age (e.g. diagram below), the estimation is unbiased.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th&gt;Race&lt;/th&gt;
+&lt;th&gt;Age&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;F-stat&lt;/td&gt;
+&lt;td&gt;65.430&lt;/td&gt;
+&lt;td&gt;119.093&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;$\hat \beta_{LW}$&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;.00073&lt;/td&gt;
+&lt;td&gt;-.00053&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/dagitty-model.png&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Estimating the effect of &amp;lsquo;race&amp;rsquo; conditional on age (and vice versa) gives me larger effects. This suggests that there&amp;rsquo;s attenuation bias from omitting controls. These are &amp;lsquo;good&amp;rsquo; estimates if race confounds age, or age confounds race.&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th&gt;Race&lt;/th&gt;
+&lt;th&gt;Age&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;F-stat&lt;/td&gt;
+&lt;td&gt;32.288&lt;/td&gt;
+&lt;td&gt;96.985&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;$\hat \beta_{LW}$&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;-0.041&lt;/td&gt;
+&lt;td&gt;0.072&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;ul&gt;
+&lt;li&gt;However, it&amp;rsquo;s not clear that demographic factors should be considered separately. Putting race and ethnicity variables together, the estimated L-W effect spikes.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr&gt;
+&lt;th&gt;&amp;nbsp;&lt;/th&gt;
+&lt;th&gt;Demography&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+
+&lt;tbody&gt;
+&lt;tr&gt;
+&lt;td&gt;F-stat&lt;/td&gt;
+&lt;td&gt;119.093&lt;/td&gt;
+&lt;/tr&gt;
+
+&lt;tr&gt;
+&lt;td&gt;&lt;code&gt;$\hat \beta_{LW}$&lt;/code&gt;&lt;/td&gt;
+&lt;td&gt;0.971&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;Interestingly, this result seems to confirm what we&amp;rsquo;ve seen in the random forests feature importances scores.&lt;/p&gt;
+
+&lt;p&gt;This estimate is OK assuming there are no confounders for the relationship between demography and electoral outcomes. For example, demography could be confounded by economic conditions that affect both the demographies of the region and preferences of the electorate.&lt;/p&gt;
+
+&lt;h1 id=&#34;conclusions&#34;&gt;Conclusions&lt;/h1&gt;
+
+&lt;p&gt;Interpreting feature importance metrics should be done with caution, particularly with random forests. The results suggest that there is interaction within and between age and ethnicity variables that contributes to electoral performance. The way I think of it, there are age-race combinations that are important contributors to electoral performance. Random Forests help with detecting interactions, however it&amp;rsquo;s not clear how these can be disentangled in feature importances metrics.&lt;/p&gt;
+
+&lt;p&gt;Also, the effect of demography could be reflective of unmeasured confounders. Without carefully considering the determinants of electoral performance, it&amp;rsquo;s not clear if demography is of such critical importance to electoral outcomes.&lt;/p&gt;
+
+&lt;p&gt;Notes:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;I started out being critical with the 10% test set (23 observations). But the author of the original article set out to do estimation and not prediction, so I don&amp;rsquo;t think it&amp;rsquo;s too big a deal. In any case, I used test sets between 30 and 40% for this article.&lt;/li&gt;
+&lt;li&gt;The data is scaled before it is transformed by PCA, and the data is inverse-transformed by the original scaler before constructing these charts. Variables with negative inverse-transformed values are set to zero.&lt;/li&gt;
+&lt;/ol&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Exploring GE14 results with Python (part 1)</title>
+      <link>/post/exploring-ge14-results-with-python/</link>
+      <pubDate>Sat, 25 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/exploring-ge14-results-with-python/</guid>
+      <description>
+
+&lt;p&gt;There&amp;rsquo;s an interesting blog post up on &lt;a href=&#34;https://datatarik.com/home/2018/8/21/exploring-ge14-with-data-science-part-1&#34; target=&#34;_blank&#34;&gt;DataTarik&lt;/a&gt; about using random forests to model the outcomes of Malaysia&amp;rsquo;s 14th general election (GE14). While I have my reservations about their machine learning approach, I think it&amp;rsquo;s an interesting dataset, so I downloaded their &lt;a href=&#34;https://github.com/khoo-j/MsiaGE14/blob/master/GE14_Age-Ethnicity-bySeats.xlsx&#34; target=&#34;_blank&#34;&gt;data&lt;/a&gt; and &lt;a href=&#34;https://github.com/khoo-j/MsiaGE14/blob/master/Random_Forest_2018-Age%20and%20Ethnicity.ipynb&#34; target=&#34;_blank&#34;&gt;code&lt;/a&gt; and played around with it in Python.&lt;/p&gt;
+
+&lt;p&gt;For those not familiar with Malaysia, some background:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BN refers to the National Front (Barisan Nasional), the current largest opposition party and the ruling party since independence, and PH refers to Pact of Hope (Pakatan Harapan), the party currently in government. I sometimes refer to Gagasan Sejahtera as PAS (Malaysian Islamic Party), as they were the leading party in this electoral coalition.&lt;/li&gt;
+&lt;li&gt;Melayu, Cina and India refer to ethnic Malays, Chinese and Indians respectively, whereas Bumiputera Sabah/Sarawak and Orang Asli are various indigenous tribes in Malaysia. Malays are also regarded as indigenous, and will be referred to as such.&lt;/li&gt;
+&lt;li&gt;Geographically, Malaysia comprises of parts of the Malay Peninsula and Borneo island (West and East Malaysia respectively).&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;strong&gt;Variable names&lt;/strong&gt;: &lt;code&gt;agevars&lt;/code&gt; refers to proportions of people in several bins of age groups, &lt;code&gt;racevars&lt;/code&gt; refers to proportions of people in each ethnic group, and &lt;code&gt;features&lt;/code&gt; is the union of &lt;code&gt;agevars&lt;/code&gt; and &lt;code&gt;racevars&lt;/code&gt;. &lt;code&gt;target&lt;/code&gt; is the outcome of the election.&lt;/p&gt;
+
+&lt;h1 id=&#34;who-won&#34;&gt;Who won?&lt;/h1&gt;
+
+&lt;p&gt;Thought I&amp;rsquo;d just do a quick waffle chart using the sweet &lt;code&gt;pywaffle&lt;/code&gt; package.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from pywaffle import Waffle
+data = ge14.target.value_counts()
+fig = plt.figure(
+    FigureClass=Waffle, 
+    rows=10, 
+    values=data, 
+    colors=(&amp;quot;red&amp;quot;, &amp;quot;#232066&amp;quot;, &amp;quot;green&amp;quot;, &amp;quot;lightblue&amp;quot;, &#39;grey&#39;, &#39;cyan&#39;),
+    title={&#39;label&#39;: &#39;14th Malaysian Parliament composition&#39;, &#39;loc&#39;: &#39;left&#39;},
+    labels=[&amp;quot;{0}&amp;quot;.format(k) for k, v in data.items()],
+    icons = &#39;user&#39;,
+    legend={&#39;loc&#39;: &#39;upper left&#39;, &#39;bbox_to_anchor&#39;: (1, 1)}
+)
+fig.gca().set_facecolor(&#39;#EEEEEE&#39;)
+fig.set_facecolor(&#39;#EEEEEE&#39;)
+fig.set_tight_layout(False)
+plt.show()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_6_0.png&#34; alt=&#34;waffle&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;overall-distribution-of-demographics-across-constituencies&#34;&gt;Overall distribution of demographics across constituencies&lt;/h1&gt;
+
+&lt;p&gt;With the data we have, there are two stories to be told:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;Voting behaviour by ethnicity&lt;/strong&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;Gagasan Sejahtera does well in constituencies with high Malay concentration, low Chinese and Indian concentration.&lt;/li&gt;
+&lt;li&gt;We may want to look at geographical subgroups (Peninsula/Borneo), since the Borneo parties don&amp;rsquo;t contest in the Peninsula, and some of the ethnic groups covered are sparse in the Peninsula.&lt;/li&gt;
+&lt;li&gt;For BN, the distribution of wins by ethnicity are more tightly distributed around low Indian and Chinese population constituencies.&lt;/li&gt;
+&lt;li&gt;Both BN and PH have wins across a range of Malay-minority and Malay-majority constituencies. BN does not have any seats in Chinese-majority constituencies.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Voting behaviour by age&lt;/strong&gt;:
+
+&lt;ul&gt;
+&lt;li&gt;Not very clear pattern for age - at least not with the boxplot&lt;/li&gt;
+&lt;li&gt;PAS wins in &amp;lsquo;younger&amp;rsquo; constituencies (higher pct 21-30, 31-40)&lt;/li&gt;
+&lt;li&gt;PAS wins are very uniform in terms of age and ethnicity demographics&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;fg, ax = plt.subplots(nrows =4, figsize = (6,20))
+ge14[ge14.target ==&#39;BN&#39;][features].boxplot(vert = False, ax = ax[0])
+ax[0].set_title(&amp;quot;BN&amp;quot;)
+ge14[ge14.target==&#39;PH&#39;][features].boxplot(vert = False, ax = ax[1])
+ax[1].set_title(&amp;quot;PH&amp;quot;)
+ge14[ge14.target==&#39;Gagasan Sejahtera&#39;][features].boxplot(vert = False, ax = ax[2])
+ax[2].set_title(&amp;quot;Gagasan Sejahtera&amp;quot;)
+ge14[~ge14.target.isin([&#39;BN&#39;, &#39;PH&#39;, &#39;Gagasan Sejahtera&#39;])][features].boxplot(vert = False, ax = ax[3])
+ax[3].set_title(&amp;quot;Others&amp;quot;)
+
+plt.tight_layout()
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_8_0.png&#34; alt=&#34;png&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;in-which-seats-do-these-parties-win&#34;&gt;In which seats do these parties win?&lt;/h1&gt;
+
+&lt;h2 id=&#34;ethnic-diversity-of-constituencies&#34;&gt;Ethnic diversity of constituencies&lt;/h2&gt;
+
+&lt;p&gt;Using &lt;code&gt;scipy&lt;/code&gt;&amp;rsquo;s &lt;code&gt;entropy&lt;/code&gt; function, I try to determine which parties win in ethnically &amp;lsquo;diverse&amp;rsquo; and &amp;lsquo;less-diverse&amp;rsquo; constituencies. The boxplots below confirm what we already know from the boxplots above - that Gagasan Sejahtera appeals to a very homogenous group of voters.&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;BN wins across diverse and non-diverse constituencies;&lt;/li&gt;
+&lt;li&gt;PH also wins across diverse and non-diverse constituencies, but its median constituency is more diverse than BN&amp;rsquo;s median constituency.&lt;/li&gt;
+&lt;li&gt;PAS wins in non-diverse constituencies.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;The diversity index used here is the Shannon entropy index, given by &lt;code&gt;$$H&#39;=-\Sigma p_i \log{p_i}$$&lt;/code&gt; The exponent of &lt;code&gt;$H&#39;$&lt;/code&gt; has a nice interpretation. It is the effective number of species, i.e. how many species there would be if each species had an equal amount of observations. You can convince yourself that this is true by running the code &lt;code&gt;exp(-(0.5*log(0.5)+0.5*log(0.5)))&lt;/code&gt; (in R), which should return the result 2, meaning the diversity in the data is effectively two equally sized classes.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;from scipy.stats import entropy
+entropy_const = np.array([entropy(ge14[racevars].iloc[i,:].tolist()) for i in range(len(ge14))])
+
+# use effective number of species instead https://medium.com/@sam.weinger/how-diverse-are-names-in-america-f74b07e031bd
+effective_number = np.exp(entropy_const)
+
+np.mean(effective_number[ge14.target==&#39;BN&#39;]), np.mean(effective_number[ge14.target==&#39;PH&#39;]), np.mean(effective_number[ge14.target==&#39;Gagasan Sejahtera&#39;])
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code&gt;(2.023986123800037, 2.4850578347860295, 1.2839901761045327)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;fg, ax = plt.subplots(nrows = 3, figsize = (5,5))
+sns.boxplot(effective_number[ge14.target==&#39;BN&#39;], ax = ax[0])
+ax[0].set_title(&amp;quot;BN&amp;quot;)
+
+sns.boxplot(effective_number[ge14.target==&#39;PH&#39;], ax = ax[1], color = &#39;r&#39;)
+ax[1].set_title(&amp;quot;PH&amp;quot;)
+sns.boxplot(effective_number[ge14.target==&#39;Gagasan Sejahtera&#39;], ax = ax[2], color = &#39;g&#39;)
+ax[2].set_title(&amp;quot;Gagasan Sejahtera&amp;quot;)
+plt.xlim(0,4)
+plt.tight_layout()
+
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;/img/output_17_1.png&#34; alt=&#34;png&#34; /&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;peninsula-borneo-divide&#34;&gt;Peninsula-Borneo divide?&lt;/h1&gt;
+
+&lt;p&gt;Since there are different parties in Peninsula and Borneo, I calculate age-ethnicity cross-tabulations for Peninsula and Borneo respectively. Age and ethnicity here refers to the demographic with the highest share in each constituency.&lt;/p&gt;
+
+&lt;h2 id=&#34;peninsula&#34;&gt;Peninsula&lt;/h2&gt;
+
+&lt;p&gt;PH wins all predominantly ethnic Chinese seats and most predominantly ethnic Malay seats in the Peninsula.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;ethnicity = ge14[racevars].idxmax(axis = 1)
+age = ge14[agevars].idxmax(axis = 1)
+
+pd.crosstab(ge14[peninsula].target, ethnicity)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;!--html_preserve--&gt;
+
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: center;
+    }
+&lt;/style&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: center;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Cina (%)&lt;/th&gt;
+      &lt;th&gt;Melayu (%)&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;BN&lt;/th&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;49&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Gagasan Sejahtera&lt;/th&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;18&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;PH&lt;/th&gt;
+      &lt;td&gt;33&lt;/td&gt;
+      &lt;td&gt;65&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;!--/html_preserve--&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;pd.crosstab(ge14[peninsula].target, age)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;!--html_preserve--&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: center;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/style&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: center;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;21 - 30 (%)&lt;/th&gt;
+      &lt;th&gt;31 - 40 (%)&lt;/th&gt;
+      &lt;th&gt;41 - 50 (%)&lt;/th&gt;
+      &lt;th&gt;51 - 60 (%)&lt;/th&gt;
+    &lt;/tr&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;BN&lt;/th&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;47&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Gagasan Sejahtera&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;15&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;PH&lt;/th&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;77&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;10&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;&lt;!--/html_preserve--&gt;&lt;/p&gt;
+
+&lt;h1 id=&#34;borneo&#34;&gt;Borneo&lt;/h1&gt;
+
+&lt;p&gt;BN is strongest in predominantly-indigenous seats, whereas PH is strongest in predominantly ethnic Chinese seats. PH made up for its weakness in indigenous seats with its partnership with WARISAN. Both BN and PH win the most seats where most people are aged between 31 and 40.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;pd.crosstab(ge14[np.invert(peninsula)].target, ethnicity)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;!--html_preserve--&gt;&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }&lt;/p&gt;
+
+&lt;pre&gt;&lt;code&gt;.dataframe tbody tr th {
+    vertical-align: top;
+}
+
+.dataframe thead th {
+    text-align: center;
+}
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;/style&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: center;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;Bumiputera Sabah (%)&lt;/th&gt;
+      &lt;th&gt;Bumiputera Sarawak (%)&lt;/th&gt;
+      &lt;th&gt;Cina (%)&lt;/th&gt;
+      &lt;th&gt;Melayu (%)&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;BEBAS&lt;/th&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;BN&lt;/th&gt;
+      &lt;td&gt;10&lt;/td&gt;
+      &lt;td&gt;14&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;6&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;PH&lt;/th&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;STAR&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;WARISAN&lt;/th&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;1&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;!--/html_preserve--&gt;&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;pd.crosstab(ge14[np.invert(peninsula)].target, age)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;!--html_preserve--&gt;
+
+&lt;div&gt;
+&lt;style scoped&gt;
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: center;
+    }
+&lt;/style&gt;
+&lt;table border=&#34;1&#34; class=&#34;dataframe&#34;&gt;
+  &lt;thead&gt;
+    &lt;tr style=&#34;text-align: center;&#34;&gt;
+      &lt;th&gt;&lt;/th&gt;
+      &lt;th&gt;31 - 40 (%)&lt;/th&gt;
+      &lt;th&gt;41 - 50 (%)&lt;/th&gt;
+      &lt;th&gt;51 - 60 (%)&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;th&gt;BEBAS&lt;/th&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;BN&lt;/th&gt;
+      &lt;td&gt;17&lt;/td&gt;
+      &lt;td&gt;11&lt;/td&gt;
+      &lt;td&gt;2&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;PH&lt;/th&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;STAR&lt;/th&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;th&gt;WARISAN&lt;/th&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+
+&lt;!--/html_preserve--&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Visualising government expenditure data with ggplot2</title>
+      <link>/post/visualising-government-expenditure-dat/</link>
+      <pubDate>Fri, 24 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/visualising-government-expenditure-dat/</guid>
+      <description>
+
+
+&lt;p&gt;I thought I’d practice my rusty R skills when I came across a post by Khairil Yusof on the Sinar Project Facebook group that Malaysian Administrative Modernisation and Management Planning Unit (MAMPU) has made data on development expenditure over time available on data.gov.my. I haven’t paid close enough attention to government budgets to have much comments about the trends, but a comment can be found &lt;a href=&#34;https://penanginstitute.org/programmes/penang-institute-in-kuala-lumpur/1038-analysing-malaysias-development-expenditure-in-the-federal-budget-from-2004-to-2018/&#34;&gt;here&lt;/a&gt;. Tl;dr, the authors note that Malaysia’s stagnating development expenditure is concerning since Malaysia is a developing economy.&lt;/p&gt;
+&lt;p&gt;My thinking while constructing this plot was to contrast the growth in each category of expenditure against the overall growth in development expenditure over time. I’m thinking about also including the trend in each category of expenditure within each facet.&lt;/p&gt;
+&lt;p&gt;Data is obtained from &lt;a href=&#34;http://www.data.gov.my/data/ms_MY/dataset/perbelanjaan-pembangunan-kerajaan-persekutuan/resource/7a5c73ab-7496-4aa6-a924-a1d0e1fff53d&#34;&gt;data.gov.my&lt;/a&gt;. A cleaned version of the data is available &lt;a href=&#34;https://www.dropbox.com/s/m546u01hsf8zvb2/malaysiaDevExp.csv?dl=1&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(readr)
+library(tidyverse)
+library(here)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;malaysiaDevExp &amp;lt;- read_csv(here(&amp;quot;static&amp;quot;, &amp;quot;data&amp;quot;, &amp;quot;malaysiaDevExp.csv&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Parsed with column specification:
+## cols(
+##   Year = col_double(),
+##   EconomyTotal = col_double(),
+##   AgroRuralDev = col_double(),
+##   PublicAmenities = col_double(),
+##   TradeAndIndustry = col_double(),
+##   Transport = col_double(),
+##   Connectivity = col_double(),
+##   Environment = col_double(),
+##   OtherEconomy = col_double(),
+##   SocialTotal = col_double(),
+##   EducationTraining = col_double(),
+##   Health = col_double(),
+##   Housing = col_double(),
+##   OtherSocial = col_double(),
+##   SafetyTotal = col_double(),
+##   Defence = col_double(),
+##   HomelandSecurity = col_double(),
+##   PublicAdmin = col_double(),
+##   Total = col_double()
+## )&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# create separate dataframe for background totals
+malaysiaDevExp %&amp;gt;% 
+  select(Year, Value = Total) %&amp;gt;% 
+  mutate(Year = as.numeric(Year), 
+         Value = Value/1000)-&amp;gt; DevExpTotal
+
+malaysiaDevExp %&amp;gt;%
+  # select some columns; rename as needed
+  select(Year, 
+         Economy = EconomyTotal, 
+         Social = SocialTotal, 
+         Safety = SafetyTotal, 
+         `Public Administration` = PublicAdmin) %&amp;gt;%
+  # Year was imported as factor; change this to numeric
+  mutate(Year = as.numeric(Year)) %&amp;gt;% 
+  gather(ExpCat, Value, -Year) %&amp;gt;% 
+  ggplot(aes(x = Year, y = Value/1000)) + 
+  # totals in background
+  geom_ribbon(data = DevExpTotal, 
+              aes(ymin=0, ymax = Value), 
+              fill = &amp;#39;gray96&amp;#39;, 
+              group = 1) + 
+  # line representing each expenditure category, in different colors
+  geom_path(group=1, aes(color = ExpCat)) + 
+  # separate each expenditure category into facets
+  facet_wrap(~ExpCat) + 
+  # no legends
+  guides(color = FALSE) + 
+  # set break points in x-axis 
+  scale_x_continuous(breaks = c(1975, 1985, 1995, 2005,2015)) +
+  # draw rectangle to highlight that numbers should be treated with caution
+  geom_rect(inherit.aes=FALSE, 
+            aes(xmin=2017, xmax=2018, ymin=0, ymax=60), 
+            color=&amp;quot;transparent&amp;quot;, 
+            fill=&amp;quot;lightcoral&amp;quot;, 
+            alpha = 0.01) +
+  theme_minimal() + 
+  theme(panel.grid.major = element_blank(), # remove grid lines
+        panel.grid.minor = element_blank(), 
+        # bold facet titles
+        strip.text = element_text(face = &amp;#39;bold&amp;#39;, color = &amp;#39;gray29&amp;#39;), 
+        # format text on ticks
+        axis.text = element_text(size = 9, color = &amp;#39;gray45&amp;#39;), 
+        # format axis labels
+        axis.title = element_text(color = &amp;#39;gray35&amp;#39;),
+        # format caption text
+        plot.caption = element_text(color = &amp;#39;gray30&amp;#39;)) + 
+  labs(title = &amp;quot;Malaysia&amp;#39;s spending on safety and public admin hasn&amp;#39;t grown much&amp;quot;, 
+       subtitle = &amp;quot;Strongest growth in development expenditure is in economic and social spending&amp;quot;, 
+       y = &amp;quot;RM (&amp;#39;000) million&amp;quot;, 
+       caption = &amp;quot;Source: data.gov.my \n2017 data is preliminary data; 2018 data are Budget estimates&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-08-23-visualising-government-expenditure-data-with-ggplot2_files/figure-html/unnamed-chunk-2-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
 </description>
     </item>
     

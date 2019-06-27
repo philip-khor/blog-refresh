@@ -2,7 +2,6 @@
 authors:
 - admin
 bio: Data scientist with a background in economics. 
-  matter.
 education:
   courses:
   - course: Bachelor of Commerce (Honours)
@@ -40,4 +39,5 @@ user_groups:
 - Visitors
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate. 
+Philip is an Economics graduate with some experience in applied microeconomics research and machine learning. Formerly a data science instructor at The Center of Applied Data Science, he believes in the power of new data sources to derive critical insights to inform the direction of public policy. He is interested in topics in labour, health and development economics, and keeps a keen eye on developments in ethical applications of artificial intelligence. 
+

@@ -1,6 +1,6 @@
 ---
 date: "2019-06-09T00:00:00Z"
-external_link: https://philip-khor.github.io/bnmr/
+external_link: https://github.com/philip-khor/bnmr
 image:
   caption: Photo by Toa Heftiba on Unsplash
   focal_point: Smart

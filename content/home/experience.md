@@ -35,4 +35,12 @@ date_format = "Jan 2006"
   date_end = "2019-05-01"
   description = """Data science instructor for R Programming, statistics, Microsoft Excel and data visualization courses."""
 
+[[experience]]
+  title = "Research Assistant"
+  company = "Penang Institute"
+  company_url = "https://penanginstitute.org/"
+  location = "George Town, Penang"
+  date_start = "2016-08-01"
+  date_end = "2017-03-01"
+  description = """Assisted with primary and secondary research to identify skill gaps and skill shortages in Penang with the Penang Skilled Workforce Study."""
 +++

@@ -1,11 +1,11 @@
 ---
-date: "2016-04-27T00:00:00Z"
-external_link: http://example.org
+date: "2019-06-09T00:00:00Z"
+external_link: https://theambitiouseconomist.com/an-analysis-of-the-gender-wage-gap-in-australia/
 image:
   caption: Photo by Toa Heftiba on Unsplash
   focal_point: Smart
-summary: An example of linking directly to an external project website using `external_link`.
+summary: Blog post
 tags:
-- Demo
-title: External Project
+- Article
+title: An Analysis of The Gender Wage Gap In Australia
 ---

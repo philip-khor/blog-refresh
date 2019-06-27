@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Projects on Philip&#39;s Curve</title>
-    <link>/project/</link>
-    <description>Recent content in Projects on Philip&#39;s Curve</description>
+    <title>Article on Philip&#39;s Curve</title>
+    <link>/tags/article/</link>
+    <description>Recent content in Article on Philip&#39;s Curve</description>
     <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator>
     <language>en-us</language>
     <lastBuildDate>Sun, 09 Jun 2019 00:00:00 +0000</lastBuildDate>
     
-	    <atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+	    <atom:link href="/tags/article/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -17,15 +17,6 @@
       <pubDate>Sun, 09 Jun 2019 00:00:00 +0000</pubDate>
       
       <guid>/project/external-project/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>bnmr</title>
-      <link>/project/bnmr/</link>
-      <pubDate>Sun, 09 Jun 2019 00:00:00 +0000</pubDate>
-      
-      <guid>/project/bnmr/</guid>
       <description></description>
     </item>
     

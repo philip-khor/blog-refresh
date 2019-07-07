@@ -63,9 +63,9 @@ I take safety in the tidyverse to mean anticipate user mistakes and to guard aga
 
    and projects such as the `ellipsis` package are exploring potential solutions to this problem. 
 
-## Pipes are good
+## Pipes are good, but to teach?
 
-**Are pipes really difficult?** R `magrittr` pipes were inspired by UNIX pipes. While I'm not familiar with using them, they've been around for a while. 
+R `magrittr` pipes were inspired by UNIX pipes. While I'm not familiar with using them, they've been around for a while. 
 
 Pipes, combined with `dplyr` verbs, provide a SQL-like logic to your code. In R for Data Science, the authors compare 
 
@@ -77,7 +77,7 @@ where the first example is less human-readable, since it doesn't follow the sequ
 
 Pandas [method chaining](https://tomaugspurger.github.io/method-chaining) uses a similar workflow. I'm so used to using `dplyr` now, the first thing I look up before doing a data analysis project on tabular data in Python is the corresponding methods in `pandas` for the `dplyr` verbs. While I'm less familiar with the pandas methods, using them in conjunction with method chaining make for much more readable code, and using them is a priority for me if I'm doing extensive analysis in pandas. 
 
-I'm not sure if pipes are easy to teach for most audiences given my limited experience, but they are critical to teaching in the tidyverse imo. 
+I'm not sure if pipes are easy to teach for most audiences given my limited experience, but they are critical to teaching in the tidyverse imo. It's worked for me so far, but students often forget about the first argument. 
 
 ## Consistent design 
 

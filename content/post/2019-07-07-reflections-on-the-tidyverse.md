@@ -17,7 +17,7 @@ image:
 projects: []
 ---
 
-At my previous gig as a junior data scientist trainer, my team was given some time to revamping our base R-based syllabus to be more tidy-inclusive while retaining significant base-R content. We drank the kool-aid and took the tidyverse approach. 
+At my previous gig as a junior data scientist trainer, my team was given some time to revamp our base R-based syllabus to be more tidy-friendly while retaining significant base-R content. 
 
 This article is not written as an introduction to the tidyverse. It assumes you already work with the tidyverse, and is really just me jotting down my notes from the revamp exercise. 
 
@@ -77,9 +77,13 @@ where the first example is less human-readable, since it doesn't follow the sequ
 
 Pandas [method chaining](https://tomaugspurger.github.io/method-chaining) uses a similar workflow. I'm so used to using `dplyr` now, the first thing I look up before doing a data analysis project on tabular data in Python is the corresponding methods in `pandas` for the `dplyr` verbs. While I'm less familiar with the pandas methods, using them in conjunction with method chaining make for much more readable code, and using them is a priority for me if I'm doing extensive analysis in pandas. 
 
+I'm not sure if pipes are easy to teach for most audiences given my limited experience, but they are critical to teaching in the tidyverse imo. 
+
 ## Consistent design 
 
-tidyverse functions have generally consistent design. For learners, this generally means learning a few functions allows you to reuse that knowledge with other functions with relative ease. tidyverse functions and packages offer consistent arguments across functions and packages, e.g. `readr`, `readxl`. The biggest common denominator across the tidyverse is the data-first paradigm. An example how this helps is how it may be easier to teach functional programming in `purrr` compared to base R, since the multivariate versions of the `apply` functions contain the data within the ellipsis argument, which is the *last* argument, versus with `lapply()`/`sapply()` where the data is the *first* argument. 
+tidyverse functions have generally consistent design. For learners, this generally means learning a few functions allows you to reuse that knowledge with other functions with relative ease. tidyverse functions and packages offer consistent arguments across functions and packages, e.g. `readr`, `readxl`. 
+
+The biggest common denominator across the tidyverse is the data-first paradigm. An example how this helps is how it may be easier to teach functional programming in `purrr` compared to base R, since the multivariate versions of the `apply` functions contain the data within the ellipsis argument, which is the *last* argument, versus with `lapply()`/`sapply()` where the data is the *first* argument. 
 
 The `tidyverse` is designed as a grammar, or perhaps a way to speak about the operations you're running. `dplyr` is the tidyverse's grammar for manipulating tabular data encapsulated in 6 verbs and their variants, whereas `ggplot2` is the tidyverse's grammar for constructing charts. 
 
@@ -146,7 +150,7 @@ It is very true that debugging in a long series of pipes can be a pain, and I th
 
 ## Conclusions 
 
-There are parts I still find odd to teach in the tidyverse. 
+There are parts I still find awkward to teach in the tidyverse. 
 
 - Like how to explain how symbols work when used in `dplyr` functions. Teaching it as 'exposes the vectors within a data frame within an environment' just doesn't seem very beginner-friendly, and I need to find a simpler way.  
 - The multitude of packages to teach to accomplish different tasks gets annoying at times (I wish I could start off with `here()` as soon as we talk about importing data without confusing students with an additional import!). 

@@ -36,7 +36,7 @@ mtcars %>%
 	mutate(litres_per_100km = mpg * 6.72)
 ```
 
-and asking students to guess what the code is doing. While I tested this on only two groups of students generally this example makes sense, and is a great motivation to use the tidyverse. 
+and asking students to guess what the code is doing. While I tested this on only two groups of students, generally this example made sense, and is a great motivation to use the tidyverse. 
 
 For me, starting our with skimming over base basics is probably the ideal approach. At the least, cover basic atomic vectors and lists. It'd be difficult to show how to use functions operating on vectors in `mutate()` (and maybe the `.data` pronoun) with limited experience in base otherwise. 
 

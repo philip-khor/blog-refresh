@@ -30,8 +30,8 @@ There's decisions made for your own good, and that's bound to split people. For 
 After skimming over base data structures, I start out my `dplyr` classes not showing users anything but a code chunk something like this 
 
 ```r
-mtcars %>% 
-	rownames_to_columns() %>% 
+mtcars %>%
+  rownames_to_columns() %>% 
 	select(cyl, mpg) %>% 
 	filter(cyl == 1) %>% 
 	arrange(mpg) %>% 
@@ -103,7 +103,7 @@ mtcars %>%
 
 ## Tibbles are *simpler* 
 
-Tibbles are NOT more complex data structures. There are only two differences between the base data frame and the tibble: (1) a different print method that considers console size and (2) not allowing rownames. (If you go by R4DS, tibbles are more restrictive and complain more) If anything students don't need to learn about row names, because frankly they don't need them. (Wrangling MultiIndex is something I certainly don't miss from pandas ... )
+There are only two differences between the base data frame and the tibble: (1) a different print method that considers console size and (2) not allowing rownames. (If you go by R4DS, tibbles are more restrictive and complain more) If anything students don't need to learn about row names, because frankly they don't need them. (Wrangling MultiIndex is something I certainly don't miss from pandas ... )
 
 The requirement for **tidy data** is shared between `ggplot2` and `seaborn`. Tidy data seems to get less emphasis in the Python ecosystem (this [pandas course](https://tomaugspurger.github.io/modern-5-tidy) seems to be an excellent exception), and students didn't have a good mental model for thinking about how to prepare their data before plotting or modelling. 
 

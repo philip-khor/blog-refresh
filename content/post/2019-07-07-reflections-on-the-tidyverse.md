@@ -107,7 +107,7 @@ The requirement for **tidy data** is shared between `ggplot2` and `seaborn`. Tid
 
 Still having not worked much with R, I didn't get the pains with base until after reading a few chapters in R for Data Science. `is.vector()` for example returns `TRUE` for a list, because a list is just a recursive vector. This is annoying if you wanted to simplify the teaching of atomic vectors as *vectors* and the students try running `is.vector()` ... 
 
-`stringsAsFactors = TRUE` in `read.csv` is a less-than-ideal default for data analysis. The argument defines the order of the factor levels before the user manipulates them, and the user is unaware of the order of the factor levels. If the user isn't aware of the default, data analysis can be a bit of a pain. Although I concede that `read_csv()` has failed me on one occasions. However, I never understood reprex well enough to file a good bug when it happened. 
+`stringsAsFactors = TRUE` in `read.csv` is a less-than-ideal default for data analysis. The argument defines the order of the factor levels before the user manipulates them, and the user is unaware of the order of the factor levels. If the user isn't aware of the default, data analysis can be a bit of a pain. (Although I concede that `read_csv()` has failed me on one occasions. However, I never understood reprex well enough to file a good bug when it happened. )
 
 # Emphasis on code style from the outset 
 

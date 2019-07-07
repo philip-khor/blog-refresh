@@ -115,7 +115,7 @@ Still having not worked much with R, I didn't get the pains with base until afte
 
 ## Emphasis on code style from the outset 
 
-The tidyverse emphasises using a consistent casing for objects. Snake case is preferred across all objects. `janitor::clean_names()` is a great way to enforce this, to coerce all column names to snakecase. It's easy to promote the perks of consistent code style to students given good examples in the tidyverse.
+The tidyverse emphasises using a consistent casing for objects. Snake case is preferred across all objects. `janitor::clean_names()` is a great way to enforce this, to coerce all column names to snakecase. It's easy to promote the perks of consistent code style to students given good examples and opinionated design in the tidyverse. Having to use backticks as escape characters otherwise is a good motivation for using `janitor::clean_names()`.
 
 One thing I like about teaching `dplyr` functions is that they implicitly discourage integer indexing in favour of making filtering/selecting decisions explicit, although it is still possible, for instance,
 

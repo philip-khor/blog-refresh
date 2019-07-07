@@ -19,11 +19,13 @@ projects: []
 
 At my previous gig as a junior data scientist trainer, my team was given some time to revamping our base R-based syllabus to be more tidy-inclusive while retaining significant base-R content. We drank the kool-aid and took the tidyverse approach. 
 
-The tidyverse is **opinionated**, meaning there's decisions made for your own good, and that's bound to split people. For example, you [can't make dual y-axis charts in `ggplot2`](https://stackoverflow.com/questions/3099219/ggplot-with-2-y-axes-on-each-side-and-different-scales). And that's probably for the best.
-
 This article is not written as an introduction to the tidyverse. It assumes you already work with the tidyverse, and is really just me jotting down my notes from the revamp exercise. 
 
-## Tidyverse is designed to be readable 
+## The tidyverse is opinionated
+
+There's decisions made for your own good, and that's bound to split people. For example, you [can't make dual y-axis charts in `ggplot2`](https://stackoverflow.com/questions/3099219/ggplot-with-2-y-axes-on-each-side-and-different-scales). And that's probably for the best (imo).
+
+## The tidyverse is designed to be readable 
 
 After skimming over base data structures, I start out my `dplyr` classes not showing users anything but a code chunk something like this 
 
@@ -44,7 +46,7 @@ For me, starting our with skimming over base basics is probably the ideal approa
 
 As we designed the course, we discovered that `dplyr` had convenient database backends that connect to SQL and Spark, and this was an added motivation for learning `dplyr` syntax well.  
 
-# Tidyverse is designed to be safe 
+## The tidyverse is designed to be safe 
 
 I take safety in the tidyverse to mean anticipate user mistakes and to guard against these mistakes. I think they call it 'defensive programming'? However I concede most of the progress in safety is with `purrr` and less so in `dplyr` (my impression). 
 
@@ -75,7 +77,7 @@ where the first example is less human-readable, since it doesn't follow the sequ
 
 Pandas [method chaining](https://tomaugspurger.github.io/method-chaining) uses a similar workflow. I'm so used to using `dplyr` now, the first thing I look up before doing a data analysis project on tabular data in Python is the corresponding methods in `pandas` for the `dplyr` verbs. While I'm less familiar with the pandas methods, using them in conjunction with method chaining make for much more readable code, and using them is a priority for me if I'm doing extensive analysis in pandas. 
 
-# Consistent design 
+## Consistent design 
 
 tidyverse functions have generally consistent design. For learners, this generally means learning a few functions allows you to reuse that knowledge with other functions with relative ease. tidyverse functions and packages offer consistent arguments across functions and packages, e.g. `readr`, `readxl`. The biggest common denominator across the tidyverse is the data-first paradigm. An example how this helps is how it may be easier to teach functional programming in `purrr` compared to base R, since the multivariate versions of the `apply` functions contain the data within the ellipsis argument, which is the *last* argument, versus with `lapply()`/`sapply()` where the data is the *first* argument. 
 
@@ -83,7 +85,7 @@ The `tidyverse` is designed as a grammar, or perhaps a way to speak about the op
 
 Within the tidyverse grammar, every function is a verb. I particularly like the classification of the join verbs as mutating and filtering joins. It's a useful heuristic for me to decide which join to use. 
 
-# Small core function set
+## Small core function set (relative to pandas?)
 
 A common way to teach `dplyr`, as I found in many tutorials, is to help students master the 6 core `dplyr` functions **first**. I emphasise while teaching that functions such as `rename()` are shortcuts for these 6 functions, and there are always workarounds to do what you need even if you can't find/don't remember the shortcuts. It takes pressure off the student to 'remember `everything()`'. 
 
@@ -97,19 +99,19 @@ mtcars %>%
 # provided you don't care about the ordering of the columns
 ```
 
-# Tibbles are *simpler* 
+## Tibbles are *simpler* 
 
 Tibbles are NOT more complex data structures. There are only two differences between the base data frame and the tibble: (1) a different print method that considers console size and (2) not allowing rownames. (If you go by R4DS, tibbles are more restrictive and complain more) If anything students don't need to learn about row names, because frankly they don't need them. (Wrangling MultiIndex is something I certainly don't miss from pandas ... )
 
 The requirement for **tidy data** is shared between `ggplot2` and `seaborn`. Tidy data seems to get less emphasis in the Python ecosystem (this [pandas course](https://tomaugspurger.github.io/modern-5-tidy) seems to be an excellent exception), and students didn't have a good mental model for thinking about how to prepare their data before plotting or modelling. 
 
-# Base R pains
+## Base R pains
 
 Still having not worked much with R, I didn't get the pains with base until after reading a few chapters in R for Data Science. `is.vector()` for example returns `TRUE` for a list, because a list is just a recursive vector. This is annoying if you wanted to simplify the teaching of atomic vectors as *vectors* and the students try running `is.vector()` ... 
 
 `stringsAsFactors = TRUE` in `read.csv` is a less-than-ideal default for data analysis. The argument defines the order of the factor levels before the user manipulates them, and the user is unaware of the order of the factor levels. If the user isn't aware of the default, data analysis can be a bit of a pain. (Although I concede that `read_csv()` has failed me on one occasions. However, I never understood reprex well enough to file a good bug when it happened. )
 
-# Emphasis on code style from the outset 
+## Emphasis on code style from the outset 
 
 The tidyverse emphasises using a consistent casing for objects. Snake case is preferred across all objects. `janitor::clean_names()` is a great way to enforce this, to coerce all column names to snakecase. It's easy to promote the perks of consistent code style to students given good examples in the tidyverse.
 
@@ -138,11 +140,11 @@ df %>% anti_join(df_train) -> df_test
 
  
 
-# Debugging 
+## Debugging 
 
-It is very true that debugging in a long series of pipes can be a pain, and I think `dplyr` should provide more messages for the operations. Stata has [useful reports](https://twitter.com/AnnaMBokun/status/1146289574999678977) on operations that `dplyr` can benefit from implementing. Independent efforts such as [tidylog](https://github.com/elbersb/tidylog) help report the outcomes of data wrangling. 
+It is very true that debugging in a long series of pipes can be a pain, and I think `dplyr` should provide more messages. Stata has [useful reports](https://twitter.com/AnnaMBokun/status/1146289574999678977) on operations that `dplyr` can benefit from implementing, and independent efforts such as [tidylog](https://github.com/elbersb/tidylog) help report the outcomes of data wrangling. 
 
-# Conclusions 
+## Conclusions 
 
 There are parts I still find odd to teach in the tidyverse. 
 

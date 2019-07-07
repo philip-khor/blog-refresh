@@ -42,8 +42,6 @@ and asking students to guess what the code is doing. While I tested this on only
 
 For me, starting our with skimming over base basics is probably the ideal approach. At the least, cover basic atomic vectors and lists. It'd be difficult to show how to use functions operating on vectors in `mutate()` (and maybe the `.data` pronoun) with limited experience in base otherwise. 
 
-`dplyr` syntax, combined with pipes, is very similar to SQL logic and is a great precursor to teaching SQL.
-
 As we designed the course, we discovered that `dplyr` had convenient database backends that connect to SQL and Spark, and this was an added motivation for learning `dplyr` syntax well.  
 
 ## The tidyverse is designed to be safe 

@@ -40,7 +40,7 @@ mtcars %>%
 
 and asking students to guess what the code is doing. While I tested this on only two groups of students, generally this example made sense, and is a great motivation to use the tidyverse. 
 
-For me, starting our with skimming over base basics is probably the ideal approach. At the least, cover basic atomic vectors and lists. It'd be difficult to show how to use functions operating on vectors in `mutate()` (and maybe the `.data` pronoun) with limited experience in base otherwise. 
+For me, starting out with skimming over base basics is probably the ideal approach. At the least, cover basic atomic vectors and lists. It'd be difficult to show how to use functions operating on vectors in `mutate()` (and maybe the `.data` pronoun) with limited experience in base otherwise. 
 
 As we designed the course, we discovered that `dplyr` had convenient database backends that connect to SQL and Spark, and this was an added motivation for learning `dplyr` syntax well.  
 
@@ -50,16 +50,7 @@ I take safety in the tidyverse to mean anticipate user mistakes and to guard aga
 
 1. **No side-effects** A key principle in the design of `dplyr` functions is that the function should not affect the original data frame. We designed our material in Jupyter Notebooks, where [out-of-order execution](https://yihui.name/en/2018/09/notebook-war/#1-hidden-state-and-out-of-order-execution) was an issue. In the context of material designed in Jupyter Notebooks, a no-side-effects workflow is advantageous, since if you run cells out of order, you could potentially get different results. This is less of a problem in R Markdown because the user is encouraged to knit the document. pandas seems to be headed in a similar direction, deprecating the `inplace = True` argument altogether and encouraging the use of method chaining. 
 
-2. **safer functions**: The tidyverse includes type-safe versions of base functions, such as `if_else() `vs. `ifelse` and especially type-safe functional programming (`purrr::map()` functions vs. `sapply()` with its set of simplification rules). We've been bitten by the ellipsis (`...`) argument in functions such as `mean()`. Because of the ellipsis argument, the following line of code runs without error: 
-
-   ```R
-   # rm.na is not a valid named argument, but no error is returned
-   mean(c(1, 2, 3), rm.na = TRUE)
-   # returns 1
-   mean(1, 2, 3)
-   ```
-
-   and projects such as the `ellipsis` package are exploring potential solutions to this problem. 
+2. **safer functions**: The tidyverse includes type-safe versions of base functions such as `if_else() `vs. `ifelse()` and especially type-safe functional programming (`purrr::map()` functions vs. `sapply()` with its set of simplification rules). 
 
 ## Pipes are good, but to teach?
 
@@ -112,6 +103,15 @@ The requirement for **tidy data** is shared between `ggplot2` and `seaborn`. Tid
 Still having not worked much with R, I didn't get the pains with base until after reading a few chapters in R for Data Science. `is.vector()` for example returns `TRUE` for a list, because a list is just a recursive vector. This is annoying if you wanted to simplify the teaching of atomic vectors as *vectors* and the students try running `is.vector()` ... 
 
 `stringsAsFactors = TRUE` in `read.csv` is a less-than-ideal default for data analysis. The argument defines the order of the factor levels before the user manipulates them, and the user is unaware of the order of the factor levels. If the user isn't aware of the default, data analysis can be a bit of a pain. (Although I concede that `read_csv()` has failed me on one occasions. However, I never understood reprex well enough to file a good bug when it happened. )
+
+We've been bitten by the ellipsis (`...`) argument in functions such as `mean()`. Because of the ellipsis argument, the following lines of code run without error: 
+
+   ```R
+   # rm.na is not a valid named argument, but no error is returned
+   mean(c(1, 2, 3), rm.na = TRUE)
+   # returns 1
+   mean(1, 2, 3)
+   ```
 
 ## Emphasis on code style from the outset 
 

@@ -37,7 +37,7 @@ vroom(here(&quot;static&quot;, &quot;data&quot;, &quot;train.csv&quot;)) %&gt;%
   clean_names() -&gt; titanic_train
 vroom(here(&quot;static&quot;, &quot;data&quot;, &quot;train.csv&quot;)) %&gt;% 
   clean_names() -&gt; titanic_testing</code></pre>
-<p>Preprocessing steps are taken from Megan Risdal’s R kernel on Kaggle, <a href="https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic">Exploring the Titanic Dataset</a>, with the one change being that I use bagging imputation instead of MICE imputation for the Age column.</p>
+<p>Preprocessing steps are taken from Megan Risdal’s R kernel on Kaggle, <a href="https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic">Exploring the Titanic Dataset</a>, with the major change being that I use bagging imputation instead of MICE imputation for the Age column.</p>
 <pre class="r"><code>recipe(titanic_train) %&gt;% 
   step_mutate(survived = survived, role = &quot;outcome&quot;) %&gt;% 
   update_role(pclass, age, sib_sp, parch, fare, 
@@ -119,16 +119,16 @@ bind_rows(list(eval(reg),
 <pre><code>## # A tibble: 10 x 4
 ##    model       .metric  .estimator .estimate
 ##    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-##  1 cauchit     accuracy binary         0.839
-##  2 logit       accuracy binary         0.829
-##  3 probit      accuracy binary         0.829
-##  4 OLS         accuracy binary         0.828
-##  5 trimmed OLS accuracy binary         0.825
-##  6 cauchit     kap      binary         0.651
-##  7 logit       kap      binary         0.636
-##  8 probit      kap      binary         0.636
-##  9 OLS         kap      binary         0.633
-## 10 trimmed OLS kap      binary         0.626</code></pre>
+##  1 cauchit     accuracy binary         0.837
+##  2 logit       accuracy binary         0.827
+##  3 OLS         accuracy binary         0.825
+##  4 probit      accuracy binary         0.825
+##  5 trimmed OLS accuracy binary         0.823
+##  6 cauchit     kap      binary         0.646
+##  7 logit       kap      binary         0.630
+##  8 probit      kap      binary         0.626
+##  9 OLS         kap      binary         0.625
+## 10 trimmed OLS kap      binary         0.623</code></pre>
 <p>Looks like the cauchit model has the highest accuracy, and OLS isn’t too far behind the logit. But why does the cauchit link function perform better?</p>
 <blockquote>
 <p>The “cauchit” model is attractive when observed responses exhibit a few surprising values, observations for which the linear predictor is large in absolute value indicating that the outcome is almost certain, and yet the linear predictor is wrong. (<a href="http://www.econ.uiuc.edu/~roger/research/links/links.pdf" class="uri">http://www.econ.uiuc.edu/~roger/research/links/links.pdf</a>)</p>

@@ -41,7 +41,7 @@ vroom(here("static", "data", "train.csv")) %>%
 
 ```
 
-Preprocessing steps are taken from Megan Risdal's R kernel on Kaggle, [Exploring the Titanic Dataset](https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic), with the one change being that I use bagging imputation instead of MICE imputation for the Age column. 
+Preprocessing steps are taken from Megan Risdal's R kernel on Kaggle, [Exploring the Titanic Dataset](https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic), with the major change being that I use bagging imputation instead of MICE imputation for the Age column. 
 
 ```{r}
 recipe(titanic_train) %>% 

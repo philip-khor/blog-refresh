@@ -1,0 +1,143 @@
+---
+title: Link functions matter
+author: ~
+date: '2019-07-14'
+slug: link-functions-matter
+categories: []
+tags: []
+subtitle: ''
+summary: ''
+authors: []
+lastmod: '2019-07-14T10:50:34+09:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+
+
+<p>There’s a bit of a conversation on Twitter whether to use linear models or logistic models for estimating effect sizes. I wondered if linear models can work for prediction problems, since I thought there may be cases where the latent probability is linearly related to the features.</p>
+<p>So I thought I’d do a little benchmark between different link functions for regression-based classifiers for the Titanic problem, based on the <code>tidymodels</code> packages.</p>
+<pre class="r"><code>library(vroom)
+library(here)
+library(janitor)
+library(dplyr)
+library(rsample)
+library(recipes)  
+library(stringr)
+library(broom) 
+library(magrittr)
+library(yardstick)
+library(tibble)
+
+vroom(here(&quot;static&quot;, &quot;data&quot;, &quot;train.csv&quot;)) %&gt;% 
+  clean_names() -&gt; titanic_train
+vroom(here(&quot;static&quot;, &quot;data&quot;, &quot;train.csv&quot;)) %&gt;% 
+  clean_names() -&gt; titanic_testing</code></pre>
+<p>Preprocessing steps are taken from Megan Risdal’s R kernel on Kaggle, <a href="https://www.kaggle.com/mrisdal/exploring-survival-on-the-titanic">Exploring the Titanic Dataset</a>, with the one change being that I use bagging imputation instead of MICE imputation for the Age column.</p>
+<pre class="r"><code>recipe(titanic_train) %&gt;% 
+  step_mutate(survived = survived, role = &quot;outcome&quot;) %&gt;% 
+  update_role(pclass, age, sib_sp, parch, fare, 
+              new_role = &quot;predictor&quot;) %&gt;% 
+  step_mutate(embarked = as.factor(embarked), 
+         sex = as.factor(sex), 
+         fsize = parch + sib_sp + 1, 
+         title = gsub(&#39;(.*,)|\\s|(\\..*)&#39;, &quot;&quot;, name),
+         title = str_trim(title), 
+         fsize_d = case_when(
+           fsize == 1 ~ &quot;singleton&quot;, 
+           fsize &lt; 5 &amp; fsize &gt; 1 ~ &quot;small&quot;,
+           fsize &gt; 4 ~ &quot;large&quot;
+         ), 
+         role = &quot;predictor&quot;) %&gt;% 
+  step_bagimpute(age, 
+                 impute_with = imp_vars(-passenger_id, 
+                                        -name, 
+                                        -ticket,
+                                        -cabin,
+                                        -survived)) %&gt;% 
+  step_unknown(title) %&gt;% 
+  step_mutate(title = ifelse(is.na(title), &quot;unknown&quot;, title)) %&gt;% 
+  step_mutate(child = as.factor(age &lt; 18),
+              mother = sex == &quot;female&quot; &amp; parch &gt; 0 &amp; age &gt; 18 &amp; title == &quot;Miss&quot;, 
+              role = &quot;predictor&quot;)  %&gt;% 
+  step_other(title, threshold = .05) -&gt; rec
+
+trained_rec &lt;- prep(rec, training = titanic_train)
+titanic_training &lt;- bake(trained_rec, new_data = titanic_train)
+titanic_testing &lt;- bake(trained_rec, new_data = titanic_testing)</code></pre>
+<p>I then fit linear and non-linear models:</p>
+<pre class="r"><code>formula &lt;- survived ~ pclass + sex + age + sib_sp + parch +
+     fare + embarked + as.factor(title) + fsize_d + child + mother
+     
+lm(formula, data = titanic_training) -&gt; reg
+
+glm(formula, 
+   data = titanic_training, family = &quot;binomial&quot;) -&gt; log_reg
+
+glm(formula, 
+   data = titanic_training, 
+   family = binomial(link = &quot;probit&quot;)) -&gt; prob_reg
+   
+glm(formula, 
+   data = titanic_training, 
+   family = binomial(link = &quot;cauchit&quot;)) -&gt; cauch_reg</code></pre>
+<p>These classifiers all have a common theme - they use an underlying regression model to estimate probabilities. The weakness of using a linear model for classification problems is that the probabilities can be less than 0 or more than 1, which defies the rules of probability. <a href="http://lenkiefer.com/2018/07/21/maybe-the-linear-probability-model-isn-t-all-bad/">Len Kiefer</a> explores <strong>trimmed OLS</strong> for estimating effect sizes, where we eliminate observations where the predicted probabilities are less than 0 or more than 1 first, then re-estimate OLS. The code for trimmed OLS are as follows:</p>
+<pre class="r"><code># trimmed OLS
+reg %&gt;% 
+  augment() %&gt;% 
+  filter(.fitted &lt; 0 | .fitted &gt; 1) -&gt; out_of_bounds
+
+titanic_training %&gt;% 
+  rownames_to_column(var = &#39;.rownames&#39;) %&gt;% 
+  anti_join(out_of_bounds, 
+            by = &quot;.rownames&quot;) %$%
+  lm(formula, data = .) -&gt; trimmed_ols</code></pre>
+<p>And now time to evaluate. While the OLS models don’t perform as well here, the model using the Cauchit link function provides the highest accuracy score:</p>
+<pre class="r"><code>eval &lt;- function(model, newdata = titanic_testing, type.predict = NULL) {
+  multi_metric &lt;- metric_set(accuracy, kap)
+  model %&gt;% 
+    augment(newdata = newdata, 
+            type.predict = type.predict) %&gt;% 
+    mutate(pred_class = as.integer(.fitted &gt; .5)) %&gt;% 
+    multi_metric(as.factor(survived), estimate = as.factor(pred_class))
+}
+
+bind_rows(list(eval(reg),
+               eval(trimmed_ols),
+               eval(log_reg, type.predict = &quot;response&quot;),
+               eval(prob_reg, type.predict = &quot;response&quot;),
+               eval(cauch_reg, type.predict = &quot;response&quot;)
+               )) %&gt;% 
+  mutate(model = rep(c(&quot;OLS&quot;, &quot;trimmed OLS&quot;, &quot;logit&quot;, &quot;probit&quot;, &quot;cauchit&quot;), 
+                     each = 2)) %&gt;% 
+  select(model, .metric, .estimator, .estimate) %&gt;% 
+  arrange(.metric, desc(.estimate))</code></pre>
+<pre><code>## # A tibble: 10 x 4
+##    model       .metric  .estimator .estimate
+##    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+##  1 cauchit     accuracy binary         0.837
+##  2 logit       accuracy binary         0.830
+##  3 probit      accuracy binary         0.828
+##  4 OLS         accuracy binary         0.827
+##  5 trimmed OLS accuracy binary         0.825
+##  6 cauchit     kap      binary         0.646
+##  7 logit       kap      binary         0.638
+##  8 probit      kap      binary         0.633
+##  9 OLS         kap      binary         0.630
+## 10 trimmed OLS kap      binary         0.626</code></pre>
+<p>Looks like the cauchit model has the highest accuracy, and OLS isn’t too far behind the logit. But why does the cauchit link function perform better?</p>
+<blockquote>
+<p>The “cauchit” model is attractive when observed responses exhibit a few surprising values, observations for which the linear predictor is large in absolute value indicating that the outcome is almost certain, and yet the linear predictor is wrong. (<a href="http://www.econ.uiuc.edu/~roger/research/links/links.pdf" class="uri">http://www.econ.uiuc.edu/~roger/research/links/links.pdf</a>)</p>
+</blockquote>
+<p>I’m having trouble braining this paragraph, but it sounds like the cauchit is robust to large values of the predictors. Is this the case? For simplicity I check the fitted values from the linear model:</p>
+<pre class="r"><code>library(ggplot2)
+reg %&gt;% 
+  augment() %&gt;% 
+  ggplot(aes(x = .fitted)) + geom_histogram()</code></pre>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="/post/2019-07-14-link-functions-matter_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>Seems to be a few extreme cases, but not too harsh.</p>

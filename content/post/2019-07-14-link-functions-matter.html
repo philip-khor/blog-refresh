@@ -19,7 +19,7 @@ projects: []
 
 
 
-<p>There’s a bit of a conversation on Twitter whether to use linear models or logistic models for estimating effect sizes. I wondered if linear models can work for prediction problems, since I thought there may be cases where the latent probability is linearly related to the features.</p>
+<p>There’s a bit of a conversation on Twitter whether to use linear models or logistic models for estimating effect sizes in the case of binary response variables. I wondered if linear models can work for prediction problems with binary response variables, since there may be cases where the latent probability is linearly related to the features.</p>
 <p>So I thought I’d do a little benchmark between different link functions for regression-based classifiers for the Titanic problem, based on the <code>tidymodels</code> packages.</p>
 <pre class="r"><code>library(vroom)
 library(here)
@@ -119,15 +119,15 @@ bind_rows(list(eval(reg),
 <pre><code>## # A tibble: 10 x 4
 ##    model       .metric  .estimator .estimate
 ##    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-##  1 cauchit     accuracy binary         0.837
-##  2 logit       accuracy binary         0.830
-##  3 probit      accuracy binary         0.828
-##  4 OLS         accuracy binary         0.827
+##  1 cauchit     accuracy binary         0.839
+##  2 logit       accuracy binary         0.829
+##  3 probit      accuracy binary         0.829
+##  4 OLS         accuracy binary         0.828
 ##  5 trimmed OLS accuracy binary         0.825
-##  6 cauchit     kap      binary         0.646
-##  7 logit       kap      binary         0.638
-##  8 probit      kap      binary         0.633
-##  9 OLS         kap      binary         0.630
+##  6 cauchit     kap      binary         0.651
+##  7 logit       kap      binary         0.636
+##  8 probit      kap      binary         0.636
+##  9 OLS         kap      binary         0.633
 ## 10 trimmed OLS kap      binary         0.626</code></pre>
 <p>Looks like the cauchit model has the highest accuracy, and OLS isn’t too far behind the logit. But why does the cauchit link function perform better?</p>
 <blockquote>

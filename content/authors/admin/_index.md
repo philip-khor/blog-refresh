@@ -33,11 +33,14 @@ social:
 - icon: linkedin 
   icon_pack: fab
   link: https://www.linkedin.com/in/philip-khor/
+- icon: orcid
+  icon_pack: ai
+  link: https://orcid.org/0000-0002-8333-1256
 superuser: true
 user_groups:
 - Researchers
 - Visitors
 ---
 
-Philip is an Economics graduate with some experience in applied microeconometrics and machine learning. Previously a data science instructor at The Center of Applied Data Science, he believes in the power of new data sources to derive critical insights to inform the direction of public policy. He is interested in topics in labour, health and development economics, and occassionally contributes to open-source projects such as the [conda-forge](https://conda-forge.org/) software distribution project.
+Philip is an Economics graduate with some experience in applied microeconometrics and machine learning. Previously a data science instructor at The Center of Applied Data Science, he believes in the power of new data sources to derive critical insights to inform the direction of public policy. He is interested in topics in labour, health and development economics, and occassionally contributes to open-source projects such as the [conda-forge](https://conda-forge.org/) software distribution project. He is also package maintainer of the R package [bnmr](https://github.com/philip-khor/bnmr/) and an author of [pmdplyr](https://github.com/NickCH-K/pmdplyr).
 

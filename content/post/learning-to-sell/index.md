@@ -21,11 +21,11 @@ projects: []
 
 At GRID Inc., [my colleague](https://www.linkedin.com/pulse/3-things-i-learnt-deep-learning-computer-vision-janice-khor-ean-yee/?trackingId=KP8GSB%2FTReWsbNXNQdWPkQ%3D%3D) and I were tasked to develop deep learning-based models to address client use cases as part of an internship programme. As a junior data scientist with practically no experience in deep learning, being tasked to develop deep learning systems was a daunting challenge. 
 
-## Develop and report metrics relevant to the client 
-
 But the biggest challenge of all wasn't technical. 
 
 That's not to say there weren't difficult technical challenges to transitioning from delivering classes to a deep learning engineering role. Having to shift to working with Python and image data from my usual work processing numeric data in R was a steep learning curve, not to mention learning to [organize a data science project in Python](https://drivendata.github.io/cookiecutter-data-science/#directory-structure). 
+
+## Relevance
 
 The biggest challenge was to answer the question: ***how does this help the client***?
 
@@ -41,7 +41,7 @@ As an example, in the context of regression problems, I strongly prefer using me
 
 If you're going to get your message across, there's always going to be stuff you have to leave in the file drawer. 
 
-With my project, I had multiple performance metrics on hand. I was reluctant to leave the irrelevant ones out, because I put in a lot of effort into refining the metric. However, I was met with confusion when I presented them all to my colleagues, including some that were no longer relevant to my use case, and in hindsight I should have just left it out. (So much for having an understanding of sunk costs ...) 
+With my project, I had multiple performance metrics on hand. I was reluctant to leave the irrelevant ones out from the report, because I put in a lot of effort into developing the metric. However, I was met with confusion when I presented them all to my colleagues, and in hindsight I should have just left it out. (So much for having an understanding of sunk costs ...) 
 
 In addition, you can't go over every detail of your modelling work. 
 

@@ -65,7 +65,7 @@ I think data scientists have a lot to learn from the data visualization communit
 
 ## Conclusions
 
-Now, that is not to say that programming and statistics skills aren't important. I came out of this wishing I had better programming skills, and there no shortage of statistics and modelling techniques to be learned. 
+Now, that is not to say that programming and statistics skills aren't important. I came out of this wishing I had better programming skills, and there's no shortage of statistics and modelling techniques to be learned. 
 
 The good news: data science has [democratized prediction](https://www.predictionmachines.ai/) with the free availability and active development of open-source tools, cheaper hardware and a vibrant online community. But we need to pay attention to how we communicate the business relevance of our work, because the glamour of opaque buzzwords and playing the benchmarks game can only take us so far. 
 

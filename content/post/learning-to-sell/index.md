@@ -61,7 +61,7 @@ When presenting modelling work, it's tempting to go all [death by PowerPoint](ht
 
 I think data scientists have a lot to learn from the data visualization community, since our job involves communicating about data. For instance, being mindful of the visual hierarchy in your diagrams (example below) can help make your message a lot more impactful. 
 
-![](/static/img/0.png)
+![](/img/0.png)
 
 ## Conclusions
 

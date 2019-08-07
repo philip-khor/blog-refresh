@@ -37,7 +37,7 @@ Granted, our roles weren't client-facing, but we were challenged to make the sys
 
 As an example, in the context of regression problems, I strongly prefer using metrics that summarize the distribution of errors, e.g. root mean squared error (RMSE) rather than R-squared. Putting aside the [many other downsides of the R-squared](https://data.library.virginia.edu/is-r-squared-useless/), its biggest drawback to me is its rather nuanced and commonly misunderstood definition. Reporting a metric like RMSE or MAPE (mean average percentage error) that's in the same units as the outcome of interest is more straightforward and makes the metric more meaningful for the client. 
 
-![](/learning-to-sell/index_files/0.png)## Less is more 
+## Less is more 
 
 If you're going to get your message across, there's always going to be stuff you have to leave in the file drawer. 
 

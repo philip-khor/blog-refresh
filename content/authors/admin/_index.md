@@ -36,6 +36,9 @@ social:
 - icon: orcid
   icon_pack: ai
   link: https://orcid.org/0000-0002-8333-1256
+- icon: dev
+  icon_pack: fab
+  link: https://dev.to/philipkhor
 superuser: true
 user_groups:
 - Researchers

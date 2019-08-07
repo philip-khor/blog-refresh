@@ -55,7 +55,7 @@ tl;dr Give just enough detail: not more than necessary, but no less than necessa
 
 I think data science people don't talk enough about how important communication is. Which is why reading Vicki Boykis' excellent blog post on [selling data science](https://vicki.substack.com/p/selling-data-science) this morning (from which I got the quote above!) was so striking for me.
 
-We certainly have some idea that it is. Data science wouldn't have been as popular as it is now, if not for the proliferation of resources, whether it be blog posts, documentation, Twitter, GitHub repositories and the like. 
+We certainly have some idea that communication is important. Data science wouldn't have been as popular as it is now, if not for the proliferation of resources, whether it be blog posts, documentation, Twitter, GitHub repositories and the like. 
 
 When presenting modelling work, it's tempting to go all [death by PowerPoint](https://www.youtube.com/watch?v=Iwpi1Lm6dFo) and overwhelm your audience with all the information you have. But that's not going to convince them that your model can drive business value. 
 

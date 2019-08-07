@@ -36,7 +36,8 @@ Moreover, even if you're sharing to your own data science team, some members of 
 Granted, our roles weren't client-facing, but we were challenged to make the systems relevant to the client all the same. One way to do this is to develop or pick metrics that are relevant to the use case, to make sure the client can relate to what you're talking about.
 
 As an example, in the context of regression problems, I strongly prefer using metrics that summarize the distribution of errors, e.g. root mean squared error (RMSE) rather than R-squared. Putting aside the [many other downsides of the R-squared](https://data.library.virginia.edu/is-r-squared-useless/), its biggest drawback to me is its rather nuanced and commonly misunderstood definition. Reporting a metric like RMSE or MAPE (mean average percentage error) that's in the same units as the outcome of interest is more straightforward and makes the metric more meaningful for the client. 
-Less is more 
+
+## Less is more 
 
 If you're going to get your message across, there's always going to be stuff you have to leave in the file drawer. 
 

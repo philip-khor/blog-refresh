@@ -87,7 +87,7 @@
 
 &lt;p&gt;This is bad. A policy professional&amp;rsquo;s role is to communicate information to the public. If your reports don&amp;rsquo;t account for best practices in data visualization, you are bound to confuse, if not mislead, your audience. We know, for instance, that pie charts are a bad choice of visualization, because humans find it difficult to tell quantities from angles as opposed to lengths.&lt;/p&gt;
 
-&lt;p&gt;Why? &lt;a href=&#34;https://paldhous.github.io/ucb/2016/dataviz/week2.html&#34; target=&#34;_blank&#34;&gt;In the 80s&lt;/a&gt;, Cleveland and McGill ran a series of experiments which established a hierarchy of which visual cues humans can perceive more accurately. This is why waffle charts should be the standard for displaying proportions of a whole.&lt;/p&gt;
+&lt;p&gt;Why? &lt;a href=&#34;https://paldhous.github.io/ucb/2016/dataviz/week2.html&#34; target=&#34;_blank&#34;&gt;In the 80s&lt;/a&gt;, Cleveland and McGill ran a series of experiments which established a hierarchy of which visual cues humans can perceive more accurately. In the case of pie charts, it is popularly believed that we perceive quantities by arc of each of the pie&amp;rsquo;s slices. This is why waffle charts should be the standard for displaying proportions of a whole: lengths are easier to perceive than angles.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&#34;https://paldhous.github.io/ucb/2016/dataviz/img/class2_2.jpg&#34; alt=&#34;Cleveland and McGill&#39;s hierarchy of perception of visual cues&#34; /&gt;&lt;/p&gt;
 

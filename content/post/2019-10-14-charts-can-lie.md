@@ -76,6 +76,8 @@ These two graphics are prime candidates for using impact metrics. I tried making
 ![](/img/graduate-employability.png)
 ![](/img/health-budget.png)
 
+If you ask me, that's more honest and clear than what the YBs tweeted.  
+
 # Thoughts
 
 I taught classes on data visualization at my previous role. And it pains me to see how data visualization standards are disregarded in policy circles in Malaysia. I've seen more than enough dual axis charts, pie charts, 3D donut charts, etc. 

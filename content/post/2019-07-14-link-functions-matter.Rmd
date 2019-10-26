@@ -1,6 +1,6 @@
 ---
 title: Link functions matter
-author: ~
+author: "Philip Khor"
 date: '2019-07-14'
 slug: link-functions-matter
 categories: []

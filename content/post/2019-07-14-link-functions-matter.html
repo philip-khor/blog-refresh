@@ -1,6 +1,6 @@
 ---
 title: Link functions matter
-author: ~
+author: "Philip Khor"
 date: '2019-07-14'
 slug: link-functions-matter
 categories: []
@@ -119,16 +119,16 @@ bind_rows(list(eval(reg),
 <pre><code>## # A tibble: 10 x 4
 ##    model       .metric  .estimator .estimate
 ##    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
-##  1 cauchit     accuracy binary         0.837
-##  2 logit       accuracy binary         0.827
-##  3 OLS         accuracy binary         0.825
-##  4 probit      accuracy binary         0.825
-##  5 trimmed OLS accuracy binary         0.823
-##  6 cauchit     kap      binary         0.646
-##  7 logit       kap      binary         0.630
-##  8 probit      kap      binary         0.626
-##  9 OLS         kap      binary         0.625
-## 10 trimmed OLS kap      binary         0.623</code></pre>
+##  1 cauchit     accuracy binary         0.838
+##  2 logit       accuracy binary         0.829
+##  3 OLS         accuracy binary         0.828
+##  4 probit      accuracy binary         0.828
+##  5 trimmed OLS accuracy binary         0.825
+##  6 cauchit     kap      binary         0.649
+##  7 logit       kap      binary         0.635
+##  8 probit      kap      binary         0.633
+##  9 OLS         kap      binary         0.633
+## 10 trimmed OLS kap      binary         0.626</code></pre>
 <p>Looks like the cauchit model has the highest accuracy, and OLS isn’t too far behind the logit. But why does the cauchit link function perform better?</p>
 <blockquote>
 <p>The “cauchit” model is attractive when observed responses exhibit a few surprising values, observations for which the linear predictor is large in absolute value indicating that the outcome is almost certain, and yet the linear predictor is wrong. (<a href="http://www.econ.uiuc.edu/~roger/research/links/links.pdf" class="uri">http://www.econ.uiuc.edu/~roger/research/links/links.pdf</a>)</p>

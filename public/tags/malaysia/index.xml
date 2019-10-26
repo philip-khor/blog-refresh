@@ -443,14 +443,14 @@ plt.show()
 &lt;li&gt;For BN, the distribution of wins by ethnicity are more tightly distributed around low Indian and Chinese population constituencies.&lt;/li&gt;
 &lt;li&gt;Both BN and PH have wins across a range of Malay-minority and Malay-majority constituencies. BN does not have any seats in Chinese-majority constituencies.&lt;/li&gt;
 &lt;/ul&gt;&lt;/li&gt;
-&lt;li&gt;&lt;strong&gt;Voting behaviour by age&lt;/strong&gt;:
+
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Voting behaviour by age&lt;/strong&gt;:&lt;/p&gt;
 
 &lt;ul&gt;
 &lt;li&gt;Not very clear pattern for age - at least not with the boxplot&lt;/li&gt;
 &lt;li&gt;PAS wins in &amp;lsquo;younger&amp;rsquo; constituencies (higher pct 21-30, 31-40)&lt;/li&gt;
-&lt;li&gt;PAS wins are very uniform in terms of age and ethnicity demographics&lt;/li&gt;
-&lt;/ul&gt;&lt;/li&gt;
-&lt;/ul&gt;
+
+&lt;li&gt;&lt;p&gt;PAS wins are very uniform in terms of age and ethnicity demographics&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-python&#34;&gt;fg, ax = plt.subplots(nrows =4, figsize = (6,20))
 ge14[ge14.target ==&#39;BN&#39;][features].boxplot(vert = False, ax = ax[0])
@@ -463,7 +463,9 @@ ge14[~ge14.target.isin([&#39;BN&#39;, &#39;PH&#39;, &#39;Gagasan Sejahtera&#39;]
 ax[3].set_title(&amp;quot;Others&amp;quot;)
 
 plt.tight_layout()
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
 
 &lt;p&gt;&lt;img src=&#34;/img/output_8_0.png&#34; alt=&#34;png&#34; /&gt;&lt;/p&gt;
 

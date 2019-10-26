@@ -41,7 +41,7 @@
   
   
   
-  <meta name="theme-color" content="hsl(339, 90%, 68%)">
+  <meta name="theme-color" content="#3f51b5">
   
 
   
@@ -80,7 +80,7 @@
   
   
   
-  <link rel="stylesheet" href="/css/academic.min.20c252fa8e892339413cd87e0a8ec596.css">
+  <link rel="stylesheet" href="/css/academic.min.5c7db6828a65fc110b56ca7d25734126.css">
 
   
 
@@ -133,7 +133,7 @@
 </head>
 
 
-<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" class="dark">
+<body id="top" data-spy="scroll" data-target="#TableOfContents" data-offset="71" >
 
   <aside class="search-results" id="search">
   <div class="container">
@@ -211,7 +211,7 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#about"><span>Home</span></a>
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
         </li>
 
         
@@ -240,7 +240,29 @@
         
 
         <li class="nav-item">
-          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+          <a class="nav-link " href="/#about"><span>About</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/files/cv.pdf"><span>CV</span></a>
         </li>
 
         
@@ -510,14 +532,14 @@ plt.show()
 <li>For BN, the distribution of wins by ethnicity are more tightly distributed around low Indian and Chinese population constituencies.</li>
 <li>Both BN and PH have wins across a range of Malay-minority and Malay-majority constituencies. BN does not have any seats in Chinese-majority constituencies.</li>
 </ul></li>
-<li><strong>Voting behaviour by age</strong>:
+
+<li><p><strong>Voting behaviour by age</strong>:</p>
 
 <ul>
 <li>Not very clear pattern for age - at least not with the boxplot</li>
 <li>PAS wins in &lsquo;younger&rsquo; constituencies (higher pct 21-30, 31-40)</li>
-<li>PAS wins are very uniform in terms of age and ethnicity demographics</li>
-</ul></li>
-</ul>
+
+<li><p>PAS wins are very uniform in terms of age and ethnicity demographics</p>
 
 <pre><code class="language-python">fg, ax = plt.subplots(nrows =4, figsize = (6,20))
 ge14[ge14.target =='BN'][features].boxplot(vert = False, ax = ax[0])
@@ -530,7 +552,9 @@ ge14[~ge14.target.isin(['BN', 'PH', 'Gagasan Sejahtera'])][features].boxplot(ver
 ax[3].set_title(&quot;Others&quot;)
 
 plt.tight_layout()
-</code></pre>
+</code></pre></li>
+</ul></li>
+</ul>
 
 <p><img src="/img/output_8_0.png" alt="png" /></p>
 
@@ -946,6 +970,38 @@ pd.crosstab(ge14[peninsula].target, ethnicity)
             </a>
           </li>
         
+          
+          
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://orcid.org/0000-0002-8333-1256" target="_blank" rel="noopener">
+              <i class="ai ai-orcid"></i>
+            </a>
+          </li>
+        
+          
+          
+          
+            
+          
+          
+          
+          
+          
+            
+          
+          <li>
+            <a itemprop="sameAs" href="https://dev.to/philipkhor" target="_blank" rel="noopener">
+              <i class="fab fa-dev"></i>
+            </a>
+          </li>
+        
       </ul>
     </div>
   </div>
@@ -983,7 +1039,7 @@ pd.crosstab(ge14[peninsula].target, ethnicity)
             return;
         }
         var d = document, s = d.createElement('script'); s.async = true;
-        s.src = '//' + "philipscurve" + '.disqus.com/embed.js';
+        s.src = '//' + "philips-curve" + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
@@ -1037,7 +1093,7 @@ pd.crosstab(ge14[peninsula].target, ethnicity)
     
     
     
-    <script id="dsq-count-scr" src="//philipscurve.disqus.com/count.js" async></script>
+    <script id="dsq-count-scr" src="//philips-curve.disqus.com/count.js" async></script>
     
 
     
@@ -1104,7 +1160,7 @@ pd.crosstab(ge14[peninsula].target, ethnicity)
     
     
     
-    <script src="/js/academic.min.9ef1b53ee2bde6c7f33b150c6ba4d452.js"></script>
+    <script src="/js/academic.min.3394a224b26ce58ff36f44c54743e0ab.js"></script>
 
     
 

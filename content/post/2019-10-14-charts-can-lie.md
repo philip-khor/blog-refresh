@@ -73,8 +73,8 @@ Wow.
 
 These two graphics are prime candidates for using impact metrics.
 
-![](static/img/graduate-employability.png)
-![](static/img/health-budget.png)
+![](/img/graduate-employability.png)
+![](/img/health-budget.png)
 
 # Thoughts
 

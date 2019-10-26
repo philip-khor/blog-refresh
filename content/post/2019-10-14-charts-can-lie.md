@@ -71,7 +71,7 @@ Wow.
 
 # Impact metrics 
 
-These two graphics are prime candidates for using impact metrics.
+These two graphics are prime candidates for using impact metrics. I tried making something quick: 
 
 ![](/img/graduate-employability.png)
 ![](/img/health-budget.png)

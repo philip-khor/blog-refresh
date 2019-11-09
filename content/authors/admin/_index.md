@@ -39,6 +39,9 @@ social:
 - icon: dev
   icon_pack: fab
   link: https://dev.to/philipkhor
+- icon: keybase
+  icon_pack: fab 
+  link: https://keybase.io/philip_khor
 superuser: true
 user_groups:
 - Researchers

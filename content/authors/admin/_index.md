@@ -16,10 +16,6 @@ interests:
 - Causal Inference
 - Machine Learning
 name: Philip Khor
-organizations:
-- name: Skymind Malaysia
-  url: "https://skymind.ai/"
-role: Technical Writer
 social:
 - icon: envelope
   icon_pack: fas

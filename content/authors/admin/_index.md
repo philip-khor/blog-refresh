@@ -44,5 +44,5 @@ user_groups:
 - Visitors
 ---
 
-Philip is a data scientist with a major commercial bank in Malaysia, with experience in applied microeconometrics, machine learning and technical writing. Previously a data science instructor at The Center of Applied Data Science, he believes in the power of new data sources to derive critical insights to inform the direction of public policy. He occassionally contributes to open-source projects such as the [conda-forge](https://conda-forge.org/) software distribution project. He is also package maintainer of the R package [bnmr](https://github.com/philip-khor/bnmr/) and an author of [pmdplyr](https://github.com/NickCH-K/pmdplyr), and volunteers for [PyData Kuala Lumpur](https://www.meetup.com/pydatakl/).
+Philip is a data scientist with a major commercial bank in Malaysia, with experience in applied microeconometrics, machine learning and technical writing. He occassionally contributes to open-source projects such as the [conda-forge](https://conda-forge.org/) software distribution project. He is package maintainer of the R package [bnmr](https://github.com/philip-khor/bnmr/) and an author of [pmdplyr](https://github.com/NickCH-K/pmdplyr), and volunteers for [PyData Kuala Lumpur](https://www.meetup.com/pydatakl/).
 

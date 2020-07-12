@@ -19,6 +19,25 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[experience]]
+  title = "Data Scientist"
+  company = ""
+  location = "Kuala Lumpur"
+  date_start = "2020-03-01"
+  description = """
+  Supporting AutoML model development, developing software package and scripts to streamline processes
+  """
+  
+[[experience]]
+  title = "Technical Writer"
+  company = ""
+  location = "George Town, Penang"
+  date_start = "2019-10-01"
+  date_end = "2019-12-31"
+  description = """
+  Developing product documentation, developing deep learning deployment use cases and providing editorial assistance
+  """
+  
+[[experience]]
   title = "Data Scientist Intern"
   company = "GRID Inc."
   company_url = "https://gridpredict.jp/"

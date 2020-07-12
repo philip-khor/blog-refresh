@@ -24,7 +24,6 @@ date_format = "Jan 2006"
   location = "Kuala Lumpur"
   date_start = "2020-03-01"
   description = """
-  Supporting AutoML model development, developing software package and scripts to streamline processes
   """
   
 [[experience]]

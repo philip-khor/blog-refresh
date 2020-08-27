@@ -3,10 +3,8 @@ title: Charts can lie
 author: "Philip Khor"
 date: '2019-10-14'
 slug: charts-can-lie
-categories: []
-tags: []
-subtitle: ''
-summary: ''
+summary: |
+  It's not cool if your chart's designed to mislead, YB.
 authors: []
 lastmod: '2019-10-14T09:16:02+08:00'
 featured: no

@@ -6,7 +6,7 @@ slug: link-functions-matter
 categories: []
 tags: []
 subtitle: ''
-summary: ''
+summary: 'Benchmarking different link functions'
 authors: []
 lastmod: '2019-07-14T10:50:34+09:00'
 featured: no

@@ -6,7 +6,7 @@ slug: learning-to-sell-data-science
 categories: []
 tags: []
 subtitle: ''
-summary: ''
+summary: 'Half of your job, regardless of what that job is, is being able to sell your work.'
 authors: []
 lastmod: '2019-08-07T11:23:18+08:00'
 featured: no

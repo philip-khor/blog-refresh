@@ -6,7 +6,7 @@ slug: reflections-on-the-tidyverse
 categories: [r]
 tags: [r, tidyverse]
 subtitle: ''
-summary: ''
+summary: 'Why I like (and use) the tidyverse'
 authors: []
 lastmod: '2019-07-07T17:20:14+09:00'
 featured: no

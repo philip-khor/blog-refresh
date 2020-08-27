@@ -6,7 +6,7 @@ slug: link-functions-matter
 categories: []
 tags: []
 subtitle: ''
-summary: ''
+summary: 'Benchmarking different link functions'
 authors: []
 lastmod: '2019-07-14T10:50:34+09:00'
 featured: no
@@ -116,18 +116,31 @@ bind_rows(list(eval(reg),
                      each = 2)) %&gt;% 
   select(model, .metric, .estimator, .estimate) %&gt;% 
   arrange(.metric, desc(.estimate))</code></pre>
+<pre><code>## Warning in predict.lm(x, newdata = newdata, na.action = na.pass, ...):
+## prediction from a rank-deficient fit may be misleading
+
+## Warning in predict.lm(x, newdata = newdata, na.action = na.pass, ...):
+## prediction from a rank-deficient fit may be misleading</code></pre>
+<pre><code>## Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+## prediction from a rank-deficient fit may be misleading
+
+## Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+## prediction from a rank-deficient fit may be misleading
+
+## Warning in predict.lm(object, newdata, se.fit, scale = 1, type = if (type == :
+## prediction from a rank-deficient fit may be misleading</code></pre>
 <pre><code>## # A tibble: 10 x 4
 ##    model       .metric  .estimator .estimate
 ##    &lt;chr&gt;       &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
 ##  1 cauchit     accuracy binary         0.838
-##  2 logit       accuracy binary         0.829
-##  3 OLS         accuracy binary         0.828
-##  4 probit      accuracy binary         0.828
+##  2 logit       accuracy binary         0.828
+##  3 probit      accuracy binary         0.828
+##  4 OLS         accuracy binary         0.827
 ##  5 trimmed OLS accuracy binary         0.825
-##  6 cauchit     kap      binary         0.649
-##  7 logit       kap      binary         0.635
-##  8 probit      kap      binary         0.633
-##  9 OLS         kap      binary         0.633
+##  6 cauchit     kap      binary         0.648
+##  7 probit      kap      binary         0.633
+##  8 logit       kap      binary         0.633
+##  9 OLS         kap      binary         0.630
 ## 10 trimmed OLS kap      binary         0.626</code></pre>
 <p>Looks like the cauchit model has the highest accuracy, and OLS isn’t too far behind the logit. But why does the cauchit link function perform better?</p>
 <blockquote>

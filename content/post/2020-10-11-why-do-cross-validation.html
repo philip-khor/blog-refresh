@@ -29,7 +29,7 @@ projects: []
 <img src="/post/2020-10-11-why-do-cross-validation_files/Screenshot%202020-10-11%20105549.png" alt="" />
 <p class="caption">evaluation set approach</p>
 </div>
-<p>In Python, this is what we do when we run the infamous <code>train_test_split()</code> function from <code>sklearn</code>:</p>
+<p>In Python, this is what we do when we call <code>train_test_split()</code> from <code>sklearn</code>:</p>
 <pre class="python"><code>from sklearn.model_selection import train_test_split
 X_train, X_test, y_train, y_test = train_test_split(X, y, 0.3)</code></pre>
 <p>for R users, using the <strong>tidymodels</strong> infrastructure, <strong>rsample</strong> can be used to split training and holdout sets:</p>

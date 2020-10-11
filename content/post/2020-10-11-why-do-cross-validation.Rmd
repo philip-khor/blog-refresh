@@ -74,7 +74,7 @@ In (k-fold) cross-validation, we try to get at some semblance of generalization 
 
 While performing cross-validation, we have trained K models to evaluate our training procedure. Which should be the final model?
 
-**None of the above!** The purpose of cross-validation is merely to pick the correct procedure for fitting a model. Whether it be the algorithm, the hyperparameter search space, the purpose of cross-validation is to know what procedure works best for your data. The same procedure can be reused to re-fit the model on new data, and that should make up your final model.
+**None of the above!** The purpose of cross-validation is merely to pick the correct procedure for fitting a model. Whether it be the algorithm or the hyperparameter search space, the purpose of cross-validation is to know what procedure works best for your data. The same procedure can be reused to re-fit the model on new data, and that should make up your final model.
 
 > The purpose of cross-validation is model checking, not model building ([StackExchange](https://stats.stackexchange.com/a/52277))
 

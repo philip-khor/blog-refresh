@@ -27,7 +27,7 @@ A simple way to achieve this is to split our data so that the model is \*trained
 
 ![evaluation set approach](/post/2020-10-11-why-do-cross-validation_files/Screenshot 2020-10-11 105549.png)
 
-In Python, this is what we do when we run the infamous `train_test_split()` function from `sklearn`:
+In Python, this is what we do when we call `train_test_split()` from `sklearn`:
 
 ``` {.python}
 from sklearn.model_selection import train_test_split

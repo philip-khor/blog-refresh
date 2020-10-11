@@ -56,7 +56,7 @@ If you put this question up to the deep learning folks, they'll provide you a se
 
 ![train, validation, holdout](/post/2020-10-11-why-do-cross-validation_files/Screenshot 2020-10-11 105453.png)
 
-This is not exactly feasible because:
+This may not be ideal sometimes because:
 
 1\. data is often limited: there may not be enough data for two holdout sets. Moreover, in cases where observations are time-sensitive, a TVH approach could reduce the generalizability of the chosen model if the time period of the shrinked training set is less relevant to the problem at hand.
 

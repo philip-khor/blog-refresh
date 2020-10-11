@@ -51,7 +51,7 @@ test_data &lt;- testing(car_split)</code></pre>
 <img src="/post/2020-10-11-why-do-cross-validation_files/Screenshot%202020-10-11%20105453.png" alt="" />
 <p class="caption">train, validation, holdout</p>
 </div>
-<p>This is not exactly feasible because:</p>
+<p>This may not be ideal sometimes because:</p>
 <p>1. data is often limited: there may not be enough data for two holdout sets. Moreover, in cases where observations are time-sensitive, a TVH approach could reduce the generalizability of the chosen model if the time period of the shrinked training set is less relevant to the problem at hand.</p>
 <p>2. Additionally, depending on the observations picked in validation/holdout, test error can be highly variable (see ISLR for details).</p>
 </div>

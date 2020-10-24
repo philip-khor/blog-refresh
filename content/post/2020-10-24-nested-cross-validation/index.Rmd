@@ -32,7 +32,7 @@ use_condaenv("rstudio", required = TRUE)
 
 In [Why do cross-validation](../why-do-cross-validation/), I described cross-validation as a way of evaluating your modeling workflow from start to end to help you pick the appropriate model and avoid overfitting on your test set. No single model from the cross-validation process should actually be used as your final model[^1]; cross-validation is merely a way to evaluate how well your modeling process works on repeated samples of your data, to get a better sense of how well your modeling choice works in the real world.
 
-[^1]: The unfortunate and unintended consequence of the wonderful `GridSearchCV()` class is that beginner data scientists with rudimentary understanding of machine learning theory think that you can predict from a grid search process, and when they are pressed about where the 'final model' from a cross-validated process comes from, they may wonder, is it an ensemble model averaged across the folds, or are the hyperparameters averaged, or ...????
+[^1]: The unfortunate and unintended consequence of the wonderful `GridSearchCV()` class is that data scientists think that you can predict from a grid search process, and when they are pressed about where the 'final model' from a cross-validated process comes from, they may wonder, is it an ensemble model averaged across the folds, or are the hyperparameters averaged, or ...????
 
 If you're comparing estimator-to-estimator without tuning much, you're at pretty low risk of overestimating model performance from model selection, so long as you don't peek at your test set. Suppose I had three simple models:
 

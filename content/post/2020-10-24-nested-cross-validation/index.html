@@ -48,7 +48,7 @@ rf_scores = cross_val_score(rf, X, y, scoring=&quot;accuracy&quot;)</code></pre>
   [&quot;GaussianNB&quot;, &quot;LogisticRegression&quot;, &quot;RandomForestClassifier&quot;], 
   [round(i, 3) for i in [nb_scores.mean(), lr_scores.mean(), rf_scores.mean()]]
 ))</code></pre>
-<pre><code>## {&#39;GaussianNB&#39;: 0.939, &#39;LogisticRegression&#39;: 0.939, &#39;RandomForestClassifier&#39;: 0.956}</code></pre>
+<pre><code>## {&#39;GaussianNB&#39;: 0.939, &#39;LogisticRegression&#39;: 0.939, &#39;RandomForestClassifier&#39;: 0.963}</code></pre>
 <p>From the scores above, it seems that RandomForestClassifier should perform best out-of-sample.</p>
 <div id="what-about-hyperparameter-tuning" class="section level2">
 <h2>What about hyperparameter tuning?</h2>
@@ -57,7 +57,7 @@ rf_scores = cross_val_score(rf, X, y, scoring=&quot;accuracy&quot;)</code></pre>
 <p><span class="math display">\[
 \sum_{i=1}^{n} \big( y^{(i)} - \hat{y}^{(i)}  \big)^2 + \lambda_1 \sum^{m}_{j=1} w_{j}^2+ \lambda_2 \sum^{m}_{j=1} |w_j|
 \]</span></p>
-<p>The choice between L1 and L2 regression can be guided by our hypotheses of how the feature set affects the target. For instance, if many features do not affect the target, a higher mix of L1 penalty may be more appropriate, whereas if each feature contributes a little to the target, the L2 penalty would be more appropriate. However, it is not clear how to pick the regularization term <span class="math inline">\(\lambda\)</span>.</p>
+<p>The choice between L1 and L2 regularization can be guided by our hypotheses of how the feature set affects the target. For instance, if many features do not affect the target, a higher mix of L1 penalty may be more appropriate, whereas if each feature contributes a little to the target, the L2 penalty would be more appropriate. However, it is not clear how to pick the regularization term <span class="math inline">\(\lambda\)</span>.</p>
 </div>
 <div id="grid-search" class="section level2">
 <h2>Grid Search</h2>
@@ -113,7 +113,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
     }
     
-    #ysuehqgcds .gt_table {
+    #sfxudulgau .gt_table {
       display: table;
       border-collapse: collapse;
       margin-left: auto;
@@ -138,7 +138,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-left-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_heading {
+    #sfxudulgau .gt_heading {
       background-color: #FFFFFF;
       text-align: center;
       border-bottom-color: #FFFFFF;
@@ -150,7 +150,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-right-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_title {
+    #sfxudulgau .gt_title {
       color: #333333;
       font-size: 125%;
       font-weight: initial;
@@ -160,7 +160,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-bottom-width: 0;
     }
     
-    #ysuehqgcds .gt_subtitle {
+    #sfxudulgau .gt_subtitle {
       color: #333333;
       font-size: 85%;
       font-weight: initial;
@@ -170,13 +170,13 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-top-width: 0;
     }
     
-    #ysuehqgcds .gt_bottom_border {
+    #sfxudulgau .gt_bottom_border {
       border-bottom-style: solid;
       border-bottom-width: 2px;
       border-bottom-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_col_headings {
+    #sfxudulgau .gt_col_headings {
       border-top-style: solid;
       border-top-width: 2px;
       border-top-color: #D3D3D3;
@@ -191,7 +191,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-right-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_col_heading {
+    #sfxudulgau .gt_col_heading {
       color: #333333;
       background-color: #FFFFFF;
       font-size: 100%;
@@ -211,7 +211,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       overflow-x: hidden;
     }
     
-    #ysuehqgcds .gt_column_spanner_outer {
+    #sfxudulgau .gt_column_spanner_outer {
       color: #333333;
       background-color: #FFFFFF;
       font-size: 100%;
@@ -223,15 +223,15 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       padding-right: 4px;
     }
     
-    #ysuehqgcds .gt_column_spanner_outer:first-child {
+    #sfxudulgau .gt_column_spanner_outer:first-child {
       padding-left: 0;
     }
     
-    #ysuehqgcds .gt_column_spanner_outer:last-child {
+    #sfxudulgau .gt_column_spanner_outer:last-child {
       padding-right: 0;
     }
     
-    #ysuehqgcds .gt_column_spanner {
+    #sfxudulgau .gt_column_spanner {
       border-bottom-style: solid;
       border-bottom-width: 2px;
       border-bottom-color: #D3D3D3;
@@ -243,7 +243,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       width: 100%;
     }
     
-    #ysuehqgcds .gt_group_heading {
+    #sfxudulgau .gt_group_heading {
       padding: 8px;
       color: #333333;
       background-color: #FFFFFF;
@@ -265,7 +265,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       vertical-align: middle;
     }
     
-    #ysuehqgcds .gt_empty_group_heading {
+    #sfxudulgau .gt_empty_group_heading {
       padding: 0.5px;
       color: #333333;
       background-color: #FFFFFF;
@@ -280,15 +280,15 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       vertical-align: middle;
     }
     
-    #ysuehqgcds .gt_from_md > :first-child {
+    #sfxudulgau .gt_from_md > :first-child {
       margin-top: 0;
     }
     
-    #ysuehqgcds .gt_from_md > :last-child {
+    #sfxudulgau .gt_from_md > :last-child {
       margin-bottom: 0;
     }
     
-    #ysuehqgcds .gt_row {
+    #sfxudulgau .gt_row {
       padding-top: 8px;
       padding-bottom: 8px;
       padding-left: 5px;
@@ -307,7 +307,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       overflow-x: hidden;
     }
     
-    #ysuehqgcds .gt_stub {
+    #sfxudulgau .gt_stub {
       color: #333333;
       background-color: #FFFFFF;
       font-size: 100%;
@@ -319,7 +319,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       padding-left: 12px;
     }
     
-    #ysuehqgcds .gt_summary_row {
+    #sfxudulgau .gt_summary_row {
       color: #333333;
       background-color: #FFFFFF;
       text-transform: inherit;
@@ -329,7 +329,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       padding-right: 5px;
     }
     
-    #ysuehqgcds .gt_first_summary_row {
+    #sfxudulgau .gt_first_summary_row {
       padding-top: 8px;
       padding-bottom: 8px;
       padding-left: 5px;
@@ -339,7 +339,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-top-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_grand_summary_row {
+    #sfxudulgau .gt_grand_summary_row {
       color: #333333;
       background-color: #FFFFFF;
       text-transform: inherit;
@@ -349,7 +349,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       padding-right: 5px;
     }
     
-    #ysuehqgcds .gt_first_grand_summary_row {
+    #sfxudulgau .gt_first_grand_summary_row {
       padding-top: 8px;
       padding-bottom: 8px;
       padding-left: 5px;
@@ -359,11 +359,11 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-top-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_striped {
+    #sfxudulgau .gt_striped {
       background-color: rgba(128, 128, 128, 0.05);
     }
     
-    #ysuehqgcds .gt_table_body {
+    #sfxudulgau .gt_table_body {
       border-top-style: solid;
       border-top-width: 2px;
       border-top-color: #D3D3D3;
@@ -372,7 +372,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-bottom-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_footnotes {
+    #sfxudulgau .gt_footnotes {
       color: #333333;
       background-color: #FFFFFF;
       border-bottom-style: none;
@@ -386,13 +386,13 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-right-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_footnote {
+    #sfxudulgau .gt_footnote {
       margin: 0px;
       font-size: 90%;
       padding: 4px;
     }
     
-    #ysuehqgcds .gt_sourcenotes {
+    #sfxudulgau .gt_sourcenotes {
       color: #333333;
       background-color: #FFFFFF;
       border-bottom-style: none;
@@ -406,46 +406,46 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
       border-right-color: #D3D3D3;
     }
     
-    #ysuehqgcds .gt_sourcenote {
+    #sfxudulgau .gt_sourcenote {
       font-size: 90%;
       padding: 4px;
     }
     
-    #ysuehqgcds .gt_left {
+    #sfxudulgau .gt_left {
       text-align: left;
     }
     
-    #ysuehqgcds .gt_center {
+    #sfxudulgau .gt_center {
       text-align: center;
     }
     
-    #ysuehqgcds .gt_right {
+    #sfxudulgau .gt_right {
       text-align: right;
       font-variant-numeric: tabular-nums;
     }
     
-    #ysuehqgcds .gt_font_normal {
+    #sfxudulgau .gt_font_normal {
       font-weight: normal;
     }
     
-    #ysuehqgcds .gt_font_bold {
+    #sfxudulgau .gt_font_bold {
       font-weight: bold;
     }
     
-    #ysuehqgcds .gt_font_italic {
+    #sfxudulgau .gt_font_italic {
       font-style: italic;
     }
     
-    #ysuehqgcds .gt_super {
+    #sfxudulgau .gt_super {
       font-size: 65%;
     }
     
-    #ysuehqgcds .gt_footnote_marks {
+    #sfxudulgau .gt_footnote_marks {
       font-style: italic;
       font-size: 65%;
     }
     </style>
-    <div id="ysuehqgcds" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+    <div id="sfxudulgau" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
       
       <thead class="gt_col_headings">
         <tr>
@@ -655,7 +655,7 @@ res = pd.concat([params_df, result], axis=1)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>you would be selecting the hyperparameters that are optimal for the cross-validation setup, since the hyperparameter <em>optimization</em> process shares the same cross-validation setup as the hyperparameter <em>evaluation</em> process. This time, instead of hacking the test set, you’re hacking the cross-validation setup<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>.</p>
+<p>you would be selecting the hyperparameters that are optimal for the cross-validation setup, since the hyperparameter <em>optimization</em> process shares the same cross-validation setup as the hyperparameter <em>evaluation</em> process. This time, instead of hacking the test set, you’re hacking the cross-validation setup.</p>
 <p>As a result, the cross-validation error you obtain from this process would be <strong>overoptimistic</strong>.</p>
 </div>
 </div>
@@ -692,14 +692,14 @@ outer_cv = KFold(n_splits=4, shuffle=True)
 clf = GridSearchCV(estimator=svm, param_grid=p_grid, cv=inner_cv)
 nested_score = cross_val_score(clf, X=X, y=y, cv=outer_cv)
 print(nested_score)</code></pre>
-<pre><code>## [0.95804196 0.93661972 0.97183099 0.98591549]</code></pre>
+<pre><code>## [0.93006993 0.95774648 0.97183099 0.95070423]</code></pre>
 <p>And once you’ve found a search space you’re happy with, refit the GridSearchCV object:</p>
 <pre class="python"><code>clf.fit(X, y)</code></pre>
 <pre><code>## GridSearchCV(cv=KFold(n_splits=4, random_state=None, shuffle=True),
 ##              estimator=SVC(),
 ##              param_grid={&#39;C&#39;: [1, 10, 100], &#39;kernel&#39;: [&#39;rbf&#39;, &#39;linear&#39;]})</code></pre>
 <pre class="python"><code>clf.best_params_</code></pre>
-<pre><code>## {&#39;C&#39;: 1, &#39;kernel&#39;: &#39;linear&#39;}</code></pre>
+<pre><code>## {&#39;C&#39;: 10, &#39;kernel&#39;: &#39;linear&#39;}</code></pre>
 <p>What is the consequence of this?</p>
 <ol style="list-style-type: decimal">
 <li><strong>Each of the folds may have a different set of hyperparameters.</strong> This is perfectly fine, as we are now trying to evaluate which hyperparameter search space/process works best, not which set of hyperparameters works best.</li>
@@ -735,6 +735,5 @@ Parvandeh, Saeid, Hung-Wen Yeh, Martin P. Paulus, and Brett A. McKinney. 2020. <
 <li id="fn1"><p>The unfortunate and unintended consequence of the wonderful <code>GridSearchCV()</code> class is that data scientists think that you can predict from a grid search process, and when they are pressed about where the ‘final model’ from a cross-validated process comes from, they may wonder, is it an ensemble model averaged across the folds, or are the hyperparameters averaged, or …????<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
 <li id="fn2"><p>presumably based on the average score between folds: this is unclear from the documentation but the numbers match up<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
 <li id="fn3"><p>this is the default, set as False if you do not want the refitting. In the case of multiple metrics, refit should be a string denoting the metric you want to use to find the best estimator.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
-<li id="fn4"><p>‘The test data are no longer statistically pure, as they have been “seen” by the models in tuning the hyper-parameters. This would not present a serious problem were it not for the danger of over-fitting in model selection, which means that in practice the hyper-parameters will inevitably be tuned to an extent in ways that take advantage of the statistical peculiarities of this particular set of data rather than only in ways that favor improved generalisation. As a result the hyper-parameter settings retain a partial “memory” of the data that now form the test partition. We should therefore expect to observe an optimistic bias in the performance estimates obtained in this manner.’ []<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
 </ol>
 </div>

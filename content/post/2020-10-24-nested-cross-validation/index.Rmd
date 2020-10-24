@@ -100,7 +100,7 @@ $$
 \sum_{i=1}^{n} \big( y^{(i)} - \hat{y}^{(i)}  \big)^2 + \lambda_1 \sum^{m}_{j=1} w_{j}^2+ \lambda_2 \sum^{m}_{j=1} |w_j|
 $$
 
-The choice between L1 and L2 regression can be guided by our hypotheses of how the feature set affects the target. For instance, if many features do not affect the target, a higher mix of L1 penalty may be more appropriate, whereas if each feature contributes a little to the target, the L2 penalty would be more appropriate. However, it is not clear how to pick the regularization term $\lambda$.
+The choice between L1 and L2 regularization can be guided by our hypotheses of how the feature set affects the target. For instance, if many features do not affect the target, a higher mix of L1 penalty may be more appropriate, whereas if each feature contributes a little to the target, the L2 penalty would be more appropriate. However, it is not clear how to pick the regularization term $\lambda$.
 
 ## Grid Search
 
@@ -227,9 +227,7 @@ and again searched around the vicinity of C = 10:
 | 10  | linear | .96             |
 | 11  | linear | .97             |
 
-you would be selecting the hyperparameters that are optimal for the cross-validation setup, since the hyperparameter *optimization* process shares the same cross-validation setup as the hyperparameter *evaluation* process. This time, instead of hacking the test set, you're hacking the cross-validation setup[^4].
-
-[^4]: 'The test data are no longer statistically pure, as they have been "seen" by the models in tuning the hyper-parameters. This would not present a serious problem were it not for the danger of over-fitting in model selection, which means that in practice the hyper-parameters will inevitably be tuned to an extent in ways that take advantage of the statistical peculiarities of this particular set of data rather than only in ways that favor improved generalisation. As a result the hyper-parameter settings retain a partial "memory" of the data that now form the test partition. We should therefore expect to observe an optimistic bias in the performance estimates obtained in this manner. ' []
+you would be selecting the hyperparameters that are optimal for the cross-validation setup, since the hyperparameter *optimization* process shares the same cross-validation setup as the hyperparameter *evaluation* process. This time, instead of hacking the test set, you're hacking the cross-validation setup.
 
 As a result, the cross-validation error you obtain from this process would be **overoptimistic**.
 

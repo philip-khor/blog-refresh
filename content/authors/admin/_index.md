@@ -1,7 +1,8 @@
 ---
+title: Philip Khor
 authors:
 - admin
-bio: Data scientist with a background in economics. 
+# bio: Data scientist with a background in economics. 
 education:
   courses:
   - course: Bachelor of Commerce (Honours)

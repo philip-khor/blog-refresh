@@ -99,6 +99,11 @@ Taking elastic net as an example, where the regularization term is a mix of L1 a
 $$
 \sum_{i=1}^{n} \big( y^{(i)} - \hat{y}^{(i)}  \big)^2 + \lambda_1 \sum^{m}_{j=1} w_{j}^2+ \lambda_2 \sum^{m}_{j=1} |w_j|
 $$
+which is sometimes restated to establish a 'mixing parameter' $\alpha$ (e.g. glmnet): 
+
+$$
+\sum_{i=1}^{n} \big( y^{(i)} - \hat{y}^{(i)}  \big)^2 + \lambda\left[ \frac {1-\alpha}{2}\sum^{m}_{j=1} w_{j}^2+\alpha \sum^{m}_{j=1} |w_j|\right]
+$$
 
 The choice between L1 and L2 regularization can be guided by our hypotheses of how the feature set affects the target. For instance, if many features do not affect the target, a higher mix of L1 penalty may be more appropriate, whereas if each feature contributes a little to the target, the L2 penalty would be more appropriate. However, it is not clear how to pick the regularization term $\lambda$.
 

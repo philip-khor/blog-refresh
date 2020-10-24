@@ -1,0 +1,740 @@
+---
+title: "Nested cross-validation"
+author: "Philip Khor"
+date: '2020-10-24'
+slug: []
+categories: []
+tags: []
+subtitle: ''
+summary: A solution for overfitting in model selection
+authors: []
+lastmod: '2020-10-24T13:38:22+08:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: yes
+projects: []
+bibliography: references.bib
+---
+
+<script src="index_files/header-attrs/header-attrs.js"></script>
+<link href="index_files/anchor-sections/anchor-sections.css" rel="stylesheet" />
+<script src="index_files/anchor-sections/anchor-sections.js"></script>
+
+
+<p>In <a href="../why-do-cross-validation/">Why do cross-validation</a>, I described cross-validation as a way of evaluating your modeling workflow from start to end to help you pick the appropriate model and avoid overfitting on your test set. No single model from the cross-validation process should actually be used as your final model<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a>; cross-validation is merely a way to evaluate how well your modeling process works on repeated samples of your data, to get a better sense of how well your modeling choice works in the real world.</p>
+<p>If you’re comparing estimator-to-estimator without tuning much, you’re at pretty low risk of overestimating model performance from model selection, so long as you don’t peek at your test set. Suppose I had three simple models:</p>
+<pre class="python"><code>from sklearn.naive_bayes import GaussianNB
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import cross_val_score, KFold, GridSearchCV
+from sklearn.svm import SVC
+
+import pandas as pd 
+
+X, y = load_breast_cancer(return_X_y=True) 
+
+nb = GaussianNB()
+lr = LogisticRegression()
+rf = RandomForestClassifier()
+
+# by default we get accuracy over 5-fold CV 
+nb_scores = cross_val_score(nb, X, y, scoring=&quot;accuracy&quot;)
+lr_scores = cross_val_score(lr, X, y, scoring=&quot;accuracy&quot;)
+rf_scores = cross_val_score(rf, X, y, scoring=&quot;accuracy&quot;)</code></pre>
+<pre class="python"><code>dict(zip(
+  [&quot;GaussianNB&quot;, &quot;LogisticRegression&quot;, &quot;RandomForestClassifier&quot;], 
+  [round(i, 3) for i in [nb_scores.mean(), lr_scores.mean(), rf_scores.mean()]]
+))</code></pre>
+<pre><code>## {&#39;GaussianNB&#39;: 0.939, &#39;LogisticRegression&#39;: 0.939, &#39;RandomForestClassifier&#39;: 0.963}</code></pre>
+<p>From the scores above, it seems that RandomForestClassifier should perform best out-of-sample.</p>
+<div id="what-about-hyperparameter-tuning" class="section level2">
+<h2>What about hyperparameter tuning?</h2>
+<p>I specifically chose these three estimators because they require minimal tuning. However, modern gradient boosting frameworks such as LightGBM and XGBoost have <a href="https://sites.google.com/view/lauraepp/parameters">a lot of hyperparameters to choose from</a>, and rarely do modellers have ways to guide hyperparameter choices.</p>
+<p>Taking elastic net as an example, where the regularization term is a mix of L1 and L2 penalties:</p>
+<p><span class="math display">\[
+\sum_{i=1}^{n} \big( y^{(i)} - \hat{y}^{(i)}  \big)^2 + \lambda_1 \sum^{m}_{j=1} w_{j}^2+ \lambda_2 \sum^{m}_{j=1} |w_j|
+\]</span></p>
+<p>The choice between L1 and L2 regression can be guided by our hypotheses of how the feature set affects the target. For instance, if many features do not affect the target, a higher mix of L1 penalty may be more appropriate, whereas if each feature contributes a little to the target, the L2 penalty would be more appropriate. However, it is not clear how to pick the regularization term <span class="math inline">\(\lambda\)</span>.</p>
+</div>
+<div id="grid-search" class="section level2">
+<h2>Grid Search</h2>
+<p>The standard response to this is to perform a grid search on your hyperparameters. In scikit-learn, this can be done by fitting a GridSearchCV object.</p>
+<pre class="python"><code>parameters = {&#39;kernel&#39;:(&#39;linear&#39;, &#39;rbf&#39;), &#39;C&#39;:[1, 10]}
+svc = SVC()
+clf = GridSearchCV(svc, parameters)
+clf.fit(X, y)</code></pre>
+<pre><code>## GridSearchCV(estimator=SVC(),
+##              param_grid={&#39;C&#39;: [1, 10], &#39;kernel&#39;: (&#39;linear&#39;, &#39;rbf&#39;)})</code></pre>
+<p>What does GridSearchCV do? Going to the scikit-learn documentation:</p>
+<blockquote>
+<p>It is possible and recommended to search the hyper-parameter space for the best cross validation score.</p>
+</blockquote>
+<p>and …</p>
+<blockquote>
+<p>exhaustively generates candidates from a grid of parameter values specified with the param_grid parameter</p>
+</blockquote>
+<pre class="python"><code>params_df = pd.DataFrame(clf.cv_results_[&quot;params&quot;])
+result = pd.DataFrame({key: value for key, value in clf.cv_results_.items() if key.startswith(&quot;split&quot;)})
+res = pd.concat([params_df, result], axis=1)</code></pre>
+<p>Essentially:</p>
+<ol style="list-style-type: decimal">
+<li><p>You construct a grid of hyperparameter values:</p>
+<table>
+<thead>
+<tr class="header">
+<th>C</th>
+<th>kernel</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>linear</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>rbf</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>linear</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>rbf</td>
+</tr>
+</tbody>
+</table></li>
+<li><p>you perform a 5-fold cross validation, building a model on each combination of 4 of the 5 folds and evaluating the model on the remaining fold:</p>
+<style>html {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+    }
+    
+    #wwmovblfnn .gt_table {
+      display: table;
+      border-collapse: collapse;
+      margin-left: auto;
+      margin-right: auto;
+      color: #333333;
+      font-size: 16px;
+      font-weight: normal;
+      font-style: normal;
+      background-color: #FFFFFF;
+      width: auto;
+      border-top-style: solid;
+      border-top-width: 2px;
+      border-top-color: #A8A8A8;
+      border-right-style: none;
+      border-right-width: 2px;
+      border-right-color: #D3D3D3;
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      border-bottom-color: #A8A8A8;
+      border-left-style: none;
+      border-left-width: 2px;
+      border-left-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_heading {
+      background-color: #FFFFFF;
+      text-align: center;
+      border-bottom-color: #FFFFFF;
+      border-left-style: none;
+      border-left-width: 1px;
+      border-left-color: #D3D3D3;
+      border-right-style: none;
+      border-right-width: 1px;
+      border-right-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_title {
+      color: #333333;
+      font-size: 125%;
+      font-weight: initial;
+      padding-top: 4px;
+      padding-bottom: 4px;
+      border-bottom-color: #FFFFFF;
+      border-bottom-width: 0;
+    }
+    
+    #wwmovblfnn .gt_subtitle {
+      color: #333333;
+      font-size: 85%;
+      font-weight: initial;
+      padding-top: 0;
+      padding-bottom: 4px;
+      border-top-color: #FFFFFF;
+      border-top-width: 0;
+    }
+    
+    #wwmovblfnn .gt_bottom_border {
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_col_headings {
+      border-top-style: solid;
+      border-top-width: 2px;
+      border-top-color: #D3D3D3;
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+      border-left-style: none;
+      border-left-width: 1px;
+      border-left-color: #D3D3D3;
+      border-right-style: none;
+      border-right-width: 1px;
+      border-right-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_col_heading {
+      color: #333333;
+      background-color: #FFFFFF;
+      font-size: 100%;
+      font-weight: normal;
+      text-transform: inherit;
+      border-left-style: none;
+      border-left-width: 1px;
+      border-left-color: #D3D3D3;
+      border-right-style: none;
+      border-right-width: 1px;
+      border-right-color: #D3D3D3;
+      vertical-align: bottom;
+      padding-top: 5px;
+      padding-bottom: 6px;
+      padding-left: 5px;
+      padding-right: 5px;
+      overflow-x: hidden;
+    }
+    
+    #wwmovblfnn .gt_column_spanner_outer {
+      color: #333333;
+      background-color: #FFFFFF;
+      font-size: 100%;
+      font-weight: normal;
+      text-transform: inherit;
+      padding-top: 0;
+      padding-bottom: 0;
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+    
+    #wwmovblfnn .gt_column_spanner_outer:first-child {
+      padding-left: 0;
+    }
+    
+    #wwmovblfnn .gt_column_spanner_outer:last-child {
+      padding-right: 0;
+    }
+    
+    #wwmovblfnn .gt_column_spanner {
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+      vertical-align: bottom;
+      padding-top: 5px;
+      padding-bottom: 6px;
+      overflow-x: hidden;
+      display: inline-block;
+      width: 100%;
+    }
+    
+    #wwmovblfnn .gt_group_heading {
+      padding: 8px;
+      color: #333333;
+      background-color: #FFFFFF;
+      font-size: 100%;
+      font-weight: initial;
+      text-transform: inherit;
+      border-top-style: solid;
+      border-top-width: 2px;
+      border-top-color: #D3D3D3;
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+      border-left-style: none;
+      border-left-width: 1px;
+      border-left-color: #D3D3D3;
+      border-right-style: none;
+      border-right-width: 1px;
+      border-right-color: #D3D3D3;
+      vertical-align: middle;
+    }
+    
+    #wwmovblfnn .gt_empty_group_heading {
+      padding: 0.5px;
+      color: #333333;
+      background-color: #FFFFFF;
+      font-size: 100%;
+      font-weight: initial;
+      border-top-style: solid;
+      border-top-width: 2px;
+      border-top-color: #D3D3D3;
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+      vertical-align: middle;
+    }
+    
+    #wwmovblfnn .gt_from_md > :first-child {
+      margin-top: 0;
+    }
+    
+    #wwmovblfnn .gt_from_md > :last-child {
+      margin-bottom: 0;
+    }
+    
+    #wwmovblfnn .gt_row {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 5px;
+      padding-right: 5px;
+      margin: 10px;
+      border-top-style: solid;
+      border-top-width: 1px;
+      border-top-color: #D3D3D3;
+      border-left-style: none;
+      border-left-width: 1px;
+      border-left-color: #D3D3D3;
+      border-right-style: none;
+      border-right-width: 1px;
+      border-right-color: #D3D3D3;
+      vertical-align: middle;
+      overflow-x: hidden;
+    }
+    
+    #wwmovblfnn .gt_stub {
+      color: #333333;
+      background-color: #FFFFFF;
+      font-size: 100%;
+      font-weight: initial;
+      text-transform: inherit;
+      border-right-style: solid;
+      border-right-width: 2px;
+      border-right-color: #D3D3D3;
+      padding-left: 12px;
+    }
+    
+    #wwmovblfnn .gt_summary_row {
+      color: #333333;
+      background-color: #FFFFFF;
+      text-transform: inherit;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    
+    #wwmovblfnn .gt_first_summary_row {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 5px;
+      padding-right: 5px;
+      border-top-style: solid;
+      border-top-width: 2px;
+      border-top-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_grand_summary_row {
+      color: #333333;
+      background-color: #FFFFFF;
+      text-transform: inherit;
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+    
+    #wwmovblfnn .gt_first_grand_summary_row {
+      padding-top: 8px;
+      padding-bottom: 8px;
+      padding-left: 5px;
+      padding-right: 5px;
+      border-top-style: double;
+      border-top-width: 6px;
+      border-top-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_striped {
+      background-color: rgba(128, 128, 128, 0.05);
+    }
+    
+    #wwmovblfnn .gt_table_body {
+      border-top-style: solid;
+      border-top-width: 2px;
+      border-top-color: #D3D3D3;
+      border-bottom-style: solid;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_footnotes {
+      color: #333333;
+      background-color: #FFFFFF;
+      border-bottom-style: none;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+      border-left-style: none;
+      border-left-width: 2px;
+      border-left-color: #D3D3D3;
+      border-right-style: none;
+      border-right-width: 2px;
+      border-right-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_footnote {
+      margin: 0px;
+      font-size: 90%;
+      padding: 4px;
+    }
+    
+    #wwmovblfnn .gt_sourcenotes {
+      color: #333333;
+      background-color: #FFFFFF;
+      border-bottom-style: none;
+      border-bottom-width: 2px;
+      border-bottom-color: #D3D3D3;
+      border-left-style: none;
+      border-left-width: 2px;
+      border-left-color: #D3D3D3;
+      border-right-style: none;
+      border-right-width: 2px;
+      border-right-color: #D3D3D3;
+    }
+    
+    #wwmovblfnn .gt_sourcenote {
+      font-size: 90%;
+      padding: 4px;
+    }
+    
+    #wwmovblfnn .gt_left {
+      text-align: left;
+    }
+    
+    #wwmovblfnn .gt_center {
+      text-align: center;
+    }
+    
+    #wwmovblfnn .gt_right {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    
+    #wwmovblfnn .gt_font_normal {
+      font-weight: normal;
+    }
+    
+    #wwmovblfnn .gt_font_bold {
+      font-weight: bold;
+    }
+    
+    #wwmovblfnn .gt_font_italic {
+      font-style: italic;
+    }
+    
+    #wwmovblfnn .gt_super {
+      font-size: 65%;
+    }
+    
+    #wwmovblfnn .gt_footnote_marks {
+      font-style: italic;
+      font-size: 65%;
+    }
+    </style>
+    <div id="wwmovblfnn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+      
+      <thead class="gt_col_headings">
+        <tr>
+          <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">C</th>
+          <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">kernel</th>
+          <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fold0</th>
+          <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fold1</th>
+          <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fold2</th>
+          <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fold3</th>
+          <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fold4</th>
+          <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cv</th>
+        </tr>
+      </thead>
+      <tbody class="gt_table_body">
+        <tr>
+          <td class="gt_row gt_right">1</td>
+          <td class="gt_row gt_left">linear</td>
+          <td class="gt_row gt_right">0.947</td>
+          <td class="gt_row gt_right">0.930</td>
+          <td class="gt_row gt_right">0.974</td>
+          <td class="gt_row gt_right">0.921</td>
+          <td class="gt_row gt_right">0.956</td>
+          <td class="gt_row gt_right">0.946</td>
+        </tr>
+        <tr>
+          <td class="gt_row gt_right">1</td>
+          <td class="gt_row gt_left">rbf</td>
+          <td class="gt_row gt_right">0.851</td>
+          <td class="gt_row gt_right">0.895</td>
+          <td class="gt_row gt_right">0.930</td>
+          <td class="gt_row gt_right">0.947</td>
+          <td class="gt_row gt_right">0.938</td>
+          <td class="gt_row gt_right">0.912</td>
+        </tr>
+        <tr>
+          <td class="gt_row gt_right">10</td>
+          <td class="gt_row gt_left">linear</td>
+          <td class="gt_row gt_right">0.939</td>
+          <td class="gt_row gt_right">0.939</td>
+          <td class="gt_row gt_right">0.974</td>
+          <td class="gt_row gt_right">0.947</td>
+          <td class="gt_row gt_right">0.965</td>
+          <td class="gt_row gt_right">0.953</td>
+        </tr>
+        <tr>
+          <td class="gt_row gt_right">10</td>
+          <td class="gt_row gt_left">rbf</td>
+          <td class="gt_row gt_right">0.877</td>
+          <td class="gt_row gt_right">0.921</td>
+          <td class="gt_row gt_right">0.912</td>
+          <td class="gt_row gt_right">0.956</td>
+          <td class="gt_row gt_right">0.947</td>
+          <td class="gt_row gt_right">0.923</td>
+        </tr>
+      </tbody>
+      
+      
+    </table></div></li>
+<li><p>pick the best combination of hyperparameters<a href="#fn2" class="footnote-ref" id="fnref2"><sup>2</sup></a></p></li>
+<li><p><strong>REFIT</strong> the model on the WHOLE dataset<a href="#fn3" class="footnote-ref" id="fnref3"><sup>3</sup></a>.</p></li>
+</ol>
+</div>
+<div id="putting-the-tuning-in-hyperparameter-tuning" class="section level2">
+<h2>Putting the ‘tuning’ in hyperparameter tuning</h2>
+<p>In practice, the data scientist probably does a little more than that. Recall that grid search exhausts the search space we specify. Since we specified two values for both <code>C</code> and <code>kernel</code>, the size of the grid is merely 4. A continuous search space is infinitely large :-(</p>
+<div id="you-the-data-scientist" class="section level3">
+<h3>You, the data scientist</h3>
+<p>You may not be satisfied with the predictive performance of the model we obtain, and as such you may try to search around the search space for a better hyperparameter value.</p>
+<p>Suppose you start with</p>
+<pre class="python"><code>parameters = {&#39;kernel&#39;:(&#39;linear&#39;, &#39;rbf&#39;), &#39;C&#39;:[1, 10]}</code></pre>
+<p>find out RBF and C = 10 were selected by your search process, then proceed to run</p>
+<pre class="python"><code>parameters = {&#39;kernel&#39;: &#39;rbf&#39;, &#39;C&#39;:[9, 10, 11]}</code></pre>
+<p>hoping to get better performance.</p>
+<p>The problem is that you are almost certain to get better performance, since you are optimizing for the same cross-validation scheme. We’ve violated the rule that cross-validation is just for evaluation, and inadvertently used it for optimizing our model!</p>
+</div>
+<div id="wait-what-just-happened" class="section level3">
+<h3>Wait … what just happened?</h3>
+<p>To see why this is an issue, let’s simplify this problem a little by substituting cross-validation with a validation set approach. Suppose you used a train-validation split on your data and used the test score to guide your hyperparameter choice. And suppose our results looked a little like:</p>
+<table>
+<thead>
+<tr class="header">
+<th>C</th>
+<th>kernel</th>
+<th>test score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>linear</td>
+<td>.95</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>rbf</td>
+<td>.91</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>linear</td>
+<td>.96</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>rbf</td>
+<td>.90</td>
+</tr>
+</tbody>
+</table>
+<p>Now you know that 10 and linear are optimal, so you search around the vicinity of C = 10.</p>
+<table>
+<thead>
+<tr class="header">
+<th>C</th>
+<th>kernel</th>
+<th>test score</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>8</td>
+<td>linear</td>
+<td>.92</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>linear</td>
+<td>.93</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>linear</td>
+<td>.96</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>linear</td>
+<td>.97</td>
+</tr>
+</tbody>
+</table>
+<p>This has muddied the train-evaluation distinction. We ‘train’ our model using our observations for the evaluation set. You’d be hacking the test set for the best score, and the test score loses its efficacy as an indicator of your model’s performance. We will choose the hyperparameter that performs best on the test set, but its generalizability is questionable.</p>
+</div>
+<div id="can-cross-validation-save-us" class="section level3">
+<h3>Can cross-validation save us?</h3>
+<p>Using cross-validation may not be enough. Suppose we had cross-validation split 1 with the following evaluation scores:</p>
+<table>
+<thead>
+<tr class="header">
+<th>C</th>
+<th>kernel</th>
+<th>cross-validated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>linear</td>
+<td>.95</td>
+</tr>
+<tr class="even">
+<td>1</td>
+<td>rbf</td>
+<td>.91</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>linear</td>
+<td>.96</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>rbf</td>
+<td>.90</td>
+</tr>
+</tbody>
+</table>
+<p>and again searched around the vicinity of C = 10:</p>
+<table>
+<thead>
+<tr class="header">
+<th>C</th>
+<th>kernel</th>
+<th>cross-validated</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>8</td>
+<td>linear</td>
+<td>.92</td>
+</tr>
+<tr class="even">
+<td>9</td>
+<td>linear</td>
+<td>.93</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>linear</td>
+<td>.96</td>
+</tr>
+<tr class="even">
+<td>11</td>
+<td>linear</td>
+<td>.97</td>
+</tr>
+</tbody>
+</table>
+<p>you would be selecting the hyperparameters that are optimal for the cross-validation setup, since the hyperparameter <em>optimization</em> process shares the same cross-validation setup as the hyperparameter <em>evaluation</em> process. This time, instead of hacking the test set, you’re hacking the cross-validation setup<a href="#fn4" class="footnote-ref" id="fnref4"><sup>4</sup></a>.</p>
+<p>As a result, the cross-validation error you obtain from this process would be <strong>overoptimistic</strong>.</p>
+</div>
+</div>
+<div id="nested-cv" class="section level2">
+<h2>Nested CV</h2>
+<p>Nested CV tries to fix this problem by integrating both training and model selection as part of the model fitting procedure.</p>
+<p><a href="https://www.biorxiv.org/content/10.1101/2019.12.31.891895v1.full"><img src="images/F1.large.jpg" title="Standard nested Cross-Validation (nCV)." /></a></p>
+<p><span class="citation">Parvandeh et al. (2020)</span></p>
+<p>Nested CV may seem complicated, but bear with me for a while.</p>
+<div id="vanilla-cv" class="section level3">
+<h3>Vanilla CV</h3>
+<p>in nested CV, the model is inclusive of the hyperparameter search process, in particular the search space you specify for the hyperparameter search. Instead of cross-validating a set of hyperparameters, we want to benchmark the performance of a hyperparameter search process over K folds of the dataset. This brings us back to the standard cross-validation definition:</p>
+<p><img src="images/index.png" width="628" /></p>
+<ol style="list-style-type: decimal">
+<li>Train the hyperparameter search process on folds 2-5, then test on fold 1;</li>
+<li>Train the hyperparameter search process on folds 1, 3-5, then test on fold 2;</li>
+<li>Train the hyperparameter search process on folds 1-2, 4-5, then test on fold 3;</li>
+<li>Train the hyperparameter search process on folds 1-3, 5; then test on fold 4;</li>
+<li>Train the hyperparameter search process on folds 1-4; then test on fold 5;</li>
+</ol>
+<p>and finally, average the performance on each of the test folds.</p>
+</div>
+<div id="bringing-in-hyperparameter-search" class="section level3">
+<h3>Bringing in hyperparameter search</h3>
+<p>Now, we would like the hyperparameter search process to be cross-validated as well. So within the hyperparameter search process, we define a different cross-validation configuration. In scikit-learn, this will look like:</p>
+<pre class="python"><code>p_grid = {
+  &quot;C&quot;: [1, 10, 100],
+  &quot;kernel&quot;: [&quot;rbf&quot;, &quot;linear&quot;]
+}
+          
+svm = SVC()
+inner_cv = KFold(n_splits=4, shuffle=True)
+outer_cv = KFold(n_splits=4, shuffle=True)
+clf = GridSearchCV(estimator=svm, param_grid=p_grid, cv=inner_cv)
+nested_score = cross_val_score(clf, X=X, y=y, cv=outer_cv)
+print(nested_score)</code></pre>
+<pre><code>## [0.97202797 0.8943662  0.93661972 0.97887324]</code></pre>
+<p>And once you’ve found a search space you’re happy with, refit the GridSearchCV object:</p>
+<pre class="python"><code>clf.fit(X, y)</code></pre>
+<pre><code>## GridSearchCV(cv=KFold(n_splits=4, random_state=None, shuffle=True),
+##              estimator=SVC(),
+##              param_grid={&#39;C&#39;: [1, 10, 100], &#39;kernel&#39;: [&#39;rbf&#39;, &#39;linear&#39;]})</code></pre>
+<pre class="python"><code>clf.best_params_</code></pre>
+<pre><code>## {&#39;C&#39;: 10, &#39;kernel&#39;: &#39;linear&#39;}</code></pre>
+<p>What is the consequence of this?</p>
+<ol style="list-style-type: decimal">
+<li><strong>Each of the folds may have a different set of hyperparameters.</strong> This is perfectly fine, as we are now trying to evaluate which hyperparameter search space/process works best, not which set of hyperparameters works best.</li>
+<li>The final test set may have another set of hyperparameters.</li>
+<li>When you eventually retrain on all the data you have, you may get a different set of hyperparameters! But that’s okay, because at the end of the day, we’re evaluating a process for fitting the model, not a set of hyperparameters.</li>
+</ol>
+</div>
+</div>
+<div id="what-next" class="section level2">
+<h2>What next?</h2>
+<p><span class="citation">Cawley and Talbot (2010)</span> note that high variance algorithms are more susceptible to overfitting in model selection. This should be troubling for machine learning practitioners, as we like our high-variance algorithms for being able to capture complexity that’s missed by traditional high-bias, low-variance algorithms like linear regression.</p>
+<p>Nested CV can be computationally expensive, and it’s difficult to explain to stakeholders why you’d report a development sample score with different hyperparameters for each fold.</p>
+<p>Some alternatives include:</p>
+<ol style="list-style-type: decimal">
+<li>regularization</li>
+<li>early stopping</li>
+<li>ensemble modelling</li>
+<li>hyperparameter averaging.</li>
+</ol>
+<p>However, in the age of increasingly configurable gradient boosting frameworks such as XGBoost and CatBoost, it’s hard to see any one of these alternatives being sufficient to curb overfitting in model selection.</p>
+<div id="refs" class="references csl-bib-body hanging-indent">
+<div id="ref-cawley2010" class="csl-entry">
+Cawley, Gavin C., and Nicola L.C. Talbot. 2010. <span>“On over-Fitting in Model Selection and Subsequent Selection Bias in Performance Evaluation.”</span> <em>The Journal of Machine Learning Research</em> 11 (August): 20792107.
+</div>
+<div id="ref-parvandeh2020a" class="csl-entry">
+Parvandeh, Saeid, Hung-Wen Yeh, Martin P. Paulus, and Brett A. McKinney. 2020. <span>“Consensus Features Nested Cross-Validation.”</span> <a href="https://doi.org/10.1101/2019.12.31.891895">https://doi.org/10.1101/2019.12.31.891895</a>.
+</div>
+</div>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>The unfortunate and unintended consequence of the wonderful <code>GridSearchCV()</code> class is that beginner data scientists with rudimentary understanding of machine learning theory think that you can predict from a grid search process, and when they are pressed about where the ‘final model’ from a cross-validated process comes from, they may wonder, is it an ensemble model averaged across the folds, or are the hyperparameters averaged, or …????<a href="#fnref1" class="footnote-back">↩︎</a></p></li>
+<li id="fn2"><p>presumably based on the average score between folds: this is unclear from the documentation but the numbers match up<a href="#fnref2" class="footnote-back">↩︎</a></p></li>
+<li id="fn3"><p>this is the default, set as False if you do not want the refitting. In the case of multiple metrics, refit should be a string denoting the metric you want to use to find the best estimator.<a href="#fnref3" class="footnote-back">↩︎</a></p></li>
+<li id="fn4"><p>‘The test data are no longer statistically pure, as they have been “seen” by the models in tuning the hyper-parameters. This would not present a serious problem were it not for the danger of over-fitting in model selection, which means that in practice the hyper-parameters will inevitably be tuned to an extent in ways that take advantage of the statistical peculiarities of this particular set of data rather than only in ways that favor improved generalisation. As a result the hyper-parameter settings retain a partial “memory” of the data that now form the test partition. We should therefore expect to observe an optimistic bias in the performance estimates obtained in this manner.’ []<a href="#fnref4" class="footnote-back">↩︎</a></p></li>
+</ol>
+</div>

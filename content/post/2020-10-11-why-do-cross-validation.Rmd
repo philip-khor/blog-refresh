@@ -25,7 +25,7 @@ Let's take a step back and motivate the train-test split approach (otherwise kno
 
 A simple way to achieve this is to split our data so that the model is \*trained\* on one part of the data, and \*evaluated\* on the other part ('holdout'). This is what we see at the start of most machine learning courses:
 
-![evaluation set approach](/post/2020-10-11-why-do-cross-validation_files/Screenshot 2020-10-11 105549.png)
+![evaluation set approach](/post/2020-10-11-why-do-cross-validation_files/Screenshot%202020-10-11%20105549.png)
 
 In Python, this is what we do when we call `train_test_split()` from `sklearn`:
 
@@ -54,7 +54,7 @@ The no-free-lunch theorem further complicates this problem. Loosely speaking, th
 
 If you put this question up to the deep learning folks, they'll provide you a seemingly simple solution: create two holdout sets. Pick the correct model on Holdout 1 ('validation'), then evaluate the final model on Holdout 2 ('holdout'):
 
-![train, validation, holdout](/post/2020-10-11-why-do-cross-validation_files/Screenshot 2020-10-11 105453.png)
+![train, validation, holdout](/post/2020-10-11-why-do-cross-validation_files/Screenshot%202020-10-11%20105453.png)
 
 This may not be ideal sometimes because:
 
@@ -66,7 +66,7 @@ This may not be ideal sometimes because:
 
 And so we move on to cross-validation, in hopes that we can get around this limited-data problem. This diagram may be familiar to some of you:
 
-![5-fold cross-validation](/post/2020-10-11-why-do-cross-validation_files/Screenshot 2020-10-11 105633.png)
+![5-fold cross-validation](/post/2020-10-11-why-do-cross-validation_files/Screenshot%202020-10-11%20105633.png)
 
 In (k-fold) cross-validation, we try to get at some semblance of generalization performance by resampling the development data. Slicing the development data into 5 folds, we train the data on 4 folds, and validate the resulting model on the remaining fold. We repeat this for each permutation of folds, and then average the validation score to obtain the cross-validated score.
 

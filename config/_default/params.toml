@@ -14,7 +14,7 @@
 #   Browse built-in themes in `themes/academic/data/themes/`
 #   Browse user installed themes in `data/themes/`
 # theme = "dark"
-theme = "minimal"
+theme = "Minimal"
 
 # Enable users to switch between day and night mode?
 day_night = true
@@ -23,7 +23,7 @@ day_night = true
 #   Latest font sets (may require updating): https://sourcethemes.com/academic/themes/
 #   Browse built-in font sets in `themes/academic/data/fonts/`
 #   Browse user installed font sets in `data/fonts/`
-font = "mr_robot"
+font = "Minimal"
 
 # Choose a font size.
 # Sizes: XS (extra small), S (small), M (medium), L (large - DEFAULT), XL (extra large)
@@ -76,7 +76,7 @@ privacy_pack = true
 
 # Enable visitors to edit pages?
 #   `repo` defines the repository URL. `editable` defines which page types can be edited.
-edit_page = {repo_url = "https://github.com/gcushen/hugo-academic", content_dir = "", repo_branch = "master", editable = {docs = true, page = false, post = false}}
+edit_page = {repo_url = "https://github.com/philip-khor/blog-refresh", content_dir = "", repo_branch = "master", editable = {docs = true, page = false, post = true}}
 
 # Show related content at the bottom of pages?
 show_related = {docs = true, page = false, post = true, project = true, publication = true, talk = true}
@@ -167,7 +167,7 @@ sharing = false
 copyright_license = {enable = true, allow_derivatives = true, share_alike = true, allow_commercial = false, notice = "This work is licensed under {license}"}
 
 # Highlight the site author (superuser) in author lists? (true/false)
-highlight_superuser = false
+highlight_superuser = true
 
 # Link authors to their profile page? (true/false)
 link_authors = true
@@ -276,8 +276,8 @@ plugins_js  = []
 ## Marketing
 ############################
 [marketing]
-  google_analytics = ""
-  google_tag_manager = ""
+  google_analytics = "G-98QCCJTRLM"
+  google_tag_manager = "G-98QCCJTRLM"
 
 ############################
 ## Content Management System

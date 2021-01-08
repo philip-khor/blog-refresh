@@ -5,6 +5,8 @@
 blogdown
 .Thumbs.db 
 public/
+public
+resources
 themes/hugo-academic-4.3.1/
 themes/hugo-academic-4.8.0/
 .DS_Store

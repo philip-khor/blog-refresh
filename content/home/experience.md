@@ -22,10 +22,12 @@ date_format = "Jan 2006"
 
 [[experience]]
   title = "Data Scientist"
-  company = ""
+  company = "CIMB"
+  company_url = "https://www.cimb.com/"
   location = "Kuala Lumpur"
   date_start = "2020-03-01"
   description = """
+  Risk modelling and model governance  
   """
   
 [[experience]]
@@ -45,7 +47,9 @@ date_format = "Jan 2006"
   location = "Shibuya, Tokyo"
   date_start = "2019-05-01"
   date_end = "2019-08-31"
-  description = """Building object detection models using deep learning algorithms for agricultural applications"""
+  description = """
+  Building object detection models using deep learning algorithms for agricultural applications.
+  """
 
 [[experience]]
   title = "Data Scientist Associate"

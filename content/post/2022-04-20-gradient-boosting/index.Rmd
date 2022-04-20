@@ -10,6 +10,7 @@ summary: 'Yet another article trying to explain how GBMs work.'
 authors: []
 lastmod: '2022-04-20T08:57:37+08:00'
 featured: no
+commentable: yes
 image:
   caption: ''
   focal_point: ''
@@ -156,10 +157,13 @@ There's no shortage of articles comparing these different implementations.
 
 These libraries (in particular XGBoost and LightGBM) do borrow ideas from each other. For instance, I list down the major differences between XGBoost and LightGBM below, however these LightGBM features are also available in XGBoost as options:
 
++----------------------+-------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
 |                      | XGBoost                                               | LightGBM                                                                                                |
-|----------------------|-------------------------------------------------------|---------------------------------------------------------------------------------------------------------|
++======================+=======================================================+=========================================================================================================+
 | Tree building method | Exact: enumerate all split candidates                 | Features are discretized/binned beforehand ([hist](https://robotenique.github.io/posts/gbm-histogram/)) |
++----------------------+-------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
 | Tree growth method   | Depthwise/level-wise: trees are grown level by level. | Lossguide/leaf-wise: split based on best global loss                                                    |
++----------------------+-------------------------------------------------------+---------------------------------------------------------------------------------------------------------+
 
 ## Building interpretable GBMs
 

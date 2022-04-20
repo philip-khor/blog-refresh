@@ -82,7 +82,6 @@ features:
   section_pager: false
   docs_section_pager: true
   sharing: true
-  
   abstract_length: 135
   plugins_js: []
   avatar:
@@ -98,7 +97,7 @@ features:
   breadcrumb:
     page_types:
       book: true
-  comments:
+  comment:
     provider: 'disqus'
     disqus:
       shortname: 'philips-curve'

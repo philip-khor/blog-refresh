@@ -100,12 +100,6 @@ features:
       book: true
   comments:
     provider: 'disqus'
-    commentable:
-      post: true
-      book: false
-      project: false
-      publication: false
-      event: false
     disqus:
       shortname: 'philips-curve'
       show_count: true

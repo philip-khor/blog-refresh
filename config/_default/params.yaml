@@ -101,5 +101,3 @@ extensions:
     enable: false
   academicons:
     enable: true
-  fontawesome: 
-    enable: true

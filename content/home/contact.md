@@ -22,15 +22,15 @@ content:
       id:
     netlify:
       # Enable CAPTCHA challenge to reduce spam?
-      captcha: false
+      captcha: true
 
   # Contact details (edit or remove options as required)
   email: pk.qa@outlook.com
   contact_links:
-    - icon: twitter
-      icon_pack: fab
-      name: DM Me
-      link: 'https://twitter.com/philip_khor'
+    - icon: brackets
+      icon_pack: fa-solid
+      name: Matrix
+      link: 'https://matrix.to/#/@philip_khor:matrix.org'
 
 design:
   columns: '2'

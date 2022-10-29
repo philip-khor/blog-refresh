@@ -43,7 +43,7 @@ footer:
   copyright: 
     notice: 'This work is licensed under {license}'
     license:
-      enable: true
+      # enable: true
       allow_derivatives: true
       share_alike: true
       allow_commercial: false
@@ -58,7 +58,8 @@ address_format: en-us
 
 features: 
   syntax_highlighter:
-    enable: true
+    theme_light: github-light
+    theme_dark: github-dark
     extra_languages:
       - r   
   math: 
@@ -96,8 +97,6 @@ extensions:
   cms:
     branch: master
     local_backend: false
-  isotope:
-    # Enable if you use the Portfolio widget or Publication filter
-    enable: false
-  academicons:
+  isotope: false
+  academicons: 
     enable: true

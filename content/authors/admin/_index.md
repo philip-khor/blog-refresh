@@ -22,7 +22,7 @@ education:
 social:
   - icon: mastodon
     icon_pack: fab
-    link: https://fosstodon.org/@pk
+    link: https://masto.ai/@pk
   - icon: github
     icon_pack: fab
     link: https://github.com/philip-khor
@@ -35,5 +35,5 @@ social:
 email: ""
 highlight_name: true
 ---
-<a rel="me" href="https://fosstodon.org/@pk">Philip</a> 
+<a rel="me" href="https://masto.ai/@pk">Philip</a> 
 is a data scientist in Malaysia with experience in applied microeconometrics, machine learning and technical writing. He occasionally contributes to open-source projects such as the [conda-forge](https://conda-forge.org/) software distribution project. He is package maintainer of the R package [bnmr](https://github.com/philip-khor/bnmr/) and an author of [pmdplyr](https://github.com/NickCH-K/pmdplyr), and volunteers for [PyData Kuala Lumpur](https://www.meetup.com/pydatakl/).

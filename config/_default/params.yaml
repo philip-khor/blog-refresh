@@ -70,7 +70,7 @@ features:
   repository:
     url: 'https://github.com/philip-khor/blog-refresh'
     content_dir: content
-    branch: master
+    branch: main
   avatar:
     gravatar: false
     shape: circle
@@ -96,7 +96,7 @@ features:
 
 extensions:
   cms:
-    branch: master
+    branch: main
     local_backend: false
   isotope: false
   academicons: 
